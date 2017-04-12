@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/12 01:47:23 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/12 07:08:03 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ typedef char	t_arg_type;
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
+
+// typedef struct			s_op
+// {
+// 	char				op[42];
+// 	int					a;
+// 	int					args[42];
+// 	int					b;
+// 	char				description[42];
+// 	int					c;
+// 	int					d;
+// }						t_op;
 
 typedef struct			s_core
 {
