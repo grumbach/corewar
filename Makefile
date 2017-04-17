@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/17 18:10:25 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/17 18:35:54 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = corewar
 
 ASM_NAME = asm
 
-SRC = corewar.c op.c
+SRC = corewar.c # op.c
 
 ASM_SRC = asm.c
 
@@ -79,8 +79,6 @@ ${OBJDIR}/%.o : ./srcs/corewar/%.c ${DEPVM}
 clean:
 	@echo ${R}Cleaning"  "[libft objs]...${X}
 	@make -C libft/ clean
-	@echo ${R}Cleaning"  "[mlx]...${X}
-	@make -C ${MLX} clean
 	@echo ${R}Cleaning"  "[objs]...${X}
 	@/bin/rm -Rf ${OBJDIR}
 
@@ -125,7 +123,7 @@ unicorn:
 	@echo ""
 
 ride:
-	afplay resources/ride.mp3&;
+	afplay resources/ride.wav&
 
 dragon:
 	@echo ""
