@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/17 18:35:54 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/04/21 23:47:38 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,7 +123,7 @@ unicorn:
 	@echo ""
 
 ride:
-	afplay resources/ride.wav&
+	@afplay resources/ride.wav&
 
 dragon:
 	@echo ""
