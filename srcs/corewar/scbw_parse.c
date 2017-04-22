@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 19:58:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/23 01:10:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ int             ft_strrevequ(const char *s1, const char *s2)
         return (0);
 }
 
+/*
+** TO_DO : add parsing if warrior program is in a subfolder. like ./corewar -n 0 warriors/bee_gees.s
+*/
+
 static void			get_core(char **av, int n, int i, t_vm *vm)
 {
 	int				j;
@@ -66,7 +70,9 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	while (j < vm->players)
 		if (vm->core[j++].id  == vm->core[vm->players].id)
 			errors(1, "Choose different ids for your champions\n");
-	if (!av[++i])
+	if (n < 0 && n > -5 && !av[--i])
+		errors(1, "No champion\n");
+	else if (!av[++i])
 		errors(1, "No champion\n");
 	if (strlen(av[i]) > PROG_NAME_LENGTH)
 		errors(3, av[i]);

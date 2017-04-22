@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 20:06:38 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/23 00:55:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ typedef char	t_arg_type;
 # define T_IND					4
 # define T_LAB					8
 
+/*
+** PROG_PATH_LENGTH is the path to champion and PROG_NAME_LENGTH is its name
+*/
+
+# define PROG_PATH_LENGTH		(128)
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3 /* why not */
