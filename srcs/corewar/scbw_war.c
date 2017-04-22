@@ -6,11 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/23 00:59:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/23 01:51:47 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+/*
+** make test && ./corewar -n 0 warriors/fluttershy.cor warriors/turtle.cor
+*/
 
 void		core_war(t_vm *vm)
 {
@@ -24,8 +28,8 @@ void		core_war(t_vm *vm)
 		ft_putstr(vm->core[i].prog_name);//
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
 			errors(1, "Failed to open champion file\n");
-		read(fd, &(vm->memory[MEM_SIZE / (i + 1) * vm->players]), CHAMP_MAX_SIZE);
-//		close(fd);
+		read(fd, &(vm->memory[i / vm->players * MEM_SIZE]), CHAMP_MAX_SIZE);
+		close(fd);
 		++i;
 	}
 }

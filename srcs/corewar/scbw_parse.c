@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/23 01:10:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/23 01:13:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	while (j < vm->players)
 		if (vm->core[j++].id  == vm->core[vm->players].id)
 			errors(1, "Choose different ids for your champions\n");
-	if (n < 0 && n > -5 && !av[--i])
-		errors(1, "No champion\n");
-	else if (!av[++i])
+	if ((n < 0 && n > -5 && !av[--i]) || !av[++i])
 		errors(1, "No champion\n");
 	if (strlen(av[i]) > PROG_NAME_LENGTH)
 		errors(3, av[i]);
