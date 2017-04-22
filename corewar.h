@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 18:20:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:06:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 /*
 ** Toutes les tailles sont en octets.
@@ -87,31 +88,30 @@ typedef char	t_arg_type;
 
 typedef struct			s_pc
 {
-	unsigned int        reg[REG_NUMBER];
-    int                 carry;
-    int                 pc;
-    int                 last_live;
-    int                 coreid;
+	unsigned int		reg[REG_NUMBER];
+	int					carry;
+	int					pc;
+	int					last_live;
+	int					coreid;
 }						t_pc;
 
 typedef struct			s_core
 {
 	char				prog_name[PROG_NAME_LENGTH + 1];
 	char				comment[COMMENT_LENGTH + 1];
-	char                code[CHAMP_MAX_SIZE];
-    unsigned int        code_size;
 	unsigned int		prog_size;
 	int					id;
 }						t_core;
 
 typedef struct			s_vm
 {
-	unsigned char       memory[MEM_SIZE];
-    int                 dump;
-    int                 nb_process;
-    int                 flags;
-    int                 players;
-    t_core              core[MAX_PLAYERS];
+	unsigned char		memory[MEM_SIZE];
+	int					dump;
+	int					nb_process;
+	int					flags;
+	int					players;
+	t_core				core[MAX_PLAYERS];
+
 }						t_vm;
 
 long		errors(int id, char *comment);

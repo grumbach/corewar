@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 19:13:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/22 19:58:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 			errors(1, "Choose different ids for your champions\n");
 	if (!av[++i])
 		errors(1, "No champion\n");
+	if (strlen(av[i]) > PROG_NAME_LENGTH)
+		errors(3, av[i]);
 	j = -1;
 	while (++j < PROG_NAME_LENGTH)
 		vm->core[vm->players].prog_name[j] = av[i][j];
-	if (!ft_strrevequ(vm->core[vm->players].prog_name, ".cor"))
-		errors(1, "Missing .cor extension or no name\n");
 	vm->core[vm->players].prog_name[PROG_NAME_LENGTH] = 0;
 	ft_putnbr(vm->core[vm->players].id);//debug
 	ft_putendl(vm->core[vm->players].prog_name);//
@@ -96,7 +96,8 @@ void				get_args(int ac, char **av, t_vm *vm)
 		}
 		else if (ft_strequ(av[i], "-n"))
 		{
-			if (av[++i] && ft_isdigit(av[i][0]))
+			if (av[++i] && (ft_isdigit(av[i][0]) || 
+			(av[i][0] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
 				get_core(av, ft_atoi(av[i]), i, vm);
 			else
 				errors(1, "invalid player id");

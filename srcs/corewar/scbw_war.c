@@ -6,40 +6,26 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 18:59:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/22 20:10:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include <corewar.h>
 
 void		core_war(t_vm *vm)
 {
+	int	fd;
 	int	i;
 
 	i = 0;
 	while (i < vm->players)
 	{
-	//	fd = open();
+		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
+			errors(1, "Failed to open champion file\n");
+		read(fd,  &(vm->memory[MEM_SIZE / (i + 1) * vm->players], CHAMP_MAX_SIZE);
+		close(fd);
 		++i;
 	}
 }
-/*
-for( i in 1 to nbrplayers){
-//mettre le code dans memoire
- fd = open();
-  read(fd, \
- &(vm->mem[MEMSIZE/i], MAX_CODE_LEN);
-
-//Et ensuite verifier si le champ est plus gros que MAX_CODE_LEN
-
-if (read( 1) >0)
-     errors(3, warriorname)
-// errors 3 a faire pour warrior trop grand
-}
 
 
-//dans fichier main fct errors : Errors 3 par ex :
-
-if (n == 3)
-     ftputstrfd("warrior too fa\nt");
-*/
