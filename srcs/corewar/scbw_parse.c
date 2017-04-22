@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 02:45:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/22 16:25:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ static int			parse_flag(char *s, int *flags)
 
 static void			get_core(char **av, int n, t_vm *vm)
 {
+	vm->core->id = n;
+
+	ft_putnbr(vm->core->id);
 	(void)av;
-	(void)n;
-	(void)vm;
 }
 
 void				get_args(int ac, char **av, t_vm *vm)
@@ -64,8 +65,8 @@ void				get_args(int ac, char **av, t_vm *vm)
 		}
 		else if (ft_strequ(av[i], "-n"))
 		{
-			if (av[i + 1] && ft_isdigit(av[i + 1][0]))
-				get_core(av, ft_atoi(av[i + 1]), vm);
+			if (av[++i] && ft_isdigit(av[i][0]))
+				get_core(av, ft_atoi(av[i]), vm);
 			else
 				errors(1, "invalid player id");
 		}
