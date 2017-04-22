@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 18:55:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/22 19:13:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,25 @@ static int			parse_flag(char *s, int *flags)
 	return (1);
 }
 
+int             ft_strrevequ(const char *s1, const char *s2)
+{
+        int     i;
+		int		j;
+
+		i = ft_strlen(s1) - 1;
+		j = ft_strlen(s2) - 1;
+        if (!s1 && !s2)
+                return (1);
+        else if (!s1 || !s2)
+                return (0);
+        while (i && s1[i--] == s2[j])
+            if (--j == 0 && i)
+                return (1);
+        return (0);
+}
+
 static void			get_core(char **av, int n, int i, t_vm *vm)
 {
-//	int             fd;
 	int				j;
 
 	if (!(j = 0) && vm->players == MAX_PLAYERS)
@@ -55,14 +71,11 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	j = -1;
 	while (++j < PROG_NAME_LENGTH)
 		vm->core[vm->players].prog_name[j] = av[i][j];
+	if (!ft_strrevequ(vm->core[vm->players].prog_name, ".cor"))
+		errors(1, "Missing .cor extension or no name\n");
 	vm->core[vm->players].prog_name[PROG_NAME_LENGTH] = 0;
-//	if ((fd = open(av, O_RDONLY)) < 0)
-  //      errors(0, *av);
-
 	ft_putnbr(vm->core[vm->players].id);//debug
 	ft_putendl(vm->core[vm->players].prog_name);//
-
-//	close(fd);
 	++vm->players;
 }
 
