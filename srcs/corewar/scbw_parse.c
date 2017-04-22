@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 16:25:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/22 18:55:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,31 @@ static int			parse_flag(char *s, int *flags)
 	return (1);
 }
 
-static void			get_core(char **av, int n, t_vm *vm)
+static void			get_core(char **av, int n, int i, t_vm *vm)
 {
-	vm->core->id = n;
+//	int             fd;
+	int				j;
 
-	ft_putnbr(vm->core->id);
-	(void)av;
+	if (!(j = 0) && vm->players == MAX_PLAYERS)
+		errors(1, "Too many players\n");
+	vm->core[vm->players].id = n;
+	while (j < vm->players)
+		if (vm->core[j++].id  == vm->core[vm->players].id)
+			errors(1, "Choose different ids for your champions\n");
+	if (!av[++i])
+		errors(1, "No champion\n");
+	j = -1;
+	while (++j < PROG_NAME_LENGTH)
+		vm->core[vm->players].prog_name[j] = av[i][j];
+	vm->core[vm->players].prog_name[PROG_NAME_LENGTH] = 0;
+//	if ((fd = open(av, O_RDONLY)) < 0)
+  //      errors(0, *av);
+
+	ft_putnbr(vm->core[vm->players].id);//debug
+	ft_putendl(vm->core[vm->players].prog_name);//
+
+//	close(fd);
+	++vm->players;
 }
 
 void				get_args(int ac, char **av, t_vm *vm)
@@ -52,8 +71,7 @@ void				get_args(int ac, char **av, t_vm *vm)
 	int		i;
 	int		j;
 
-	i = 0;
-	if (!(j = 0) && ac == 1)
+	if (!(i = 0) && !(j = 0) && ac == 1)
 		errors(1, 0);
 	while (++i < ac)
 		if (ft_strequ(av[i], "-dump"))
@@ -66,12 +84,13 @@ void				get_args(int ac, char **av, t_vm *vm)
 		else if (ft_strequ(av[i], "-n"))
 		{
 			if (av[++i] && ft_isdigit(av[i][0]))
-				get_core(av, ft_atoi(av[i]), vm);
+				get_core(av, ft_atoi(av[i]), i, vm);
 			else
 				errors(1, "invalid player id");
+			++i;
 		}
 		else if (av[i][0] == '-' && !parse_flag(av[i], &(vm->flags)))
 			errors(1, "illegal option");
 		else
-			get_core(av, --j, vm);
+			get_core(av, --j, i++, vm);
 }
