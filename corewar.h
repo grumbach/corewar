@@ -6,12 +6,17 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/12 07:08:03 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/22 01:41:57 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
+
+# include "libft.h"
+# include <errno.h>
+# include <sys/types.h>
+# include <unistd.h>
 
 /*
 ** Toutes les tailles sont en octets.
@@ -19,7 +24,7 @@
 */
 
 # define IND_SIZE				2
-# define REG_SIZE				4
+// # define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
 
 # define REG_CODE				1
@@ -60,31 +65,50 @@ typedef char	t_arg_type;
 # define T_IND					4
 # define T_LAB					8
 
-/*
-**
-*/
-
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
-# define COREWAR_EXEC_MAGIC		0xea83f3
+# define COREWAR_EXEC_MAGIC		0xea83f3 /* why not */
 
-// typedef struct			s_op
-// {
-// 	char				op[42];
-// 	int					a;
-// 	int					args[42];
-// 	int					b;
-// 	char				description[42];
-// 	int					c;
-// 	int					d;
-// }						t_op;
+/*
+** progs compete inside the Memory Array Redcode Simulator (Mars)
+** memory is the map where cores compete
+** flags on each bit: g for graphic, m for music etc.
+*/
+
+# define COREWAR_FLAGS "mg"
+
+typedef struct			s_pc
+{
+	unsigned int		reg[REG_NUMBER];
+	int					carry;
+	int					pc;
+	int					last_live;
+	int					coreid;
+}						t_pc;
 
 typedef struct			s_core
 {
-	unsigned int		magic;
 	char				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int		prog_size;
 	char				comment[COMMENT_LENGTH + 1];
+	unsigned int		prog_size;
+	int					id;
 }						t_core;
+
+typedef struct			s_vm
+{
+	unsigned char		memory[MEM_SIZE];
+	int					dump;
+	int					nb_process;
+	int					flags;
+	int					players;
+	t_core				core[MAX_PLAYERS];
+}						t_vm;
+
+long		errors(int id, char *comment);
+void		get_args(int ac, char **av, t_vm *vm);
+void		core_war(t_vm *vm);
+
+
+
 
 #endif

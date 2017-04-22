@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
+#    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/21 23:47:38 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/22 02:31:31 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = corewar
 
 ASM_NAME = asm
 
-SRC = corewar.c # op.c
+SRC = corewar.c scbw_war.c scbw_parse.c
 
 ASM_SRC = asm.c
 
@@ -91,8 +91,8 @@ fclean: clean
 
 test:
 	@${CC} -g -I./libft/includes/ -fsanitize=address -Llibft/ -lft \
-	-I. -o ${NAME} $(addprefix srcs/, ${SRC})
-#"{BB}" "${BC}" "${BG}" "${BY}" "${BR}" "${BM}"
+	-I. -o ${NAME} $(addprefix srcs/corewar/, ${SRC})
+
 unicorn:
 	@echo "                              ,|"
 	@echo "                             //|                              ,|"
@@ -105,7 +105,7 @@ unicorn:
 	@echo "            __"${BB}")"${BC}")"${BG}")"${BY}")"${BR}")"${BM}")"${BB}")"${BC}")"${BG}")"${BY}")"${BR}")"${BM}")"${BB}")"${BC}")"${BG}";"${WT}",>/\\   /        __--~~  \\-~~ _-~"
 	@echo "           "${WT}"-\\\\"${BB}"("${BC}"("${BG}"("${BY}"("${BR}"("${BM}" "${BB}"'"${BC}"'"${BG}"'"${BY}"'"${BR}"("${BM}"("${BB}"("${BC}"("${BG}"("${BY}"("${BR}"("${BM}"( "${WT}">~\\/     --~~   __--~' _-~ ~|"
 	@echo "  "${WT}""${BM}"-"${WT}"-"${BM}"="${WT}"=/"${BM}"/"${WT}"/"${BM}"/"${WT}"/"${BM}"/"${BB}"("${BC}"("${BG}""${BY}"'"${BR}"'  "${WT}".     "${BB}"\`"${BC}")"${BG}")"${BY}")"${BR}")"${BM}")"${BB}")"${BC}", "${WT}"/     ___---~~  ~~\\~~__--~"
-	@echo "          "${BB}")"${BG}")"${BY}"| "${WT}"(@    ;-.     "${BR}"("${BM}"("${BB}"("${BC}"("${BG}"("${WT}"/           __--~~~'~~/"
+	@echo "          "${BB}")"${BG}")"${BY}"| "${WT}"(@    ;-.    "${BR}"("${BM}"("${BB}"("${BC}"("${BG}"("${WT}"/           __--~~~'~~/"
 	@echo "          "${BG}"( "${WT}"\`|    /  )      "${BB}")"${BC}")"${BG}")"${WT}"/      ~~~~~__\\__---~~/ "${BM}","${BB}"("${BC}"("${BG}"("${BY}"("${BR}"("${BB}"("${BC}"("
 	@echo "             "${WT}"|   |   |       "${BG}"("${WT}"/      ---~~~/__-----~~\\\\"${BM}")"${BB}")"${BC}")"${BG}")"${BY}")"${BR}")"${BM}")"${BB}")"${BC}")"${BG}")"${BY}")"
 	@echo "             "${WT}"o_);   ;        /      ----~~/           \\\\"${BC}"("${BG}"("${BY}"("${BR}"("${BM}"("${BB}"("${BC}"("${BG}"("${BY}"("${BR}"("${BM}"("

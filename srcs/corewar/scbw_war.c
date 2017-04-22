@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   scbw_war.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/30 11:56:31 by angavrel          #+#    #+#             */
-/*   Updated: 2016/12/28 10:39:12 by angavrel         ###   ########.fr       */
+/*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
+/*   Updated: 2017/04/22 01:51:55 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "corewar.h"
 
-# define BUFF_SIZE 8192
-# include <fcntl.h>
-# include "libft.h"
-
-int	get_next_line(int const fd, char **line);
-
-#endif
+void		core_war(t_vm *vm)
+{
+	(void)vm;
+}
