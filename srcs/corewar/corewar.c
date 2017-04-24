@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/22 20:03:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/24 22:22:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ long		errors(int id, char *comment)//get fct lemin
 			" [-dump nbr_cycles] [[-n number] champion1.cor]\n", 2);
 	if (id == 3)
     	ft_putstr_fd(" too fat, warrior needs diet\n", 2);
+	if (id == 4)
+    	ft_putstr_fd("Invalid Warrior Program\n", 2);
 	exit(1);
 }
 

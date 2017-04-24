@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/24 16:23:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 00:01:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	if (!(j = 0) && vm->players == MAX_PLAYERS)
 		errors(1, "Too many players\n");
 	vm->core[vm->players].id = n;
+//	ft_printf("%d", n);
 	while (j < vm->players)
 		if (vm->core[j++].id  == vm->core[vm->players].id)
 			errors(1, "Choose different ids for your champions\n");
@@ -78,8 +79,8 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	while (++j < PROG_NAME_LENGTH)
 		vm->core[vm->players].prog_name[j] = av[i][j];
 	vm->core[vm->players].prog_name[PROG_NAME_LENGTH] = 0;
-	ft_putnbr(vm->core[vm->players].id);//debug
-	ft_putendl(vm->core[vm->players].prog_name);//
+//	ft_putnbr(vm->core[vm->players].id);//debug
+//	ft_putendl(vm->core[vm->players].prog_name);//
 	++vm->players;
 }
 
