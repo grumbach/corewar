@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 00:01:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 01:43:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ static int			parse_flag(char *s, int *flags)
 		*flags |= (1 << n);
 	}
 	return (1);
-}
-
-int             ft_strrevequ(const char *s1, const char *s2)
-{
-        int     i;
-		int		j;
-
-		i = ft_strlen(s1) - 1;
-		j = ft_strlen(s2) - 1;
-        if (!s1 && !s2)
-                return (1);
-        else if (!s1 || !s2)
-                return (0);
-        while (i && s1[i--] == s2[j])
-            if (--j == 0 && i)
-                return (1);
-        return (0);
 }
 
 /*
@@ -112,4 +95,47 @@ void				get_args(int ac, char **av, t_vm *vm)
 			errors(1, "illegal option");
 		else
 			get_core(av, --j, i++, vm);
+}
+
+/*
+** make test && ./corewar -n 0 warriors/fluttershy.cor warriors/turtle.cor
+** hexdump warriors/turtle.cor
+** we check that we can 1) open the player file, 2) find the exec code at
+** the beginning of file (read(fd, &magic_code, 4);), 3) store the program_name
+** 4) store the comment, 5) check that code is not too long.
+**
+*/
+
+void		get_players(t_vm *vm)
+{
+	int				fd;
+	int				i;
+	unsigned		size_code;
+	unsigned		weight;
+	
+	i = 0;
+	while (i < vm->players)
+	{
+		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
+			errors(4, "Failed to open champion file\n");
+		read(fd, &vm->core[i].magic, 4);
+		ft_bzero(vm->core[i].prog_name, PROG_NAME_LENGTH + 1);
+		read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH + 1);
+	//	ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
+		lseek(fd, 0x88, SEEK_SET);
+		read(fd, &vm->core[i].prog_size, 4);
+	//	ft_printf("\nPROG SIZE %x\n", ft_endian(vm->core[i].prog_size));//
+		ft_bzero(vm->core[i].comment, COMMENT_LENGTH + 4);
+		lseek(fd, PROG_NAME_LENGTH + 12, SEEK_SET);
+		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
+	//	ft_printf("\nCOMMENT %s\n", vm->core[i].comment);//	
+		read(fd, &(vm->memory[i * MEM_SIZE / vm->players]), CHAMP_MAX_SIZE);
+	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->players + (i & 1)]);//	
+		close(fd);
+		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
+			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");
+		else if (ft_endian(vm->core[i].prog_size) > CHAMP_MAX_SIZE)
+			errors(4, "Warrior's Program too long");
+		++i;
+	}
 }

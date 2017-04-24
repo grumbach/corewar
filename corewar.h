@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/24 21:43:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 01:45:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef char	t_arg_type;
 # define PROG_NAME_LENGTH			(128)
 # define COMMENT_LENGTH				(2048)
 # define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
-# define COREWAR_EXEC_MAGIC_REVERSE 0xf383ea00	/* ton yhw */
 
 
 /*
@@ -112,14 +111,14 @@ typedef char	t_arg_type;
 
 # define COREWAR_FLAGS "mg"
 
-typedef struct			s_pc
+typedef struct			s_proc
 {
 	unsigned int		reg[REG_NUMBER];
 	int					carry;
 	int					pc;
 	int					last_live;
 	int					coreid;
-}						t_pc;
+}						t_proc;
 
 typedef struct			s_core
 {
@@ -127,20 +126,15 @@ typedef struct			s_core
 	char				prog_name[PROG_NAME_LENGTH + 1];
 	char				comment[COMMENT_LENGTH + 1];
 	unsigned int		prog_size;
+	char				code[COMMENT_LENGTH + 1];	
 	int					id;
+	unsigned			color;
 }						t_core;
-
-typedef struct			header_s
-{
-	unsigned int		magic;
-	char				prog_name[PROG_NAME_LENGTH + 1];
-	char				comment[COMMENT_LENGTH + 1];
-	unsigned int		prog_size;
-}						header_t;
 
 typedef struct			s_vm
 {
 	unsigned char		memory[MEM_SIZE];
+	unsigned char		memory_color[MEM_SIZE];
 	int					dump;
 	int					nb_process;
 	int					flags;
@@ -149,11 +143,39 @@ typedef struct			s_vm
 
 }						t_vm;
 
-long		errors(int id, char *comment);
-void		get_args(int ac, char **av, t_vm *vm);
-void		core_war(t_vm *vm);
 
+/*
+** parsing options
+*/
 
+void			get_args(int ac, char **av, t_vm *vm);
+void			get_players(t_vm *vm);
 
+/*
+** the fight begins
+*/
+
+void			core_war(t_vm *vm);
+//void			fetch();//
+//void			decode();//
+
+/*
+** display functions
+*/
+
+void			display_memory(t_vm *vm);
+void			display_players(t_vm *vm);
+
+/*
+** future includes in libft
+*/
+
+unsigned int	ft_endian(unsigned int n);
+
+/*
+** error handling
+*/
+
+long			errors(int id, char *comment);
 
 #endif
