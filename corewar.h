@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/23 00:55:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/24 21:43:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,34 @@ typedef char	t_arg_type;
 # define T_LAB					8
 
 /*
-** PROG_PATH_LENGTH is the path to champion and PROG_NAME_LENGTH is its name
+** operations
 */
 
-# define PROG_PATH_LENGTH		(128)
-# define PROG_NAME_LENGTH		(128)
-# define COMMENT_LENGTH			(2048)
-# define COREWAR_EXEC_MAGIC		0xea83f3 /* why not */
+# define LIVE	0x01
+# define LD		0x02
+# define ST 0x03
+# define ADD 0x04
+# define SUB 0x05
+# define AND 0x06
+# define OR 0x07
+# define XOR 0x08
+# define ZJMP 0x09
+# define LDI 0x0a
+# define STI 0x0b
+# define FORK 0x0c
+# define LLD 0x0d
+# define LLDI 0x0e
+# define LFORK 0x0f
+# define AFF 0x10
+
+
+
+
+# define PROG_NAME_LENGTH			(128)
+# define COMMENT_LENGTH				(2048)
+# define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
+# define COREWAR_EXEC_MAGIC_REVERSE 0xf383ea00	/* ton yhw */
+
 
 /*
 ** progs compete inside the Memory Array Redcode Simulator (Mars)
@@ -102,11 +123,20 @@ typedef struct			s_pc
 
 typedef struct			s_core
 {
+	unsigned int		magic;
 	char				prog_name[PROG_NAME_LENGTH + 1];
 	char				comment[COMMENT_LENGTH + 1];
 	unsigned int		prog_size;
 	int					id;
 }						t_core;
+
+typedef struct			header_s
+{
+	unsigned int		magic;
+	char				prog_name[PROG_NAME_LENGTH + 1];
+	char				comment[COMMENT_LENGTH + 1];
+	unsigned int		prog_size;
+}						header_t;
 
 typedef struct			s_vm
 {
