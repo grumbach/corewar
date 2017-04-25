@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/25 22:45:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 01:09:45 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ int			index_memory(int index)
 */
 
 //void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
-t_process	*fork(t_mars *vm, t_process *cpu, char **arg)
+t_proc	*fork(t_mars *vm, t_process *cpu, char **arg)
 {
-    t_process	*new;
-	short       index;
+    t_proc	*new;
+	short   index;
 	
-    if (!(new = ft_memalloc(sizeof(t_process))))
+    if (!(new = ft_memalloc(sizeof(t_proc))))
         return (0);
-	ft_memcpy(new, cpu, sizeof(t_process));
+	ft_memcpy(new, cpu, sizeof(t_proc));
     index = cast_sh_int(arg[0]) % IDX_MOD);
 	new->pc = index_memory(index + new->last_position);
     new->cycle_wait = 0;

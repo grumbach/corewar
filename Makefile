@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/25 04:31:18 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/26 00:50:19 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ ASM_NAME = asm
 SRC =	corewar.c \
 		scbw_parse.c \
 		scbw_war.c \
+		scbw_proc.c \
 		scbw_redcode.c \
 		display.c \
 		misc.c \

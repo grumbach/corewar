@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 22:52:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 01:27:29 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void		core_war(t_vm *vm)
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	while (vm->cycle < 10)
 	{
-		if (vm->flags & 16 && ft_printf("\nCycle %d", vm->cycle))
-			ft_printf("\n%d Cycles left\n", vm->cycle_to_die);
-		if (vm->flags & 8 && !(vm->cycle_to_die % 10))// refresh with ncurse instead
+		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
+			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
+		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % 10))// refresh with ncurse instead
 			display_memory(vm);
 		get_proc_redcode(vm, &proc);
 		if (!vm->cycle_to_die--)  // does cycle 0 exist?
@@ -43,29 +43,6 @@ void		core_war(t_vm *vm)
 	if (vm->flags & F_MUSIC)
 		system("killall afplay 2&>/dev/null >/dev/null");
 	// display winner
-}
-
-t_proc	*new_proc(int fd, int uid, int color)
-{
-	t_proc	*proc;
-
-	if (!(proc = (t_proc*)ft_memalloc(sizeof(t_proc))))
-		errors(5, 0);
-	proc->next = NULL;
-	proc->live = 0;
-	proc->pc = 0;
-	proc->carry = 0;
-	proc->cycle_wait = 0;
-	proc->reg[0] = proc->coreid;
-
-	if (!ft_get_proc_info(fd, proc))
-	{
-		free(proc);
-		return (NULL);
-	}
-	ft_bzero(proc->reg, sizeof(proc->reg));
-	
-	return (proc);
 }
 
 /*
