@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/25 03:12:56 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/25 04:31:18 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,13 @@ NAME = corewar
 
 ASM_NAME = asm
 
-SRC = corewar.c scbw_war.c scbw_parse.c display.c misc.c bonus/play_music.c
+SRC =	corewar.c \
+		scbw_parse.c \
+		scbw_war.c \
+		scbw_redcode.c \
+		display.c \
+		misc.c \
+		bonus/play_music.c \
 
 ASM_SRC = asm.c
 

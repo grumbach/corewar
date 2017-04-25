@@ -6,12 +6,12 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/25 00:41:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 04:00:38 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 unsigned int	ft_endian(unsigned int n)
 {
-	return ((n >> 24) + ((n & 0xff0000) >> 8) + ((n & 0xff00) << 8) +
+	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
 		((n & 0xff) << 16));
 }

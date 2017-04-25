@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 03:21:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 04:34:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct			s_proc
 	int					last_live;
 	int					coreid;
 	int					pc;
+	int					cycle_wait;
 	void				*next;
 }						t_proc;
 
@@ -152,6 +153,7 @@ typedef struct			s_vm
 	int					players;
 	t_core				core[MAX_PLAYERS];
 	int					cycle_countdown;
+	t_proc				*proc;
 }						t_vm;
 
 
@@ -177,6 +179,21 @@ void			core_war(t_vm *vm);
 void			display_memory(t_vm *vm);
 void			display_players(t_vm *vm);
 void			play_music();
+
+/*
+** redcode functions
+*/
+
+void			rc_live(t_vm *vm, t_proc *proc);
+void			rc_ld(t_vm *vm, t_proc *proc, int redcode);
+void			rc_st(t_vm *vm, t_proc *proc);
+void			rc_add_sub(t_vm *vm, t_proc *proc, int plus_minus);
+void			rc_binary(t_vm *vm, t_proc *proc, int redcode);
+void			rc_zjmp(t_vm *vm, t_proc *proc);
+void			rc_ldi(t_vm *vm, t_proc *proc, int redcode);
+void			rc_sti(t_vm *vm, t_proc *proc);
+void			rc_fork(t_vm *vm, t_proc *proc, int redcode);
+void			rc_aff(t_vm *vm, t_proc *proc);		
 
 /*
 ** future includes in libft
