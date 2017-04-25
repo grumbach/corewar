@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 06:29:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 06:53:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ void	*fetch(t_vm *vm, t_proc *proc, int redcode)
 /*
 ** go through our processus list and :
 ** 1) check for redcode instructions redcode = vm->memory[lst->pc % MEM_SIZE];
-** 2) check how long it will have to wait rc_cost(&lst->cycle_wait, redcode);
-** 3) execute the redcode : fetch(vm, lst, redcode);
+** 2) execute the redcode : fetch(vm, lst, redcode);
+** 3) check how long it will have to wait rc_cost(&lst->cycle_wait, redcode);
 */
 
 void		get_proc_redcode(t_vm *vm, t_proc **proc)
@@ -135,8 +135,10 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 	{
 		redcode = vm->memory[lst->pc % MEM_SIZE];
 		if (!((lst->cycle_wait--)))
-			rc_cost(&lst->cycle_wait, redcode);
-		fetch(vm, lst, redcode);
+		{
+			fetch(vm, lst, redcode);
+			rc_cost(&lst->cycle_wait, redcode);	
+		}
 		lst = lst->next;
 	}
 }
@@ -144,11 +146,13 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 /*
 ** once vm->cycle_to_die reaches 0 it is reset
 ** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
+** we kill all processus who didn't use live
 */
 
 int		kill_proc(t_vm *vm, t_proc **proc)
 {
 	t_proc		*lst;
+	t_proc		*tmp;
 	static int	cycle_to_die = CYCLE_TO_DIE;
 
 	cycle_to_die -= CYCLE_DELTA;
@@ -156,9 +160,17 @@ int		kill_proc(t_vm *vm, t_proc **proc)
 	lst = *proc;
 	while (lst)
 	{
-		// kill proc if list->live not alive
+		while (lst->next && !lst->next->live)
+		{
+			tmp = lst->next;
+			tmp = NULL;
+			free(tmp);
+			lst->next = lst->next->next ? lst->next->next : NULL; // not sure if ternary is mandatory... have to check
+		}
 		lst = lst->next;
 	}
+	if (*proc && !((*proc)->live))
+		*proc = (*proc)->next; // if first item is dead then the next one become the first.
 	return (1);
 }
 
@@ -177,13 +189,14 @@ void		core_war(t_vm *vm)
 		display_players(vm);
 	if (vm->flags & 8)	
 		display_memory(vm);
-//	proc->pc = 0;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	while (vm->cycle < 10)
 	{
-		if (vm->flags & 16 && ft_printf("%d Cycles left\n", vm->cycle_to_die))
-			ft_printf("\nCycle %d\n", vm->cycle);
+		if (vm->flags & 16 && ft_printf("\nCycle %d", vm->cycle))
+			ft_printf("\n%d Cycles left\n", vm->cycle_to_die);
+		if (vm->flags & 8 && !(vm->cycle_to_die % 10))// refresh with ncurse instead
+			display_memory(vm);
 		get_proc_redcode(vm, &proc);
 		if (!vm->cycle_to_die--)  // does cycle 0 exist?
 			kill_proc(vm, &proc);

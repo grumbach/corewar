@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 06:28:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 06:42:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct			s_proc
 	int					coreid;
 	int					pc;
 	int					cycle_wait;
-	void				*next;
+	struct s_proc	  	*next;
 }						t_proc;
 
 typedef struct			s_core
