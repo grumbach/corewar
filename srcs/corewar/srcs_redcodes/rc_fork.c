@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ops_fork.c                                         :+:      :+:    :+:   */
+/*   rc_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/21 18:20:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:45:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int			index_memory(int index)
 ** TO_DO : add the new process to our list of process AT THE START
 */
 
+//void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
 t_process	*fork(t_mars *vm, t_process *cpu, char **arg)
 {
     t_process	*new;

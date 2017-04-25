@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 02:00:21 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/12 07:08:07 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:44:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+/*
+** not sure if we will use this since its global...
+*/
 
 // t_op    op_tab[17] =
 // {
