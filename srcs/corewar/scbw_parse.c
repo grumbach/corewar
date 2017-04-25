@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 01:43:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 02:28:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void				get_args(int ac, char **av, t_vm *vm)
 				errors(1, "invalid player id: should be numerical > -1 or < -4");
 			++i;
 		}
-		else if (av[i][0] == '-' && !parse_flag(av[i], &(vm->flags)))
+		else if (av[i][0] != '-')
+			get_core(av, --j, i, vm);
+		else if (!parse_flag(av[i], &(vm->flags)))
 			errors(1, "illegal option");
-		else
-			get_core(av, --j, i++, vm);
 }
 
 /*
@@ -116,6 +116,7 @@ void		get_players(t_vm *vm)
 	i = 0;
 	while (i < vm->players)
 	{
+		ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
 			errors(4, "Failed to open champion file\n");
 		read(fd, &vm->core[i].magic, 4);

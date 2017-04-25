@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 01:45:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 02:23:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef char	t_arg_type;
 ** flags on each bit: g for graphic, m for music etc.
 */
 
-# define COREWAR_FLAGS "mg"
+# define COREWAR_FLAGS "mgpv"
 
 typedef struct			s_proc
 {
