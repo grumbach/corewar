@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 04:34:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 06:28:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,20 @@ typedef char	t_arg_type;
 
 # define LIVE	0x01
 # define LD		0x02
-# define ST 0x03
-# define ADD 0x04
-# define SUB 0x05
-# define AND 0x06
-# define OR 0x07
-# define XOR 0x08
-# define ZJMP 0x09
-# define LDI 0x0a
-# define STI 0x0b
-# define FORK 0x0c
-# define LLD 0x0d
-# define LLDI 0x0e
-# define LFORK 0x0f
-# define AFF 0x10
+# define ST		0x03
+# define ADD	0x04
+# define SUB	0x05
+# define AND	0x06
+# define OR		0x07
+# define XOR	0x08
+# define ZJMP	0x09
+# define LDI	0x0a
+# define STI	0x0b
+# define FORK	0x0c
+# define LLD	0x0d
+# define LLDI	0x0e
+# define LFORK	0x0f
+# define AFF	0x10
 
 
 
@@ -109,13 +109,13 @@ typedef char	t_arg_type;
 ** flags on each bit: g for graphic, m for music etc.
 */
 
-# define COREWAR_FLAGS "mgpv"
+# define COREWAR_FLAGS "mgpvc"
 
 typedef struct			s_proc
 {
 	unsigned int		reg[REG_NUMBER];
 	int					carry;
-	int					last_live;
+	int					live;
 	int					coreid;
 	int					pc;
 	int					cycle_wait;
@@ -152,7 +152,8 @@ typedef struct			s_vm
 	int					flags;
 	int					players;
 	t_core				core[MAX_PLAYERS];
-	int					cycle_countdown;
+	int					cycle;
+	int					cycle_to_die;
 	t_proc				*proc;
 }						t_vm;
 

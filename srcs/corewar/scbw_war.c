@@ -6,32 +6,37 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 04:50:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 06:29:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
+/*
+** AFF is for trolling purpose only :X
+*/
+
 void	rc_cost(int *cycle_wait, int redcode)
 {
-	if (redcode == 0x01 || redcode == 0x04 || redcode == 0x05 || redcode == 0x0d)
-		*cycle_wait = 10;
-	else if (redcode == 0x02 || redcode == 0x03)
-		*cycle_wait = 5;
-	else if (redcode == 0x06 || redcode == 0x07 || redcode == 0x08)
-		*cycle_wait = 6;
-	else if (redcode == 0x09)
-		*cycle_wait = 20;
-	else if (redcode == 0x0a || redcode == 0x0b)
-		*cycle_wait = 25;
-	else if (redcode == 0x0c)
-		*cycle_wait = 800;
-	else if (redcode == 0x0e)
-		*cycle_wait = 50;
-	else if (redcode == 0x0f)
-		*cycle_wait = 1000;
-	else if (redcode == 0x10)
+	if (redcode == AFF)
 		*cycle_wait = 2;
+	else if (redcode == LD || redcode == ST)
+		*cycle_wait = 5;
+	else if (redcode == AND || redcode == OR || redcode == XOR)
+		*cycle_wait = 6;
+	else if (redcode == LIVE || redcode == ADD || redcode == SUB || redcode == LLD)
+		*cycle_wait = 10;
+	else if (redcode == ZJMP)
+		*cycle_wait = 20;
+	else if (redcode == LDI || redcode == STI)
+		*cycle_wait = 25;
+	else if (redcode == LLDI)
+		*cycle_wait = 50;
+	else if (redcode == FORK)
+		*cycle_wait = 800;
+	else if (redcode == LFORK)
+		*cycle_wait = 1000;
+	
 }
 
 /*
@@ -112,26 +117,77 @@ void	*fetch(t_vm *vm, t_proc *proc, int redcode)
 		++proc->pc;
 }
 
+/*
+** go through our processus list and :
+** 1) check for redcode instructions redcode = vm->memory[lst->pc % MEM_SIZE];
+** 2) check how long it will have to wait rc_cost(&lst->cycle_wait, redcode);
+** 3) execute the redcode : fetch(vm, lst, redcode);
+*/
+
+void		get_proc_redcode(t_vm *vm, t_proc **proc)
+{
+	t_proc		*lst;
+	int			redcode;
+
+	lst = *proc;
+	vm->nb_process = 0;
+	while (lst)
+	{
+		redcode = vm->memory[lst->pc % MEM_SIZE];
+		if (!((lst->cycle_wait--)))
+			rc_cost(&lst->cycle_wait, redcode);
+		fetch(vm, lst, redcode);
+		lst = lst->next;
+	}
+}
+
+/*
+** once vm->cycle_to_die reaches 0 it is reset
+** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
+*/
+
+int		kill_proc(t_vm *vm, t_proc **proc)
+{
+	t_proc		*lst;
+	static int	cycle_to_die = CYCLE_TO_DIE;
+
+	cycle_to_die -= CYCLE_DELTA;
+	vm->cycle_to_die = cycle_to_die;
+	lst = *proc;
+	while (lst)
+	{
+		// kill proc if list->live not alive
+		lst = lst->next;
+	}
+	return (1);
+}
+
+/*
+** Our main program
+*/
+
 void		core_war(t_vm *vm)
 {
-	int		redcode;
 	t_proc	*proc;
 	
+	proc = NULL;
 	if (vm->flags & 1)	
 		play_music();
 	if (vm->flags & 4)
 		display_players(vm);
 	if (vm->flags & 8)	
 		display_memory(vm);
-	proc->pc = 0;
-	while (42)
+//	proc->pc = 0;
+	vm->cycle = 0;
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	while (vm->cycle < 10)
 	{
-		redcode = vm->memory[proc->pc % MEM_SIZE];
-		if (!((proc->cycle_wait--)))
-			rc_cost(&proc->cycle_wait, redcode);
-		fetch(vm, vm->proc, redcode);
-		break;
-		vm->proc = vm->proc->next;
+		if (vm->flags & 16 && ft_printf("%d Cycles left\n", vm->cycle_to_die))
+			ft_printf("\nCycle %d\n", vm->cycle);
+		get_proc_redcode(vm, &proc);
+		if (!vm->cycle_to_die--)  // does cycle 0 exist?
+			kill_proc(vm, &proc);
+		++vm->cycle;
 	}
 	if (vm->flags & 1)
 		system("killall afplay 2&>/dev/null >/dev/null");
