@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 01:45:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 01:49:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <fcntl.h>
-# include <ncurses.h>//future implementation
 
 /*
 ** Toutes les tailles sont en octets.
@@ -175,7 +174,7 @@ void			get_args(int ac, char **av, t_vm *vm, int i);
 void			get_core(char **av, int n, int i, t_vm *vm);
 int				parse_flag(char *s, int *flags);
 int				flag_index(char *s, int c);
-void			get_players(t_vm *vm, int i);
+void			init_cores(t_vm *vm, int i);
 
 /*
 ** the fight begins

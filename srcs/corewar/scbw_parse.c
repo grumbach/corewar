@@ -6,13 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 01:45:06 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 01:53:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include <corewar.h>
 
-void				get_args(int ac, char **av, t_vm *vm, int i)
+void	get_args(int ac, char **av, t_vm *vm, int i)
 {
 	int		j;
 
@@ -28,11 +28,11 @@ void				get_args(int ac, char **av, t_vm *vm, int i)
 		}
 		else if (ft_strequ(av[i], "-n"))
 		{
-			if (av[++i] && (ft_isdigit(av[i][0]) || 
+			if (av[++i] && (ft_isdigit(av[i][0]) ||
 			(av[i][0] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
 				get_core(av, ft_atoi(av[i]), i, vm);
 			else
-				errors(1, "invalid player id: should be numerical > -1 or < -4");
+				errors(1, "invalid player id: should be nb > -1 or < -4");
 			++i;
 		}
 		else if (av[i][0] != '-')
@@ -42,10 +42,11 @@ void				get_args(int ac, char **av, t_vm *vm, int i)
 }
 
 /*
-** TO_DO : add parsing if warrior program is in a subfolder. like ./corewar -n 0 warriors/bee_gees.s
+** TO_DO : add parsing if warrior program is in a subfolder.
+** like ./corewar -n 0 warriors/bee_gees.s
 */
 
-static void			get_core(char **av, int n, int i, t_vm *vm)
+void	get_core(char **av, int n, int i, t_vm *vm)
 {
 	int				j;
 
@@ -54,7 +55,7 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	vm->core[vm->players].id = n;
 //	ft_printf("%d", n);
 	while (j < vm->players)
-		if (vm->core[j++].id  == vm->core[vm->players].id)
+		if (vm->core[j++].id == vm->core[vm->players].id)
 			errors(1, "Choose different ids for your champions\n");
 	if ((n < 0 && n > -5 && !av[--i]) || !av[++i])
 		errors(1, "No champion\n");
@@ -69,7 +70,7 @@ static void			get_core(char **av, int n, int i, t_vm *vm)
 	++vm->players;
 }
 
-int			parse_flag(char *s, int *flags)
+int		parse_flag(char *s, int *flags)
 {
 	int		n;
 
@@ -82,7 +83,7 @@ int			parse_flag(char *s, int *flags)
 	return (1);
 }
 
-int			flag_index(char *s, int c)
+int		flag_index(char *s, int c)
 {
 	int		i;
 
@@ -100,20 +101,19 @@ int			flag_index(char *s, int c)
 ** make test && ./corewar -n 0 warriors/fluttershy.cor warriors/turtle.cor
 ** hexdump warriors/turtle.cor
 ** we check that we can 1) open the player file, 2) find the exec code at
-** the beginning of file (read(fd, &magic_code, 4);), 3) store the program_name
+** the beginning of file  3) store the program_name
 ** 4) store the comment, 5) check that code is not too long.
-**
 */
 
-void		get_players(t_vm *vm, int i)
+void	init_cores(t_vm *vm, int i)
 {
 	int				fd;
 	unsigned		size_code;
 	unsigned		weight;
-	
+
 	while (i < vm->players)
 	{
-		ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
+	//	ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
 			errors(4, "Failed to open champion file\n");
 		read(fd, &vm->core[i].magic, 4);
@@ -126,9 +126,9 @@ void		get_players(t_vm *vm, int i)
 		ft_bzero(vm->core[i].comment, COMMENT_LENGTH + 4);
 		lseek(fd, PROG_NAME_LENGTH + 12, SEEK_SET);
 		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
-	//	ft_printf("\nCOMMENT %s\n", vm->core[i].comment);//	
+	//	ft_printf("\nCOMMENT %s\n", vm->core[i].comment);//
 		read(fd, &(vm->memory[i * MEM_SIZE / vm->players]), CHAMP_MAX_SIZE);
-	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->players + (i & 1)]);//	
+	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->players + (i & 1)]);
 		close(fd);
 		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
 			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");
