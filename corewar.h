@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 22:33:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:35:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "libft.h"
 # include <errno.h>
 # include <sys/types.h>
-# include <unistd.h>
 # include <fcntl.h>
 
 /*

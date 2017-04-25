@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 22:34:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:52:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,29 @@ void		core_war(t_vm *vm)
 	if (vm->flags & F_MUSIC)
 		system("killall afplay 2&>/dev/null >/dev/null");
 	// display winner
+}
+
+t_proc	*new_proc(int fd, int uid, int color)
+{
+	t_proc	*proc;
+
+	if (!(proc = (t_proc*)ft_memalloc(sizeof(t_proc))))
+		errors(5, 0);
+	proc->next = NULL;
+	proc->live = 0;
+	proc->pc = 0;
+	proc->carry = 0;
+	proc->cycle_wait = 0;
+	proc->reg[0] = proc->coreid;
+
+	if (!ft_get_proc_info(fd, proc))
+	{
+		free(proc);
+		return (NULL);
+	}
+	ft_bzero(proc->reg, sizeof(proc->reg));
+	
+	return (proc);
 }
 
 /*

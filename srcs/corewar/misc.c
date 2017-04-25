@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/25 22:25:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:51:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,30 @@ int				check_arg(unsigned char type, char a1, char a2, char a3)
 				|| (!(a[i] & T_REG) && type >> 6 == IND_CODE))
 			return (FALSE);
 	return (TRUE);
+}
+
+/*
+** error handler
+*/
+
+long		errors(int id, char *comment)//get fct lemin
+{
+	ft_putstr_fd("corewar: ", 2);
+	if (comment)
+	{
+		ft_putstr_fd(comment, 2);
+		ft_putstr_fd(" ", 2);
+	}
+	if (id == 0)
+		ft_putendl_fd(strerror(errno), 2);
+	if (id == 1)
+		ft_putstr_fd("\nusage: ./corewar [-"COREWAR_FLAGS"]"
+			" [-dump nbr_cycles] [[-n number] champion1.cor]\n", 2);
+	if (id == 3)
+    	ft_putstr_fd(" too fat, warrior needs diet\n", 2);
+	if (id == 4)
+    	ft_putstr_fd("Invalid Warrior Program\n", 2);
+	if (id == 5)
+    	ft_putstr_fd("Failled to malloc a new proc\n", 2);
+	exit(1);
 }
