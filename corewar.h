@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 06:42:22 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:33:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 */
 
 # define IND_SIZE				2
-// # define REG_SIZE				4
+# define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
 
 # define REG_CODE				1
@@ -56,12 +56,21 @@
 # define MAX_CHECKS				10
 
 /*
-** options
+** flags list
 */
 
-# define GRAPHIC				1
-# define MUSIC					2
- 
+# define COREWAR_FLAGS 			"mgpvc"
+# define F_MUSIC				1
+# define F_GRAPHIC_DISPLAY		2
+# define F_DISPLAY_PLAYERS		4
+# define F_DISPLAY_MEM			8
+
+/*
+** booleans define
+*/
+
+# define TRUE					1
+# define FALSE					0
 
 /*
 **
@@ -75,7 +84,7 @@ typedef char	t_arg_type;
 # define T_LAB					8
 
 /*
-** operations
+** Redcodes define
 */
 
 # define LIVE	0x01
@@ -95,8 +104,9 @@ typedef char	t_arg_type;
 # define LFORK	0x0f
 # define AFF	0x10
 
-
-
+/*
+** Warrior Max name, comment length and exec code.
+*/
 
 # define PROG_NAME_LENGTH			(128)
 # define COMMENT_LENGTH				(2048)
@@ -108,8 +118,6 @@ typedef char	t_arg_type;
 ** memory is the map where cores compete
 ** flags on each bit: g for graphic, m for music etc.
 */
-
-# define COREWAR_FLAGS "mgpvc"
 
 typedef struct			s_proc
 {
@@ -170,8 +178,10 @@ void			get_players(t_vm *vm);
 */
 
 void			core_war(t_vm *vm);
-//void			fetch();//
-//void			decode();//
+void			get_proc_redcode(t_vm *vm, t_proc **proc);
+void			fetch(t_vm *vm, t_proc *proc, int redcode);
+void			rc_cost(int *cycle_wait, int redcode);
+int				kill_proc(t_vm *vm, t_proc **proc);
 
 /*
 ** display functions & bonus functions
@@ -201,6 +211,7 @@ void			rc_aff(t_vm *vm, t_proc *proc);
 */
 
 unsigned int	ft_endian(unsigned int n);
+int				check_arg(unsigned char type, char a1, char a2, char a3);
 
 /*
 ** error handling

@@ -6,37 +6,70 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 07:28:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 22:34:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 /*
-** AFF is for trolling purpose only :X
+** Our main program
 */
 
-void	rc_cost(int *cycle_wait, int redcode)
+void		core_war(t_vm *vm)
 {
-	if (redcode == AFF)
-		*cycle_wait = 2;
-	else if (redcode == LD || redcode == ST)
-		*cycle_wait = 5;
-	else if (redcode == AND || redcode == OR || redcode == XOR)
-		*cycle_wait = 6;
-	else if (redcode == LIVE || redcode == ADD || redcode == SUB || redcode == LLD)
-		*cycle_wait = 10;
-	else if (redcode == ZJMP)
-		*cycle_wait = 20;
-	else if (redcode == LDI || redcode == STI)
-		*cycle_wait = 25;
-	else if (redcode == LLDI)
-		*cycle_wait = 50;
-	else if (redcode == FORK)
-		*cycle_wait = 800;
-	else if (redcode == LFORK)
-		*cycle_wait = 1000;
+	t_proc	*proc;
 	
+	proc = NULL;
+	if (vm->flags & F_MUSIC)	
+		play_music();
+	if (vm->flags & F_DISPLAY_PLAYERS)
+		display_players(vm);
+	if (vm->flags & F_DISPLAY_MEM)	
+		display_memory(vm);
+	vm->cycle = 0;
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	while (vm->cycle < 10)
+	{
+		if (vm->flags & 16 && ft_printf("\nCycle %d", vm->cycle))
+			ft_printf("\n%d Cycles left\n", vm->cycle_to_die);
+		if (vm->flags & 8 && !(vm->cycle_to_die % 10))// refresh with ncurse instead
+			display_memory(vm);
+		get_proc_redcode(vm, &proc);
+		if (!vm->cycle_to_die--)  // does cycle 0 exist?
+			kill_proc(vm, &proc);
+		++vm->cycle;
+	}
+	if (vm->flags & F_MUSIC)
+		system("killall afplay 2&>/dev/null >/dev/null");
+	// display winner
+}
+
+/*
+** go through our processus list and :
+** 1) check for redcode instructions redcode = vm->memory[lst->pc % MEM_SIZE];
+** 2) execute the redcode : fetch(vm, lst, redcode);
+** 3) check how long it will have to wait rc_cost(&lst->cycle_wait, redcode);
+*/
+
+void		get_proc_redcode(t_vm *vm, t_proc **proc)
+{
+	t_proc		*lst;
+	int			redcode;
+
+	lst = *proc;
+	vm->nb_process = 0;
+	while (lst)
+	{
+		redcode = vm->memory[lst->pc % MEM_SIZE];
+		ft_printf("0%x", redcode);
+		if (!((lst->cycle_wait--)))
+		{
+			fetch(vm, lst, redcode);
+			rc_cost(&lst->cycle_wait, redcode);	
+		}
+		lst = lst->next;
+	}
 }
 
 /*
@@ -91,7 +124,7 @@ void	rc_cost(int *cycle_wait, int redcode)
 ** to display on the standard output. The code is modulo 256
 */
 
-void	*fetch(t_vm *vm, t_proc *proc, int redcode)
+void	fetch(t_vm *vm, t_proc *proc, int redcode)
 {
 	if (redcode == 0x01)
 		rc_live(vm, proc);
@@ -118,30 +151,30 @@ void	*fetch(t_vm *vm, t_proc *proc, int redcode)
 }
 
 /*
-** go through our processus list and :
-** 1) check for redcode instructions redcode = vm->memory[lst->pc % MEM_SIZE];
-** 2) execute the redcode : fetch(vm, lst, redcode);
-** 3) check how long it will have to wait rc_cost(&lst->cycle_wait, redcode);
+** AFF is for trolling purpose only :X
 */
 
-void		get_proc_redcode(t_vm *vm, t_proc **proc)
+void	rc_cost(int *cycle_wait, int redcode)
 {
-	t_proc		*lst;
-	int			redcode;
-
-	lst = *proc;
-	vm->nb_process = 0;
-	while (lst)
-	{
-		redcode = vm->memory[lst->pc % MEM_SIZE];
-		ft_printf("0%x", redcode);
-		if (!((lst->cycle_wait--)))
-		{
-			fetch(vm, lst, redcode);
-			rc_cost(&lst->cycle_wait, redcode);	
-		}
-		lst = lst->next;
-	}
+	if (redcode == AFF)
+		*cycle_wait = 2;
+	else if (redcode == LD || redcode == ST)
+		*cycle_wait = 5;
+	else if (redcode == AND || redcode == OR || redcode == XOR)
+		*cycle_wait = 6;
+	else if (redcode == LIVE || redcode == ADD || redcode == SUB || redcode == LLD)
+		*cycle_wait = 10;
+	else if (redcode == ZJMP)
+		*cycle_wait = 20;
+	else if (redcode == LDI || redcode == STI)
+		*cycle_wait = 25;
+	else if (redcode == LLDI)
+		*cycle_wait = 50;
+	else if (redcode == FORK)
+		*cycle_wait = 800;
+	else if (redcode == LFORK)
+		*cycle_wait = 1000;
+	
 }
 
 /*
@@ -176,41 +209,4 @@ int		kill_proc(t_vm *vm, t_proc **proc)
 }
 
 
-	ft_fill_arena(mars, cpu);
 
-	ft_get_players_uid(mars, *cpu);
-
-}
-
-/*
-** Our main program
-*/
-
-void		core_war(t_vm *vm)
-{
-	t_proc	*proc;
-	
-	proc = NULL;
-	if (vm->flags & 1)	
-		play_music();
-	if (vm->flags & 4)
-		display_players(vm);
-	if (vm->flags & 8)	
-		display_memory(vm);
-	vm->cycle = 0;
-	vm->cycle_to_die = CYCLE_TO_DIE;
-	while (vm->cycle < 10)
-	{
-		if (vm->flags & 16 && ft_printf("\nCycle %d", vm->cycle))
-			ft_printf("\n%d Cycles left\n", vm->cycle_to_die);
-		if (vm->flags & 8 && !(vm->cycle_to_die % 10))// refresh with ncurse instead
-			display_memory(vm);
-		get_proc_redcode(vm, &proc);
-		if (!vm->cycle_to_die--)  // does cycle 0 exist?
-			kill_proc(vm, &proc);
-		++vm->cycle;
-	}
-	if (vm->flags & 1)
-		system("killall afplay 2&>/dev/null >/dev/null");
-	// display winner
-}
