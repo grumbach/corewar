@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 02:23:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 03:21:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,10 @@ typedef struct			s_proc
 {
 	unsigned int		reg[REG_NUMBER];
 	int					carry;
-	int					pc;
 	int					last_live;
 	int					coreid;
+	int					pc;
+	void				*next;
 }						t_proc;
 
 typedef struct			s_core
@@ -131,6 +132,16 @@ typedef struct			s_core
 	unsigned			color;
 }						t_core;
 
+/*
+** memory is our corewar map (instructions)
+** memory_color is our corewar map (belong to coreid)
+** pc is the index in the memory (max MEM_SIZE).
+** nb_process is the nb_process alive
+** flags are our options stored on 32 bits (1 per bit : COREWAR_FLAGS)
+** players is the nb of player
+** t_core has information for each player, on stack
+*/
+
 typedef struct			s_vm
 {
 	unsigned char		memory[MEM_SIZE];
@@ -140,7 +151,7 @@ typedef struct			s_vm
 	int					flags;
 	int					players;
 	t_core				core[MAX_PLAYERS];
-
+	int					cycle_countdown;
 }						t_vm;
 
 
@@ -160,11 +171,12 @@ void			core_war(t_vm *vm);
 //void			decode();//
 
 /*
-** display functions
+** display functions & bonus functions
 */
 
 void			display_memory(t_vm *vm);
 void			display_players(t_vm *vm);
+void			play_music();
 
 /*
 ** future includes in libft
