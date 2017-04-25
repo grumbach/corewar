@@ -1,1 +1,1 @@
-make test && ./corewar -vp -n 8 warriors/zork.cor warriors/turtle.cor
+make test && ./corewar -cvp -n 8 warriors/zork.cor warriors/zork.cor

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/25 06:53:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/25 07:28:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 	while (lst)
 	{
 		redcode = vm->memory[lst->pc % MEM_SIZE];
+		ft_printf("0%x", redcode);
 		if (!((lst->cycle_wait--)))
 		{
 			fetch(vm, lst, redcode);
@@ -172,6 +173,13 @@ int		kill_proc(t_vm *vm, t_proc **proc)
 	if (*proc && !((*proc)->live))
 		*proc = (*proc)->next; // if first item is dead then the next one become the first.
 	return (1);
+}
+
+
+	ft_fill_arena(mars, cpu);
+
+	ft_get_players_uid(mars, *cpu);
+
 }
 
 /*
