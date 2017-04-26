@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 02:01:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:44:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void		display_memory(t_vm *vm, int n)
 
 	pc = 0;
 	ft_printf("\n");
+	if (n == 31)
+		ft_printf("Reached %d Cycle, Dumping Memory :", vm->dump);
 	while (pc < MEM_SIZE)
 	{
 		ft_printf("%02x", vm->memory[pc]);

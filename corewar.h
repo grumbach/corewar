@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:01:17 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 03:17:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,6 @@
 # define MAX_CHECKS				10
 
 /*
-** flags list
-*/
-
-# define COREWAR_FLAGS 			"mgpvc"
-# define F_MUSIC				1
-# define F_GRAPHIC_DISPLAY		2
-# define F_DISPLAY_PLAYERS		4
-# define F_DISPLAY_MEM			8
-# define F_DISPLAY_CYCLES		16
-
-/*
 ** booleans define
 */
 
@@ -105,18 +94,13 @@ typedef char	t_arg_type;
 # define AFF	0x10
 
 /*
-** Warrior Max name, comment length and exec code.
-*/
-
-# define PROG_NAME_LENGTH			(128)
-# define COMMENT_LENGTH				(2048)
-# define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
-
-
-/*
-** progs compete inside the Memory Array Redcode Simulator (Mars)
-** memory is the map where cores compete
-** flags on each bit: g for graphic, m for music etc.
+** 1) REG_NUMBER registries, each of which are the size REG_SIZE octets.
+** A registry is a small memory “box” with only one value
+** 2) carry : 1 if the last redcode was sucessfully executed
+** 3) live : if the process is alive
+** 4) coreid : to which player (core) it belongs
+** 5) pc : index in the memory
+** 6) how long before executing the next instruction
 */
 
 typedef struct			s_proc
@@ -130,18 +114,32 @@ typedef struct			s_proc
 	struct s_proc	  	*next;
 }						t_proc;
 
+/*
+** magic determine if the file has the right extension
+** prog_name is its name.
+** comment is for special message (totaly useless)
+** prog_size is the size of its code
+** id is player nb
+** color is player color
+*/
+
+# define PROG_NAME_LENGTH			(128)
+# define COMMENT_LENGTH				(2048)
+# define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
+
 typedef struct			s_core
 {
 	unsigned int		magic;
 	char				prog_name[PROG_NAME_LENGTH + 1];
 	char				comment[COMMENT_LENGTH + 1];
 	unsigned int		prog_size;
-	char				code[COMMENT_LENGTH + 1];	
+	char				code[COMMENT_LENGTH + 1];// check about this it seems wrong	
 	int					id;
 	unsigned			color;
 }						t_core;
 
 /*
+** progs compete inside the Memory Array Redcode Simulator (Mars)
 ** memory is our corewar map (instructions)
 ** memory_color is our corewar map (belong to coreid)
 ** pc is the index in the memory (max MEM_SIZE).
@@ -165,6 +163,16 @@ typedef struct			s_vm
 	t_proc				*proc;
 }						t_vm;
 
+/*
+** flags list
+*/
+
+# define COREWAR_FLAGS 			"mgpvc"
+# define F_MUSIC				1
+# define F_GRAPHIC_DISPLAY		2
+# define F_DISPLAY_PLAYERS		4
+# define F_DISPLAY_MEM			8
+# define F_DISPLAY_CYCLES		16
 
 /*
 ** parsing options

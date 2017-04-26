@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:25:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:45:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ void		core_war(t_vm *vm)
 	proc = NULL;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
-	while (vm->cycle < 10)
+	while (vm->cycle < 10)// && vm->nb_process)
 	{
-		 ft_printf("\nCycle %d", vm->dump);
 		if (vm->dump && vm->cycle == vm->dump)
 		{
 			display_memory(vm, 31);
@@ -40,7 +39,6 @@ void		core_war(t_vm *vm)
 			kill_proc(vm, &proc);
 		++vm->cycle;
 	}
-	// display winner
 }
 
 /*

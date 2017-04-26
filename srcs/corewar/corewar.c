@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:26:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:38:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int			main(int ac, char **av)
 	if (vm.flags & F_DISPLAY_MEM)	
 		display_memory(&vm, 63);
 	core_war(&vm);
+	// display winner
 	if (vm.flags & F_MUSIC)
 		system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);
