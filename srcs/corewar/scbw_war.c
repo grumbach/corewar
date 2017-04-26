@@ -6,11 +6,57 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:45:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 04:55:09 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+
+t_proc	*new_proc(int coreid, unsigned int redcode)
+{
+	t_proc	*proc;
+
+	if (!(proc = (t_proc *)ft_memalloc(sizeof(t_proc))))
+		errors(5, 0);
+	proc->next = NULL;
+	proc->live = 0; // check if it shouldnt be 1 ?
+	proc->pc = 0;
+	proc->carry = 0;
+	proc->cycle_wait = 0;
+	proc->coreid = coreid;
+	proc->reg[0] = proc->coreid;
+	proc->redcode = redcode;
+	ft_bzero(proc->reg, sizeof(proc->reg));
+	return (proc);
+}
+
+void				init_proc(t_vm *vm)
+{
+	int			i;
+	t_proc		*begin;
+
+	vm->nb_process = vm->players;
+	begin = NULL;
+	i = -1;
+	while (++i< vm->players)
+	{
+		begin = new_proc(vm->core[i].id, vm->memory[i * MEM_SIZE / vm->players]);	
+		if (!i)
+			vm->proc = begin;
+		ft_putnbr(begin->redcode);ft_putchar('\n');
+		begin = begin->next;
+	//	ft_putnbr(i);ft_putchar('\n');
+	}
+	begin = vm->proc;
+	while (begin)
+	{
+		ft_putnbr(begin->redcode);ft_putchar('\n');
+		begin = begin->next;
+	}
+	
+		
+}
 
 /*
 ** Our main program
@@ -18,12 +64,10 @@
 
 void		core_war(t_vm *vm)
 {
-	t_proc	*proc;
-	
-	proc = NULL;
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
-	while (vm->cycle < 10)// && vm->nb_process)
+	init_proc(vm);
+	while (vm->cycle < 1)// && vm->process)
 	{
 		if (vm->dump && vm->cycle == vm->dump)
 		{
@@ -34,9 +78,9 @@ void		core_war(t_vm *vm)
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
 		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % 10))// refresh with ncurse instead
 			display_memory(vm, 63);
-		get_proc_redcode(vm, &proc);
+		get_proc_redcode(vm, &vm->proc);
 		if (!vm->cycle_to_die--)  // does cycle 0 exist?
-			kill_proc(vm, &proc);
+			kill_proc(vm, &vm->proc);
 		++vm->cycle;
 	}
 }
