@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 11:44:04 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 16:25:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct			s_vm
 	int					dump;
 	int					nb_process;
 	int					flags;
-	int					players;
+	int					nb_players;
 	t_core				core[MAX_PLAYERS];
 	int					cycle;
 	int					cycle_to_die;
@@ -196,6 +196,7 @@ void			get_proc_redcode(t_vm *vm, t_proc **proc);
 void			fetch(t_vm *vm, t_proc *proc, int redcode);
 void			rc_cost(int *cycle_wait, int redcode);
 int				kill_proc(t_vm *vm, t_proc **proc);
+void				init_proc(t_vm *vm);
 
 /*
 ** display functions & bonus functions

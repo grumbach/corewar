@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 11:48:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 17:01:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 {
 	int				j;
 
-	if (!(j = 0) && vm->players == MAX_PLAYERS)
+	if (!(j = 0) && vm->nb_players == MAX_PLAYERS)
 		errors(1, "Too many players\n");
-	vm->core[vm->players].id = n;
+	vm->core[vm->nb_players].id = n;
 //	ft_printf("%d", n);
-	while (j < vm->players)
-		if (vm->core[j++].id == vm->core[vm->players].id)
+	while (j < vm->nb_players)
+		if (vm->core[j++].id == vm->core[vm->nb_players].id)
 			errors(1, "Choose different ids for your champions\n");
 	if ((n < 0 && n > -5 && !av[--i]) || !av[++i])
 		errors(1, "No champion\n");
@@ -67,11 +67,11 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 		errors(3, av[i]);
 	j = -1;
 	while (++j < PROG_NAME_LENGTH)
-		vm->core[vm->players].prog_name[j] = av[i][j];
-	vm->core[vm->players].prog_name[PROG_NAME_LENGTH] = 0;
-//	ft_putnbr(vm->core[vm->players].id);//debug
-//	ft_putendl(vm->core[vm->players].prog_name);//
-	++vm->players;
+		vm->core[vm->nb_players].prog_name[j] = av[i][j];
+	vm->core[vm->nb_players].prog_name[PROG_NAME_LENGTH] = 0;
+//	ft_putnbr(vm->core[vm->nb_players].id);//debug
+//	ft_putendl(vm->core[vm->nb_players].prog_name);//
+	++vm->nb_players;
 }
 
 int		parse_flag(char *s, int *flags)
@@ -115,7 +115,7 @@ void	init_cores(t_vm *vm, int i)
 	unsigned		size_code;
 	unsigned		weight;
 
-	while (i < vm->players)
+	while (i < vm->nb_players)
 	{
 	//	ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
@@ -131,8 +131,8 @@ void	init_cores(t_vm *vm, int i)
 		lseek(fd, PROG_NAME_LENGTH + 12, SEEK_SET);
 		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
 	//	ft_printf("\nCOMMENT %s\n", vm->core[i].comment);//
-		read(fd, &(vm->memory[i * MEM_SIZE / vm->players]), CHAMP_MAX_SIZE);
-	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->players + (i & 1)]);
+		read(fd, &(vm->memory[(vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players]), CHAMP_MAX_SIZE);
+	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->nb_players + (i & 1)]);
 		close(fd);
 		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
 			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");

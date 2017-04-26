@@ -6,17 +6,22 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:38:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 14:59:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+/*
+** if not parsed, dump will be initialized at -1 instead of 0. 
+*/
 
 int			main(int ac, char **av)
 {
 	t_vm	vm;
 
 	ft_bzero(&vm, sizeof(vm));
+	vm.dump = -1;
 	get_args(ac, av, &vm, 0);
 	init_cores(&vm, 0);
 	if (vm.flags & F_MUSIC)	

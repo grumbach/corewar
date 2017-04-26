@@ -6,60 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 12:14:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 16:56:02 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-
-t_proc	*new_proc(int coreid, int pc)
-{
-	t_proc	*proc;
-
-	if (!(proc = (t_proc *)ft_memalloc(sizeof(t_proc))))
-		errors(5, 0); // demander a anselme pour free la memoire en cas d'echec du malloc
-	proc->next = NULL; // useless for init_proc but may be useful for forks
-	proc->live = 0; // check if it shouldnt be 1 ?
-	proc->pc = pc;
-	proc->carry = 0;
-	proc->cycle_wait = 0;
-	proc->coreid = coreid;
-//	ft_putnbr(proc->coreid);//
-	proc->reg[0] = proc->coreid;
-	ft_bzero(proc->reg, sizeof(proc->reg));
-	return (proc);
-}
-
-/*
-**
-*/
-
-void				init_proc(t_vm *vm)
-{
-	int			i;
-	t_proc		*begin;
-	t_proc		*tmp;
-
-	vm->nb_process = vm->players;
-	i = -1;
-	while (++i< vm->players)
-	{
-		tmp = new_proc(vm->core[i].id, i * MEM_SIZE / vm->players);
-		if (!i)
-		{
-			begin = tmp;
-			vm->proc = tmp;
-		}
-		else
-		{
-			vm->proc->next = tmp;
-			vm->proc = vm->proc->next;
-		}
-		tmp = tmp->next;
-	}
-	vm->proc = begin;
-}
 
 /*
 ** Our main program
@@ -71,21 +22,20 @@ void		core_war(t_vm *vm)
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->proc = NULL;
 	init_proc(vm);
-	while (vm->cycle < 120)//vm->proc)//vm->cycle < 1)// && vm->proc)
+	while (vm->cycle < 28)//vm->proc)//vm->cycle < 1)// && vm->proc)
 	{
-		if (vm->dump && vm->cycle == vm->dump)
-		{
-			display_memory(vm, 31);
-			break;
-		}
 		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
 		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % DISPLAY_FQCY))// refresh with ncurse instead
 			display_memory(vm, 63);
 		get_proc_redcode(vm, &vm->proc);
-		if (!vm->cycle_to_die--)  // does cycle 0 exist?
+		if (vm->cycle_to_die-- < 1)  // does cycle 0 exist?
 			kill_proc(vm, &vm->proc);
-		++vm->cycle;
+		if (vm->cycle++ == vm->dump && vm->dump > -1)
+		{
+			display_memory(vm, 31);
+			break;
+		}
 	}
 }
 
@@ -135,6 +85,8 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 ** in the 3d, right before modifying the carry.
 **
 ** 0x05 rc_sub : same as add but with a substraction.
+**
+** rc_add_sub(vm, proc, 9 - (redcode << 1)); if 0x04 we get 1, if 0x05 we get -1
 **
 ** 0x06 rc_and : Apply an & (bit-to-bit AND) over the first two arguments and
 ** store the result in a registry, which is the 3d argument. Modifies the carry
@@ -206,7 +158,7 @@ void	rc_cost(int *cycle_wait, int redcode)
 		*cycle_wait = 5;
 	else if (redcode == AND || redcode == OR || redcode == XOR)
 		*cycle_wait = 6;
-	else if (redcode == LIVE || redcode == ADD || redcode == SUB || redcode == LLD)
+	else if (redcode == ADD || redcode == SUB || redcode == LLD)
 		*cycle_wait = 10;
 	else if (redcode == ZJMP)
 		*cycle_wait = 20;
@@ -254,6 +206,3 @@ int		kill_proc(t_vm *vm, t_proc **proc)
 		lst = lst->next;
 	return (1);
 }
-
-
-
