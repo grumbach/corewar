@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 17:26:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 17:29:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_proc	*new_proc(int coreid, int pc)
 	proc->carry = 0;
 	proc->cycle_wait = 0;
 	proc->coreid = coreid;
-//	ft_putnbr(proc->coreid);//
 	proc->reg[0] = proc->coreid;
 	ft_bzero(proc->reg, sizeof(proc->reg));
 	return (proc);

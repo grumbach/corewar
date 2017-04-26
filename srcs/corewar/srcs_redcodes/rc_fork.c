@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 01:09:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 17:40:00 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,25 @@ int			index_memory(int index)
 ** TO_DO : add the new process to our list of process AT THE START
 */
 
-//void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
+void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
+{
+
+}
+
+
+
 t_proc	*fork(t_mars *vm, t_process *cpu, char **arg)
 {
     t_proc	*new;
 	short   index;
 	
-    if (!(new = ft_memalloc(sizeof(t_proc))))
-        return (0);
+    new_proc(int coreid, int pc)
 	ft_memcpy(new, cpu, sizeof(t_proc));
     index = cast_sh_int(arg[0]) % IDX_MOD);
 	new->pc = index_memory(index + new->last_position);
     new->cycle_wait = 0;
 	
-	add_process(&cpu, );
+	push_front_proc(&proc);
 
 	++vm->nb_process;
-	++vm->player[cpu->order].pc_number;
 }

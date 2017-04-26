@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 16:25:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 17:39:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,8 @@ void			get_proc_redcode(t_vm *vm, t_proc **proc);
 void			fetch(t_vm *vm, t_proc *proc, int redcode);
 void			rc_cost(int *cycle_wait, int redcode);
 int				kill_proc(t_vm *vm, t_proc **proc);
-void				init_proc(t_vm *vm);
+void			init_proc(t_vm *vm);
+t_proc			*new_proc(int coreid, int pc);
 
 /*
 ** display functions & bonus functions
