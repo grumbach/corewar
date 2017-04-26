@@ -6,11 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 01:53:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:29:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+/*
+** -dump n means that the game will finish earlier, at cycle n
+*/
 
 void	get_args(int ac, char **av, t_vm *vm, int i)
 {
@@ -22,9 +26,9 @@ void	get_args(int ac, char **av, t_vm *vm, int i)
 		if (ft_strequ(av[i], "-dump"))
 		{
 			if (av[i + 1] && ft_isdigit(av[i + 1][0]))
-				vm->dump = ft_atoi(av[i + 1]);
+				vm->dump = ft_atoi(av[++i]);
 			else
-				errors(1, "go take another dump");
+				errors(1, "Go take another dump");
 		}
 		else if (ft_strequ(av[i], "-n"))
 		{
@@ -32,13 +36,13 @@ void	get_args(int ac, char **av, t_vm *vm, int i)
 			(av[i][0] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
 				get_core(av, ft_atoi(av[i]), i, vm);
 			else
-				errors(1, "invalid player id: should be nb > -1 or < -4");
+				errors(1, "Invalid player id: should be nb > -1 or < -4");
 			++i;
 		}
 		else if (av[i][0] != '-')
 			get_core(av, --j, i, vm);
 		else if (!parse_flag(av[i], &(vm->flags)))
-			errors(1, "illegal option");
+			errors(1, "Illegal option");
 }
 
 /*

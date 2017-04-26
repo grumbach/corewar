@@ -6,17 +6,19 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/25 01:35:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:01:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 /*
-** display memory
+** at the end of nbr_cycles executed, dump the memory on the standard output
+** and quit the game. The memory must be dumped in the hexadecimal format with
+** 32 octets per line.
 */
 
-void		display_memory(t_vm *vm)
+void		display_memory(t_vm *vm, int n)
 {
 	size_t	pc;
 
@@ -25,7 +27,7 @@ void		display_memory(t_vm *vm)
 	while (pc < MEM_SIZE)
 	{
 		ft_printf("%02x", vm->memory[pc]);
-		if ((pc % 64) == 63)
+		if ((pc & n) == n)
 			ft_printf("\n");
         else
             ft_printf(" ");

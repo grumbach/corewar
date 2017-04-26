@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 01:27:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:25:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,25 @@ void		core_war(t_vm *vm)
 	t_proc	*proc;
 	
 	proc = NULL;
-	if (vm->flags & F_MUSIC)	
-		play_music();
-	if (vm->flags & F_DISPLAY_PLAYERS)
-		display_players(vm);
-	if (vm->flags & F_DISPLAY_MEM)	
-		display_memory(vm);
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	while (vm->cycle < 10)
 	{
+		 ft_printf("\nCycle %d", vm->dump);
+		if (vm->dump && vm->cycle == vm->dump)
+		{
+			display_memory(vm, 31);
+			break;
+		}
 		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
 		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % 10))// refresh with ncurse instead
-			display_memory(vm);
+			display_memory(vm, 63);
 		get_proc_redcode(vm, &proc);
 		if (!vm->cycle_to_die--)  // does cycle 0 exist?
 			kill_proc(vm, &proc);
 		++vm->cycle;
 	}
-	if (vm->flags & F_MUSIC)
-		system("killall afplay 2&>/dev/null >/dev/null");
 	// display winner
 }
 

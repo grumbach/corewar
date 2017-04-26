@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 01:49:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 02:01:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int				kill_proc(t_vm *vm, t_proc **proc);
 ** display functions & bonus functions
 */
 
-void			display_memory(t_vm *vm);
+void			display_memory(t_vm *vm, int n);
 void			display_players(t_vm *vm);
 void			play_music();
 
