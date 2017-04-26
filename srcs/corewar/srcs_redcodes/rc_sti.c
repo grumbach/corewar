@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 06:47:43 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 08:24:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 08:30:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void			rc_sti(t_vm *vm, t_proc *proc)
     || ((type >> 4 & 0b11) == 1 && (a[1] >= REG_NUMBER || a[1] < 0))
     || ((type >> 2 & 0b11) == 1 && (a[2] >= REG_NUMBER || a[2] < 0)))
 		return ;
-    else
-	    proc->pc += n;
+    proc->reg[a[0]] = a[0];
+	if ((type >> 4 & 0b11) == 1)
+        proc->reg[a[1]] = a[1];
+	if ((type >> 2 & 0b11) == 1)
+		proc->reg[a[2]] = a[2];    
+    proc->pc += n;
 }

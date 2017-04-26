@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 06:39:14 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 08:11:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ typedef struct			s_vm
 	int					cycle;
 	int					cycle_to_die;
 	t_proc				*proc;
+	int					last_id_alive;
 }						t_vm;
 
 /*
@@ -173,6 +174,8 @@ typedef struct			s_vm
 # define F_DISPLAY_PLAYERS		4
 # define F_DISPLAY_MEM			8
 # define F_DISPLAY_CYCLES		16
+
+# define DISPLAY_FQCY			5//debug
 
 /*
 ** parsing options

@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/26 00:50:19 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/26 09:21:50 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,11 @@ SRC =	corewar.c \
 		display.c \
 		misc.c \
 		bonus/play_music.c \
+		srcs_redcodes/rc_sti.c \
+		srcs_redcodes/rc_binary.c \
+		srcs_redcodes/rc_live.c \
+		srcs_redcodes/rc_zjmp.c \
+		srcs_redcodes/rc_ld.c \
 
 ASM_SRC = asm.c
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 06:41:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:34:16 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_proc	*new_proc(int coreid, int pc)
 	proc->carry = 0;
 	proc->cycle_wait = 0;
 	proc->coreid = coreid;
+//	ft_putnbr(proc->coreid);//
 	proc->reg[0] = proc->coreid;
 	ft_bzero(proc->reg, sizeof(proc->reg));
 	return (proc);
@@ -34,23 +35,38 @@ void				init_proc(t_vm *vm)
 {
 	int			i;
 	t_proc		*begin;
+	t_proc		*tmp;
 
 	vm->nb_process = vm->players;
-	begin = NULL;
 	i = -1;
 	while (++i< vm->players)
 	{
-		begin = new_proc(vm->core[i].id, i * MEM_SIZE / vm->players);
+		tmp = new_proc(vm->core[i].id, i * MEM_SIZE / vm->players);
 		if (!i)
+		{
+			begin = tmp;
 			vm->proc = begin;
-		begin = begin->next;
+		}
+		else
+		{
+			vm->proc->next = tmp;
+			vm->proc = vm->proc->next;
+		}
+	//	ft_printf("first begin->%p\n", begin);
+	//	ft_printf("first begin->next->%p\n", begin->next);
+		//ft_putnbr(begin->coreid);ft_putchar('\n');
+		tmp = tmp->next;
 	//	ft_putnbr(i);ft_putchar('\n');
 	}
+	vm->proc = begin;
 	begin = vm->proc;
-	while (begin)
+	while (begin)//
 	{
+		ft_printf("second %p\n", begin);
+		ft_printf("second begin%p\n", begin->next);
+		ft_putnbr(begin->coreid);ft_putchar('\n');
 		begin = begin->next;
-	}		
+	}	
 }
 
 /*
@@ -63,7 +79,7 @@ void		core_war(t_vm *vm)
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->proc = NULL;
 	init_proc(vm);
-	while (vm->proc)//vm->cycle < 1)// && vm->proc)
+	while (vm->cycle < 120)//vm->proc)//vm->cycle < 1)// && vm->proc)
 	{
 		if (vm->dump && vm->cycle == vm->dump)
 		{
@@ -72,7 +88,7 @@ void		core_war(t_vm *vm)
 		}
 		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
-		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % 10))// refresh with ncurse instead
+		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % DISPLAY_FQCY))// refresh with ncurse instead
 			display_memory(vm, 63);
 		get_proc_redcode(vm, &vm->proc);
 		if (!vm->cycle_to_die--)  // does cycle 0 exist?
@@ -97,10 +113,10 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 	vm->nb_process = 0;
 	while (lst)
 	{
-		redcode = vm->memory[lst->pc % MEM_SIZE];
-		ft_printf("0%x", redcode);
 		if (!((lst->cycle_wait--)))
 		{
+			redcode = vm->memory[lst->pc % MEM_SIZE];
+			ft_printf("Cycle: %d, Redcode: 0%x at memory[%d]\n", vm->cycle, redcode, lst->pc);//
 			fetch(vm, lst, redcode);
 			rc_cost(&lst->cycle_wait, redcode);	
 		}
@@ -165,7 +181,7 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 	if (redcode == 0x01)
 		rc_live(vm, proc);
 	else if (redcode == 0x02 || redcode == 0x0d)
-		rc_ld(vm, proc, redcode);
+		rc_ld(vm, proc, (redcode >> 3) ^ 1);
 	else if (redcode == 0x03)
 		rc_st(vm, proc);
 	else if (redcode == 0x04 || redcode == 0x05)
