@@ -6,14 +6,14 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 04:58:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 06:41:11 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 
-t_proc	*new_proc(int coreid, unsigned int redcode)
+t_proc	*new_proc(int coreid, int pc)
 {
 	t_proc	*proc;
 
@@ -21,12 +21,11 @@ t_proc	*new_proc(int coreid, unsigned int redcode)
 		errors(5, 0);
 	proc->next = NULL;
 	proc->live = 0; // check if it shouldnt be 1 ?
-	proc->pc = 0;
+	proc->pc = pc;
 	proc->carry = 0;
 	proc->cycle_wait = 0;
 	proc->coreid = coreid;
 	proc->reg[0] = proc->coreid;
-	proc->redcode = redcode;
 	ft_bzero(proc->reg, sizeof(proc->reg));
 	return (proc);
 }
@@ -41,21 +40,17 @@ void				init_proc(t_vm *vm)
 	i = -1;
 	while (++i< vm->players)
 	{
-		begin = new_proc(vm->core[i].id, vm->memory[i * MEM_SIZE / vm->players]);	
+		begin = new_proc(vm->core[i].id, i * MEM_SIZE / vm->players);
 		if (!i)
 			vm->proc = begin;
-		ft_putnbr(begin->redcode);ft_putchar('\n');
 		begin = begin->next;
 	//	ft_putnbr(i);ft_putchar('\n');
 	}
 	begin = vm->proc;
 	while (begin)
 	{
-		ft_putnbr(begin->redcode);ft_putchar('\n');
 		begin = begin->next;
-	}
-	
-		
+	}		
 }
 
 /*
@@ -66,8 +61,9 @@ void		core_war(t_vm *vm)
 {
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
+	vm->proc = NULL;
 	init_proc(vm);
-	while (vm->cycle < 1)// && vm->process)
+	while (vm->proc)//vm->cycle < 1)// && vm->proc)
 	{
 		if (vm->dump && vm->cycle == vm->dump)
 		{
@@ -183,7 +179,7 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 	else if (redcode == 0x0b)
 		rc_sti(vm, proc);
 	else if (redcode == 0x0c || redcode == 0x0f)
-		rc_fork(vm, proc, (16 - redcode) >> 2);
+		rc_fork(vm, proc, (0x10 - redcode) >> 2);
 	else if (redcode == 0x10)
 		rc_aff(vm, proc);
 	else
@@ -244,7 +240,10 @@ int		kill_proc(t_vm *vm, t_proc **proc)
 		lst = lst->next;
 	}
 	if (*proc && !((*proc)->live))
-		*proc = (*proc)->next; // if first item is dead then the next one become the first.
+		*proc = (*proc)->next; // if first item is dead then the next one become the first.	
+	lst = *proc;
+	while (lst && lst->live--)
+		lst = lst->next;
 	return (1);
 }
 
