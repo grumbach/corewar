@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 11:34:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 12:14:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_proc	*new_proc(int coreid, int pc)
 	t_proc	*proc;
 
 	if (!(proc = (t_proc *)ft_memalloc(sizeof(t_proc))))
-		errors(5, 0);
-	proc->next = NULL;
+		errors(5, 0); // demander a anselme pour free la memoire en cas d'echec du malloc
+	proc->next = NULL; // useless for init_proc but may be useful for forks
 	proc->live = 0; // check if it shouldnt be 1 ?
 	proc->pc = pc;
 	proc->carry = 0;
@@ -30,6 +30,10 @@ t_proc	*new_proc(int coreid, int pc)
 	ft_bzero(proc->reg, sizeof(proc->reg));
 	return (proc);
 }
+
+/*
+**
+*/
 
 void				init_proc(t_vm *vm)
 {
@@ -45,28 +49,16 @@ void				init_proc(t_vm *vm)
 		if (!i)
 		{
 			begin = tmp;
-			vm->proc = begin;
+			vm->proc = tmp;
 		}
 		else
 		{
 			vm->proc->next = tmp;
 			vm->proc = vm->proc->next;
 		}
-	//	ft_printf("first begin->%p\n", begin);
-	//	ft_printf("first begin->next->%p\n", begin->next);
-		//ft_putnbr(begin->coreid);ft_putchar('\n');
 		tmp = tmp->next;
-	//	ft_putnbr(i);ft_putchar('\n');
 	}
 	vm->proc = begin;
-	begin = vm->proc;
-	while (begin)//
-	{
-		ft_printf("second %p\n", begin);
-		ft_printf("second begin%p\n", begin->next);
-		ft_putnbr(begin->coreid);ft_putchar('\n');
-		begin = begin->next;
-	}	
 }
 
 /*
@@ -185,7 +177,7 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 	else if (redcode == 0x03)
 		rc_st(vm, proc);
 	else if (redcode == 0x04 || redcode == 0x05)
-		rc_add_sub(vm, proc, (redcode & 1) ? -1 : 1);
+		rc_add_sub(vm, proc, 9 - (redcode << 1));      
 	else if (redcode == 0x06 || redcode == 0x07 || redcode == 0x08)
 		rc_binary(vm, proc, redcode);
 	else if (redcode == 0x09)

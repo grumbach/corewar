@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 02:44:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:53:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ void			display_players(t_vm *vm)//
 	int	i;
 
 	i = 0;
+	ft_printf("\nIntroducing our Gladiators, Ave Caesar, Morituri te salutant :\n\n");
 	while (i < vm->players)
-	{
-		ft_printf("Introducing players :\n");
-		ft_printf("Player %d : %s\n", vm->core[i].id, vm->core[i].prog_name);
-		ft_printf("Magic : %06x\n", ft_endian(vm->core[i].magic));
-		ft_printf("Weight : %x\n", ft_endian(vm->core[i].prog_size));
-		ft_printf("Amy comment ? %s\n", vm->core[i].comment);
+	{	
+		ft_printf("\tPlayer %d : %s\n", vm->core[i].id, vm->core[i].prog_name);
+		ft_printf("\tMagic : %06x\n", ft_endian(vm->core[i].magic));
+		ft_printf("\tWeight : %x\n", ft_endian(vm->core[i].prog_size));
+		ft_printf("\tAmy comment ? %s\n", vm->core[i].comment);
+		ft_putchar('\n');
 		++i;
 	}	
 }

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 08:11:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:44:04 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,12 +225,12 @@ void			rc_aff(t_vm *vm, t_proc *proc);
 */
 
 unsigned int	ft_endian(unsigned int n);
-int				check_arg(unsigned char type, char a1, char a2, char a3);
 
 /*
-** error handling
+** error handling and misc
 */
 
 long			errors(int id, char *comment);
+int				check_arg(unsigned char type, char a1, char a2, char a3);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 02:29:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:48:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	init_cores(t_vm *vm, int i)
 		close(fd);
 		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
 			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");
-		else if (ft_endian(vm->core[i].prog_size) > CHAMP_MAX_SIZE)
+		else if (ft_endian(vm->core[i].prog_size) > CHAMP_MAX_SIZE) // this is the VALUE but maybe the file is still too big
 			errors(4, "Warrior's Program too long");
 		++i;
 	}

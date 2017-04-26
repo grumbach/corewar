@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 09:16:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/26 11:55:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ void			rc_live(t_vm *vm, t_proc *proc)
     int		id;
     int     i;
 
-    i = 0;
-    while (i++ < 4)
-    {
-        id <<= 8;
-        id += vm->memory[++proc->pc % MEM_SIZE]; 
-    }
+    i = 4;
+    while (i--)
+        id = (id << 8) + vm->memory[++proc->pc % MEM_SIZE]; 
     if (proc->coreid == id)
 		vm->last_id_alive = id;
  //   ft_putchar('\n');ft_putnbr(id);ft_putchar('\n');
