@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/27 18:27:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/28 00:18:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,13 @@ typedef struct			s_vm
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mgpvc"
+# define COREWAR_FLAGS 			"mgpvcn"
 # define F_MUSIC				1
 # define F_GRAPHIC_DISPLAY		2
 # define F_DISPLAY_PLAYERS		4
 # define F_DISPLAY_MEM			8
 # define F_DISPLAY_CYCLES		16
+# define F_DISPLAY_PROCESS		32
 
 # define DISPLAY_FQCY			5//debug
 
@@ -223,7 +224,7 @@ void			rc_binary(t_vm *vm, t_proc *proc, int redcode);
 void			rc_zjmp(t_vm *vm, t_proc *proc);
 void			rc_ldi(t_vm *vm, t_proc *proc, int redcode);
 void			rc_sti(t_vm *vm, t_proc *proc);
-void			rc_fork(t_vm *vm, t_proc *proc, int redcode);
+void			rc_fork(t_vm *vm, t_proc *current, int redcode);
 void			rc_aff(t_vm *vm, t_proc *proc);		
 
 /*

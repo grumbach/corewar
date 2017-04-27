@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/27 18:27:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/28 00:24:37 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void		core_war(t_vm *vm)
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	vm->proc = NULL;
 	init_proc(vm);
-	while (vm->cycle < 28)//vm->proc)//vm->cycle < 1)// && vm->proc)
+	while (vm->cycle < 12000)//vm->proc)//vm->cycle < 1)// && vm->proc)
 	{
 		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
-		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % DISPLAY_FQCY))// refresh with ncurse instead
+		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die))// refresh with ncurse instead
 			display_memory(vm, 63);
 		get_proc_redcode(vm, &vm->proc);
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
@@ -53,11 +53,13 @@ void		get_proc_redcode(t_vm *vm, t_proc **proc)
 {
 	t_proc		*lst;
 	int			redcode;
+//	int			i;//debug
 
 	lst = *proc;
-	vm->nb_process = 0;
+//	i = 0;
 	while (lst)
 	{
+	//	ft_printf("Hello Im proc %i at memory[%d]\n", vm->nb_process - i++, lst->pc);//
 		if (!((lst->cycle_wait--)))
 		{
 			redcode = vm->memory[lst->pc % MEM_SIZE];
@@ -142,8 +144,8 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 	else if (redcode == 0x0b)
 		rc_sti(vm, proc);
 	else if (redcode == 0x0c || redcode == 0x0f)
-		rc_fork(vm, proc, (0x10 - redcode) >> 2);
-	else if (redcode == 0x10)
+		rc_fork(vm, proc, !(redcode & 1));
+	else if (redcode >> 4)
 		rc_aff(vm, proc);
 	else
 		++proc->pc;
@@ -162,7 +164,7 @@ void	rc_cost(int *cycle_wait, int redcode)
 		*cycle_wait = 5;
 	else if (redcode == AND || redcode == OR || redcode == XOR)
 		*cycle_wait = 6;
-	else if (redcode == ADD || redcode == SUB || redcode == LLD)
+	else if (redcode == LIVE || redcode == ADD || redcode == SUB || redcode == LLD)
 		*cycle_wait = 10;
 	else if (redcode == ZJMP)
 		*cycle_wait = 20;
@@ -174,45 +176,4 @@ void	rc_cost(int *cycle_wait, int redcode)
 		*cycle_wait = 800;
 	else if (redcode == LFORK)
 		*cycle_wait = 1000;
-	
-}
-
-/*
-** once vm->cycle_to_die reaches 0 it is reset
-** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
-** we kill all processus who didn't use live
-*/
-
-void	reset_cycle(t_vm *vm)
-{
-	static int	cycle_to_die = CYCLE_TO_DIE;
-
-	if (++vm->check == 10 || vm->nb_total_live >= 21) // 9 // CHECKS == 10| 9 // verif si superieur ou egal ou juste superieur
-		vm->checks = 0;
-	vm->cycle_to_die = cycle_to_die - !vm->checks ? CYCLE_DELTA : 0; //	reinitialization
-}
-
-void	kill_proc(t_vm *vm, t_proc **proc)
-{
-	t_proc		*lst;
-	t_proc		*tmp;
-
-	lst = *proc;
-	while (lst)
-	{
-		if (lst->next && !lst->next->live)
-		{
-			tmp = lst->next;
-			tmp = NULL;
-			free(tmp);
-			lst->next = lst->next->next ? lst->next->next : NULL; // not sure if ternary is mandatory... have to check
-		}
-		else
-			lst->next->live = 0;
-		lst = lst->next;
-	}
-	if (*proc && !((*proc)->live))
-		lst = (*proc)->next; // if first item is dead then the next one become the first.	
-	while (lst && lst->live--)
-		lst = lst->next;
 }

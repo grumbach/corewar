@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 17:04:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/28 00:23:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,22 @@
 void		display_memory(t_vm *vm, int n)
 {
 	size_t	pc;
+	t_proc *lst;
+	int		i;
 
 	pc = 0;
+	i = 0;
 	ft_printf("\n");
+	if (vm->flags & F_DISPLAY_PROCESS)
+	{
+		ft_printf("You have %d processus alive\n", vm->nb_process);
+		lst = vm->proc;
+		while (lst)
+		{
+			ft_printf("process %d at vm->memory[%d] active in %d\n", ++i, lst->pc, lst->cycle_wait);
+			lst = lst->next;
+		}
+	}
 	if (n == 31)
 		ft_printf("Reached %d Cycle, Dumping Memory :\n\n\t", vm->dump);
 	else

@@ -6,93 +6,33 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/27 17:36:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/28 00:39:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 /*
-** adds the new process as the first element of the process list.
-*/
-
-void		add_process(t_process **process, int color, int uid)
-{
-    t_process	*new;
-
-	if (!(new = new_process(fd, uid, color)))
-		return (0);
-	new->next = *process;
-	*process = new;
-	return (1);
-}
-
-/*
-** converts to short
-*/
-
-short	cast_sh_int(char *tab)
-{
-	char integer[2];
-
-	integer[0] = tab[1];
-	integer[1] = tab[0];
-	return (*((short *)integer));
-}
-
-/*
-** position on the nap should not be negative
-*/
-
-int			index_memory(int index)
-{
-    return (index < 0 ? MEM_SIZE - (ft_abs(index) % MEM_SIZE) : index % MEM_SIZE);
-}
-
-/*
-** &&& FORK INSTRUCTION &&&
+** 0x0c rc_fork : no argument’s coding byte, take T_REG. Create a
+** new process that will inherit the different states of its father, except its PC,
+** which will be put at (PC + (1st parameter % IDX_MOD)).
 **
-** a new process is created with new = ft_memalloc(sizeof(t_process));
-** this process will be identical to the father process (ft_memcpy)
-** cycle_wait is set to 0 as the new process is already ready.
-** TO_DO : add the new process to our list of process AT THE START
-** fork: there is no argument’s coding byte, take an index, opcode 0x0c. Create a
-** new process that will inherit the different states of its father, except its PC, which
-** will be put at (PC + (1st parameter % IDX_MOD)).
+** 0x0f rc_lfork : long-fork. Same as a fork without modulo in the address.
 */
 
-void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
+void	rc_fork(t_vm *vm, t_proc *cur, int mod)
 {
 	t_proc	*new;
 
-	 new_proc(int coreid, int pc)
-	 ft_memcpy(new, proc, sizeof(t_proc));
-	 new->pc = 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-t_proc	*fork(t_mars *vm, t_process *cpu, char **arg)
-{
-    
-	short   index;
-	
-   
-	
-    index = cast_sh_int(arg[0]) % IDX_MOD);
-	new->pc = index_memory(index + new->last_position);
-    new->cycle_wait = 0;
-	
-	push_front_proc(&proc);
-
+	new = new_proc(0, 0);
+	ft_memcpy(new, cur, sizeof(t_proc));
+	new->pc += (vm->memory[cur->pc + 2] | vm->memory[cur->pc + 1] << 8);
+	cur->pc += 3;
+	if (mod)
+		new->pc %= (IDX_MOD);
+	new->pc %= MEM_SIZE;
+	new->cycle_wait = 0;
 	++vm->nb_process;
+	new->next = vm->proc;
+	vm->proc = new;
 }
