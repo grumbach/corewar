@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/26 16:56:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/27 18:27:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@ void		core_war(t_vm *vm)
 		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die % DISPLAY_FQCY))// refresh with ncurse instead
 			display_memory(vm, 63);
 		get_proc_redcode(vm, &vm->proc);
-		if (vm->cycle_to_die-- < 1)  // does cycle 0 exist?
-			kill_proc(vm, &vm->proc);
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
 		{
 			display_memory(vm, 31);
 			break;
+		}	
+		if (vm->cycle_to_die-- < 1)  // does cycle 0 exist?
+		{
+			reset_cycle(vm);
+			kill_proc(vm, &vm->proc);
 		}
 	}
 }
@@ -148,6 +151,7 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 
 /*
 ** AFF is for trolling purpose only :X
+** put at the start of each function above once project done to speed-up
 */
 
 void	rc_cost(int *cycle_wait, int redcode)
@@ -179,30 +183,36 @@ void	rc_cost(int *cycle_wait, int redcode)
 ** we kill all processus who didn't use live
 */
 
-int		kill_proc(t_vm *vm, t_proc **proc)
+void	reset_cycle(t_vm *vm)
+{
+	static int	cycle_to_die = CYCLE_TO_DIE;
+
+	if (++vm->check == 10 || vm->nb_total_live >= 21) // 9 // CHECKS == 10| 9 // verif si superieur ou egal ou juste superieur
+		vm->checks = 0;
+	vm->cycle_to_die = cycle_to_die - !vm->checks ? CYCLE_DELTA : 0; //	reinitialization
+}
+
+void	kill_proc(t_vm *vm, t_proc **proc)
 {
 	t_proc		*lst;
 	t_proc		*tmp;
-	static int	cycle_to_die = CYCLE_TO_DIE;
 
-	cycle_to_die -= CYCLE_DELTA;
-	vm->cycle_to_die = cycle_to_die;
 	lst = *proc;
 	while (lst)
 	{
-		while (lst->next && !lst->next->live)
+		if (lst->next && !lst->next->live)
 		{
 			tmp = lst->next;
 			tmp = NULL;
 			free(tmp);
 			lst->next = lst->next->next ? lst->next->next : NULL; // not sure if ternary is mandatory... have to check
 		}
+		else
+			lst->next->live = 0;
 		lst = lst->next;
 	}
 	if (*proc && !((*proc)->live))
-		*proc = (*proc)->next; // if first item is dead then the next one become the first.	
-	lst = *proc;
+		lst = (*proc)->next; // if first item is dead then the next one become the first.	
 	while (lst && lst->live--)
 		lst = lst->next;
-	return (1);
 }

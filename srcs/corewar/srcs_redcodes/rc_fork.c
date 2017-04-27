@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 17:40:00 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/27 17:36:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,38 @@ int			index_memory(int index)
 ** this process will be identical to the father process (ft_memcpy)
 ** cycle_wait is set to 0 as the new process is already ready.
 ** TO_DO : add the new process to our list of process AT THE START
+** fork: there is no argument’s coding byte, take an index, opcode 0x0c. Create a
+** new process that will inherit the different states of its father, except its PC, which
+** will be put at (PC + (1st parameter % IDX_MOD)).
 */
 
 void		rc_fork(t_vm *vm, t_proc *proc, int redcode)
 {
+	t_proc	*new;
 
+	 new_proc(int coreid, int pc)
+	 ft_memcpy(new, proc, sizeof(t_proc));
+	 new->pc = 
 }
+
+
+
+
+
+
+
+
+
 
 
 
 t_proc	*fork(t_mars *vm, t_process *cpu, char **arg)
 {
-    t_proc	*new;
+    
 	short   index;
 	
-    new_proc(int coreid, int pc)
-	ft_memcpy(new, cpu, sizeof(t_proc));
+   
+	
     index = cast_sh_int(arg[0]) % IDX_MOD);
 	new->pc = index_memory(index + new->last_position);
     new->cycle_wait = 0;
