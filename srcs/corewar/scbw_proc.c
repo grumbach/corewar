@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/28 00:32:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/29 02:55:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void				init_proc(t_vm *vm)
     int             i;
     t_proc          *proc;
 
+	vm->proc = NULL;
     vm->nb_process = vm->nb_players;
+//	ft_putnbr(vm->nb_players);//
     i = vm->nb_players - 1;
     proc = new_proc(vm->core[i].id, (vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players);
     while (i--)
@@ -55,6 +57,7 @@ void				init_proc(t_vm *vm)
     }
     if (vm->nb_players == 1)
         vm->proc = proc;
+//		ft_putnbr(vm->nb_process);//
 }
 
 /*

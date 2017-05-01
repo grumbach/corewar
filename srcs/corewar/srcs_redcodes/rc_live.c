@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/27 18:14:19 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/29 02:58:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void			rc_live(t_vm *vm, t_proc *proc)
   //  ft_putnbr(proc->pc);
   //  ft_putchar('\n');ft_putnbr(vm->memory[proc->pc]);
     ++proc->pc;
-	proc->live = 1;
+	++proc->live;
     ++vm->nb_total_live;
 }

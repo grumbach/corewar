@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/28 00:24:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/29 05:33:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 /*
 ** Our main program
+** gcc -framework GLUT -framework OpenGL -framework Cocoa opengl.gl -o vizualiser
 */
 
 void		core_war(t_vm *vm)
 {
 	vm->cycle = 0;
 	vm->cycle_to_die = CYCLE_TO_DIE;
-	vm->proc = NULL;
 	init_proc(vm);
-	while (vm->cycle < 12000)//vm->proc)//vm->cycle < 1)// && vm->proc)
+	while (vm->cycle < 5)//vm->proc)//vm->cycle < 1)// && vm->proc)
 	{
-		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("\nCycle %d", vm->cycle))
+		if (vm->flags & F_DISPLAY_PROCESS)
+			ft_printf("\nYou have %d processus alive\n", vm->nb_process);
+		if (vm->flags & F_DISPLAY_CYCLES && ft_printf("Cycle %d", vm->cycle))
 			ft_printf(", %d Cycles left\n", vm->cycle_to_die);
 		if (vm->flags & F_DISPLAY_MEM && !(vm->cycle_to_die))// refresh with ncurse instead
 			display_memory(vm, 63);
@@ -140,12 +142,12 @@ void	fetch(t_vm *vm, t_proc *proc, int redcode)
 	else if (redcode == 0x09)
 		rc_zjmp(vm, proc);
 	else if (redcode == 0x0a || redcode == 0x0e)
-		rc_ldi(vm, proc, redcode);
+		rc_ld(vm, proc, redcode);
 	else if (redcode == 0x0b)
 		rc_sti(vm, proc);
 	else if (redcode == 0x0c || redcode == 0x0f)
 		rc_fork(vm, proc, !(redcode & 1));
-	else if (redcode >> 4)
+	else if ((redcode >> 4) == 1)
 		rc_aff(vm, proc);
 	else
 		++proc->pc;

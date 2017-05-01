@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/04/26 02:37:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/04/29 02:15:33 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ int				check_arg(unsigned char type, char a1, char a2, char a3)
 	a[0] = a1;
 	a[1] = a2;
 	a[2] = a3;
-	i = -1;
-	while (++i < 3)
-		if ((!(a[i] & T_IND) && type >> 6 == REG_CODE)
-				|| (!(a[i] & T_DIR) && type >> 6 == DIR_CODE)
-				|| (!(a[i] & T_REG) && type >> 6 == IND_CODE))
-			return (FALSE);
+
+	ft_printf("\ntype : %0x\n", type);
+	if ((((type >> 6) & a[0]) != 1)
+		|| (((type >> 4) & a[1]) != 1) 
+		|| (((type >> 2) & a[2]) != 1))
+		return (FALSE);
+	ft_printf("args are valid\n");
 	return (TRUE);
 }
 

@@ -1,4 +1,5 @@
-live 1
-aff "trash"
-fork 1
-toto 6
+.name "Hikikomori"
+.comment "living the dream"
+        aff r2
+        live %1
+        fork %10

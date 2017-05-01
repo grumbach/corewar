@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/04/28 00:43:59 by angavrel         ###   ########.fr        #
+#    Updated: 2017/04/29 03:00:40 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC =	corewar.c \
 		srcs_redcodes/rc_ld.c \
 		srcs_redcodes/rc_fork.c \
 		srcs_redcodes/rc_st.c \
+		srcs_redcodes/rc_add_sub.c \
+		srcs_redcodes/rc_aff.c \
 
 ASM_SRC = asm.c
 
