@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 23:39:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:18:28 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,6 @@ void		init_rc(t_vm *vm)
 	ft_memcpy(vm->rc, rc, sizeof(rc));
 }
 
-static void		display_winner(t_vm *vm)//
-{
-	int	i;
-
-	i = 0;
-	ft_printf("\n   %{green}Glory to our surviving gladiator :\n\n%{eoc}");
-	while (i < vm->nb_players)
-	{
-		if (vm->core[i].id == vm->last_id_alive)
-		{
-			ft_printf("\t%{green}Name     %{red}%20s\n%{eoc}", vm->core[i].prog_name);
-			ft_printf("\t%{green}ID       %{cyan}%20d\n%{eoc}", vm->core[i].id);
-			ft_printf("\t%{green}Comment  %{yellow}%20s\n%{eoc}", vm->core[i].comment);
-			ft_printf("\t%{green}Weight   %{green}%20X\n\n%{eoc}", vm->core[i].prog_size);
-			ft_printf("\t%{green}Cycle    %{green}%20X\n\n%{eoc}", vm->cycle);
-			break;
-		}
-		++i;
-	}
-}
-
-
 /*
 ** if not parsed, dump will be initialized at -1 instead of 0.
 ** dump is used to display memory at the dump cycle
@@ -87,8 +65,6 @@ int			main(int ac, char **av)
 	gl_hf(&vm);
 	display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");
-//	if (vm.flags & F_GRAPHIC_DISPLAY)
-//		endwin();
 	return (0);
 }
 

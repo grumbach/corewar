@@ -21,7 +21,7 @@ VM_SRC = \
 	scbw_parse.c \
 	scbw_glhf.c \
 	scbw_scv.c \
-	scbw_display.c \
+	scbw_dump.c \
 	scbw_misc.c \
 	scbw_ncurse.c \
 	play_music.c \
@@ -228,7 +228,7 @@ dragon:
 # 				scbw_parse.c \
 # 				scbw_glhf.c \
 # 				scbw_scv.c \
-# 				scbw_display.c \
+# 				scbw_dump.c \
 # 				scbw_misc.c \
 # 				scbw_ncurse.c \
 # 				play_music.c \

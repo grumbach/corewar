@@ -6,13 +6,13 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 23:55:20 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:15:10 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-static void	curse_display_cycles(t_vm *vm)
+static void	curse_vm_info(t_vm *vm)//disp info about the vm on top of mem zone
 {
 	move(1, 10);
 	attron(COLOR_PAIR(3)); // replace the value 2 by corresponding scv color
@@ -26,7 +26,7 @@ static void	curse_display_cycles(t_vm *vm)
 ** attron is used to put the green color with attron(COLOR_PAIR(2));
 */
 
-void        curse_display_threads(t_vm *vm)
+void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 {
     t_scv   *scv_lst;
     int     i;
@@ -51,7 +51,7 @@ void        curse_display_threads(t_vm *vm)
 	refresh();
 }
 
-void		curse_color(t_vm *vm, t_scv *scv, int i)//colors memory depending on thread creator
+void		curse_color(t_vm *vm, t_scv *scv, int i)//colors mem depending on thread creator
 {
 	attron(COLOR_PAIR(3));
 	mvprintw(3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
@@ -66,7 +66,7 @@ void		curse_color(t_vm *vm, t_scv *scv, int i)//colors memory depending on threa
 ** 32 octets per line.
 */
 
-void    curse_display_memory(t_vm *vm, int n)
+void    curse_memory(t_vm *vm, int n)//disp memory
 {
 	size_t	pc;
 
@@ -92,7 +92,7 @@ void    curse_display_memory(t_vm *vm, int n)
 ** display player info
 */
 
-static void	curse_players(t_vm *vm)//
+static void	curse_players(t_vm *vm)//disp player info right of mem at start
 {
 	int	i;
 	int	offset;
@@ -111,9 +111,9 @@ static void	curse_players(t_vm *vm)//
 
 void		curse(t_vm *vm)
 {
-    curse_display_cycles(vm);
-    curse_display_memory(vm, 64);
-    curse_display_threads(vm);
+    curse_vm_info(vm);
+    curse_memory(vm, 64);
+    curse_scv(vm);
 
 //	mvwprintw(vm->win, 1200, 300, "%sHello World\n", "\033[35m", 123);
 //	mvprintw(0, 0, "Hello, world!");
@@ -167,3 +167,23 @@ void		init_curse(t_vm *vm)
 //	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
 //	box(vm->win, ACS_VLINE, ACS_HLINE);
 }
+
+
+/*
+void		bsw(unsigned char b)//
+{
+	int		a[4];
+	char	*s[4] = {"IND", "DIR", "REG", "..."};
+
+	a[0] = b >> 6;
+	a[1] = (b >> 4) & 3;
+	a[2] = (b>> 2) & 3;
+	a[3] = b & 3;
+
+    move(68, 0);
+	printw("--------------------------\n");
+    printw("Base 02 ~ %d %d %d %d", a[0] / 2, a[1] / 2, a[2] / 2, a[3] / 2);//
+	printw("  >>>  %s %s %s %s\n", s[0], s[1], s[2], s[3]);
+	printw("Hexa 16 ~ %#11x\nBase 10 ~ %11d\n------------------------\n", b, b);
+}
+*/

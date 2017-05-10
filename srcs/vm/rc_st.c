@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 23:54:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:09:02 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	rc_st(t_vm *vm, t_scv *scv)
 	int		i;
 	uint	n;
 
-	pc = 0;
 	n = scv->reg[vm->arg[0]];
 	i = 4;
 	while (i--)
 	{
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, i)
+			curse_color(vm, scv, i);
 		vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]
 			= (n >> (i << 3)) & 0xff;
 	}
@@ -66,13 +65,8 @@ void				rc_sti(t_vm *vm, t_scv *scv)
 	i = REG_SIZE;
 	while (i--)
 	{
-		if (vm->flags & F_DISPLAY_SCV)
-		{
-			attron(COLOR_PAIR(3));
-			mvprintw(3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
-				"%02x", vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)]);
-			attroff(COLOR_PAIR(3));
-		}
+		if (vm->flags & F_VISUAL)
+			curse_color(vm, scv, i);
 		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = (n >> (i << 3)) & 0xff;
 	}
 	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);

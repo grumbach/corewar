@@ -37,7 +37,7 @@ void		gl_hf(t_vm *vm)
 
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
 		{
-			curse_display_memory(vm, 32);
+			curse_memory(vm, 32);
 			break;
 		}
 		get_scv_redcode(vm, &vm->scv);

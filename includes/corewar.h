@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 23:40:56 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:22:45 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define COREWAR_H
 
 # include "libft.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <sys/types.h>
 # include <fcntl.h>
@@ -224,13 +225,15 @@ void			kill_scv(t_vm *vm, t_scv **scv);
 t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
 
 /*
-** display functions & bonus functions
+** display functions
 */
 
+void			display_winner(t_vm *vm);
+void			dump_memory(t_vm *vm);
 void			init_curse(t_vm *vm);
 void			curse(t_vm *vm);
-void			display_memory(t_vm *vm, int n); // (nbytes + 1) per line is displayed
-void    		curse_display_memory(t_vm *vm, int n);
+void			curse_color(t_vm *vm, t_scv *scv, int scv_nb);
+void    		curse_memory(t_vm *vm, int n);
 void			display_players(t_vm *vm);
 void			play_music();
 
