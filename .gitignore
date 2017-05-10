@@ -1,7 +1,0 @@
-.DS*
-*.o
-*.a
-asm
-corewar
-corewar.dSYM
-libft
