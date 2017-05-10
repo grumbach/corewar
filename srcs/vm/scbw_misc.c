@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:20:25 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/10 22:42:11 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void		cw_usage()
 {
 	ft_putstr_fd("\nusage: ./corewar [-"COREWAR_FLAGS"]"
 		" [-dump nbr_cycles >= 0] [[-n number] champion1.cor]\n", 2);
-	ft_putstr_fd("m : Adds music\t\t\tg : Vizualisation\t", 2);
-	ft_putstr_fd("p : Introduce Players\n", 2);
-	ft_putstr_fd("v : Show memory on terminal\tc : Display Cycles", 2);
-	ft_putstr_fd("\tc : Display Threads Activity\n", 2);
+	ft_putstr_fd("\tm : Adds music\t\t\tg : Vizualisation\t", 2);
+	ft_putstr_fd("\tp : Introduce Players\n", 2);
+	ft_putstr_fd("\tv : Show memory on terminal\tc : Display Cycles", 2);
+	ft_putstr_fd("\t\tc : Display Threads Activity\n", 2);
 }
 
 /*
@@ -74,6 +74,5 @@ long			errors(int id, char *comment)
 		ft_putstr_fd("Invalid Warrior Program\n", 2);
 	if (id == 5)
 		ft_putstr_fd("Failled to malloc a new scv\n", 2);
-
 	exit(1);
 }
