@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 00:22:45 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 01:48:24 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,14 @@ typedef struct			s_rc
 ** n is bytes per row
 */
 
+# define	KEY_ESCAPE	27
+# define	KEY_ENTER	10
+# define	KEY_UP		65
+# define	KEY_DOWN	66
+# define	KEY_PLUS	43
+# define	KEY_MINUS	45
+# define	KEY_SPACE	32
+
 typedef struct			s_curse
 {
 	WINDOW 				*win;
@@ -230,10 +238,9 @@ t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
 
 void			display_winner(t_vm *vm);
 void			dump_memory(t_vm *vm);
-void			init_curse(t_vm *vm);
-void			curse(t_vm *vm);
+void			curse_init(t_vm *vm);
 void			curse_color(t_vm *vm, t_scv *scv, int scv_nb);
-void    		curse_memory(t_vm *vm, int n);
+void    		curse_memory(t_vm *vm);
 void			display_players(t_vm *vm);
 void			play_music();
 

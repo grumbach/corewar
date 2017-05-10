@@ -6,21 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 00:39:11 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 01:19:43 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-static void	curse_vm_info(t_vm *vm)//disp info about the vm on top of mem zone
-{
-	move(1, 10);
-	attron(COLOR_PAIR(3)); // replace the value 2 by corresponding scv color
-	printw("Current Cycle : %d", vm->cycle);
-	printw("\t\tRemaining Cycles : %d", vm->cycle_to_die);
-	printw("\t\tThreads alive : %d", vm->nb_scv);
-	attroff(COLOR_PAIR(3));
-}
 
 /*
 ** attron is used to put the green color with attron(COLOR_PAIR(2));
@@ -47,7 +37,6 @@ void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 		attroff(COLOR_PAIR(1 + i));
         ++i;
 	}
-
 	refresh();
 }
 
@@ -57,6 +46,7 @@ void		curse_color(t_vm *vm, t_scv *scv, int i)//colors mem depending on thread c
 	mvprintw(3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
 	"%02x", vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]);
 	attroff(COLOR_PAIR(3));
+	refresh();
 }
 
 
@@ -66,17 +56,16 @@ void		curse_color(t_vm *vm, t_scv *scv, int i)//colors mem depending on thread c
 ** 32 octets per line.
 */
 
-void    curse_memory(t_vm *vm, int n)//disp memory
+void    curse_memory(t_vm *vm)//disp memory
 {
 	size_t	pc;
 
-	if (n == 32)
-	{
-		mvprintw(68, 10, "Reached %d Cycle, Dumping Memory", vm->dump);
-		n = 32;
-	}
-	else
-		n = vm->curse.n;
+	move(1, 10);
+	attron(COLOR_PAIR(3)); // replace the value 2 by corresponding scv color
+	printw("Current Cycle : %d", vm->cycle);
+	printw("\t\tRemaining Cycles : %d", vm->cycle_to_die);
+	printw("\t\tThreads alive : %d", vm->nb_scv);
+	attroff(COLOR_PAIR(3));
 	pc = 0;
 	attron(COLOR_PAIR(6));
 	while (pc < MEM_SIZE)
@@ -107,16 +96,7 @@ static void	curse_players(t_vm *vm)//disp player info right of mem at start
 		mvprintw(24 + i * 5, offset, "\tWeight : %X", vm->core[i].prog_size);
 		++i;
 	}
-}
-
-void		curse(t_vm *vm)
-{
-    curse_vm_info(vm);
-    curse_memory(vm, 64);
-    curse_scv(vm);
-
-//	mvwprintw(vm->win, 1200, 300, "%sHello World\n", "\033[35m", 123);
-//	mvprintw(0, 0, "Hello, world!");
+	refresh();
 }
 
 /*
@@ -139,7 +119,7 @@ void		curse(t_vm *vm)
 ** immediately change to the new definition.
 */
 
-void		init_curse(t_vm *vm)
+void		curse_init(t_vm *vm)
 {
     int		i;
 	int     row;
@@ -166,6 +146,7 @@ void		init_curse(t_vm *vm)
 	curse_players(vm);
 //	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
 //	box(vm->win, ACS_VLINE, ACS_HLINE);
+	curse_memory(vm);
 }
 
 

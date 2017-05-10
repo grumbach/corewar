@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:14:15 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 01:09:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ void			rc_live(t_vm *vm, t_scv *scv)
 		    vm->last_id_alive = scv->reg[vm->arg[0]];
 	        ++scv->live;
             ++vm->nb_total_live;
+            scv->carry = 1;
             break ;
         }
         ++i;
     }
-    scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+    scv->carry = 1;// a virer et corriger le live
    scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+    scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }

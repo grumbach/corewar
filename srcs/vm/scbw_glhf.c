@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 00:31:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 01:48:08 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,44 @@
 ** gcc -framework GLUT -framework OpenGL -framework Cocoa opengl.gl -o vizualiser
 */
 
+static int	user_input(t_vm *vm)
+{
+	int		key;
+
+	key = getch();
+	mvprintw(200, 300, "key : %d", key);//(key);
+	if (key == KEY_PLUS && vm->curse.speed > 0)
+		--vm->curse.speed;
+	else if (key == KEY_MINUS && vm->curse.speed < 10)
+		++vm->curse.speed;
+	else if (key == KEY_SPACE)
+		while ((key = getch()) != KEY_SPACE) // MOCHE !!
+			;
+	else if (key == KEY_ESCAPE)
+		return (0);
+	return (1);
+}
+
 void		gl_hf(t_vm *vm)
 {
-	int		user_input;
-
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	init_scv(vm);
-	if (vm->flags >> 1)
-	{
-		curse(vm);
-		sleep(1);
-	}
-	user_input = getch();
+	if (vm->flags & F_VISUAL)
+		curse_init(vm);
 	while (vm->scv)//vm->cycle < 1)// && vm->scv)
 	{
-	//		vm->win->erase();
-		if (vm->flags >> 1)
-			curse(vm);
-
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
-		{
-			curse_memory(vm, 32);
 			break;
-		}
 		get_scv_redcode(vm, &vm->scv);
 		if (vm->cycle_to_die-- < 1)  // !!! does cycle 0 exist? !!!
 		{
 			reset_cycle(vm);
 			kill_scv(vm, &vm->scv);
 		}
-		refresh();
-		user_input = getch();
-		if (user_input == 126 && vm->curse.speed > 0)
-			--vm->curse.speed;
-		else if (user_input == 125 && vm->curse.speed < 10)
-			++vm->curse.speed;
+		if (!user_input(vm))
+			break;
+		if (vm->flags & F_VISUAL)
+			curse_memory(vm);
 		sleep(vm->curse.speed);
 	}
 }
