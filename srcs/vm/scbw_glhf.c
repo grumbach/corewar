@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 23:32:52 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:31:17 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void		gl_hf(t_vm *vm)
 			break;
 		}
 		get_scv_redcode(vm, &vm->scv);
-		//	mvprintw(50, 200, "YAAAAAaaaaaaa4");////////////
 		if (vm->cycle_to_die-- < 1)  // !!! does cycle 0 exist? !!!
 		{
 			reset_cycle(vm);
@@ -96,12 +95,9 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 static int	check_octal(t_vm *vm, t_scv *scv)
 {
 	unsigned char	octal;
-//	int				i;
 	int				n;
 	int				pc;
 
-
-	//	mvprintw(55, 200, "Octal : %d", octal);//
 	if ((octal = vm->memory[++scv->pc & (MEM_SIZE - 1)]) & 3)
 		return (0);
 	pc = 0;

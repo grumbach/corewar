@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:15:45 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 00:30:41 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	rc_fork(t_vm *vm, t_scv *cur)
 {
 	t_scv	*new;
 
-//	mvprintw(70, 5, "POSITION %d", cur->pc);//
 	new = new_scv(0, 0);
 	ft_memcpy(new, cur, sizeof(t_scv));
 	new->cooldown = 0;
