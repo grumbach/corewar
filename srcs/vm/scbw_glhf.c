@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 21:59:41 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:32:52 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 	arg = 0;
 
 //	ft_putnbr(vm->rc[vm->memory[scv->pc]].dir_size);
+//	ft_printf("==%d==\n", vm->memory[scv->pc]);
 	if (type == REG_CODE)
 	{
 		arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)];
@@ -74,7 +75,7 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 			*pc = -1;
 	}
 	else if (type == DIR_CODE)
-		while (i++ < vm->rc[vm->memory[scv->pc]].dir_size)
+		while (i++ < vm->rc[vm->redcode].dir_size)
 			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
 	else if (type == IND_CODE)
 	{
@@ -92,7 +93,7 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 ** i is tab index;
 */
 
-static int	check_octal(t_vm *vm, t_scv *scv, int redcode)
+static int	check_octal(t_vm *vm, t_scv *scv)
 {
 	unsigned char	octal;
 //	int				i;
@@ -104,18 +105,18 @@ static int	check_octal(t_vm *vm, t_scv *scv, int redcode)
 	if ((octal = vm->memory[++scv->pc & (MEM_SIZE - 1)]) & 3)
 		return (0);
 	pc = 0;
-	n = 0;//vm->rc[redcode].arg_max;
-	while (n < vm->rc[redcode].arg_max)
+	n = 0;//vm->rc[vm->redcode].arg_max;
+	while (n < vm->rc[vm->redcode].arg_max)
 	{
-//		i = vm->rc[redcode].arg_max - n;ft_printf("aābbbbbbbb");//
+//		i = vm->rc[vm->redcode].arg_max - n;ft_printf("aābbbbbbbb");//
 		vm->type[n] = (octal >> ((3 - n) << 1)) & 3; // 01 00 00 00
-		if (!((vm->rc[redcode].arg[n] >> (vm->type[n] - 1)) & 1))
+		if (!((vm->rc[vm->redcode].arg[n] >> (vm->type[n] - 1)) & 1))
 			return (0);
 		vm->arg[n] = get_args(vm, scv, &pc, vm->type[n]);
 		if (pc < 0)
 			return (0);
 		//ft_printf("type %#08b\n", vm->type[n]);//
-	//	ft_printf("redcode %d\n", vm->rc[redcode].arg[n]);//
+	//	ft_printf("vm->redcode %d\n", vm->rc[vm->redcode].arg[n]);//
 		//ft_printf("arg %d\n", vm->arg[n]);//
 		++n;
 	}
@@ -123,19 +124,19 @@ static int	check_octal(t_vm *vm, t_scv *scv, int redcode)
 	return (1);
 }
 
-static int	fill_args(t_vm *vm, t_scv *scv, int redcode)
+static int	fill_args(t_vm *vm, t_scv *scv)
 {
 	int		i;
 	int		n;
 	int		pc;
 
 	pc = 0;
-	n = vm->rc[redcode].arg_max;
+	n = vm->rc[vm->redcode].arg_max;
 	while (n)
 	{
-		i = vm->rc[redcode].arg_max - n;
+		i = vm->rc[vm->redcode].arg_max - n;
 		vm->arg[i] = get_args(vm, scv, &pc, \
-			vm->rc[redcode].arg[i] - (vm->rc[redcode].arg[i] >> 2));// 1=1 2=2 4=3 oh my dayum
+			vm->rc[vm->redcode].arg[i] - (vm->rc[vm->redcode].arg[i] >> 2));// 1=1 2=2 4=3 oh my dayum
 		if (pc < 0)
 			return (0);
 		--n;
@@ -144,17 +145,18 @@ static int	fill_args(t_vm *vm, t_scv *scv, int redcode)
 	return (1);
 }
 
-void	fetch(t_vm *vm, t_scv *scv, int redcode)
+void	fetch(t_vm *vm, t_scv *scv)
 {
-	if (0 < redcode && redcode < 17)
+
+	if (0 < vm->redcode && vm->redcode < 17)
 	{
-		if (!vm->rc[redcode].octal)
-			fill_args(vm, scv, redcode);
+		if (!vm->rc[vm->redcode].octal)
+			fill_args(vm, scv);
 		else
-			if (!(check_octal(vm, scv, redcode)))
+			if (!(check_octal(vm, scv)))
 				return ;
-		vm->rc[redcode].func(vm, scv);
-		scv->cooldown = vm->rc[redcode].cooldown;
+		vm->rc[vm->redcode].func(vm, scv);
+		scv->cooldown = vm->rc[vm->redcode].cooldown;
 	}
 	else
 		scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
@@ -170,7 +172,6 @@ void	fetch(t_vm *vm, t_scv *scv, int redcode)
 void		get_scv_redcode(t_vm *vm, t_scv **scv)
 {
 	t_scv		*lst;
-	int			redcode;
 	int			i;
 
 	lst = *scv;
@@ -180,10 +181,8 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	//	ft_printf("Hello Im scv %i at memory[%d]\n", vm->nb_scv - i++, lst->pc);//
 		if (!(lst->cooldown))
 		{
-			redcode = vm->memory[lst->pc & (MEM_SIZE - 1)];  // % n is same as & (n-1) !!!!!!!!!!!!!!!!
-			if (vm->flags & F_DISPLAY_SCV)
-				mvprintw(30 + i++, 220, "Redcode: %d at memory[%d][%d]", redcode, lst->pc / vm->curse.n, lst->pc % vm->curse.n);//
-			fetch(vm, lst, redcode);
+			vm->redcode = vm->memory[lst->pc & (MEM_SIZE - 1)];  // % n is same as & (n-1) !!!!!!!!!!!!!!!!
+			fetch(vm, lst);
 		}
 		else
 			--lst->cooldown;

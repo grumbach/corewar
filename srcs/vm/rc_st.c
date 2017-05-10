@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 22:01:57 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:44:15 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,8 @@ void	rc_st(t_vm *vm, t_scv *scv)
 	i = 4;
 	while (i--)
 	{
-		if (vm->flags & F_DISPLAY_SCV)
-		{
-			attron(COLOR_PAIR(3));
-			mvprintw(3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
-				"%02x", vm->memory[(pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]);
-			attroff(COLOR_PAIR(3));
-		}
+		if (vm->flags & F_VISUAL)
+			
 		vm->memory[(pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]
 			= (n >> (i << 3)) & 0xff;
 	}

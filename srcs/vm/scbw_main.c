@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 16:19:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:39:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,6 @@ void		init_rc(t_vm *vm)
 		{&rc_aff, 1, {T_REG}, 2, 1, 2}
 	};
 	ft_memcpy(vm->rc, rc, sizeof(rc));
-}
-
-/*
-** display player info
-*/
-
-void			curse_players(t_vm *vm)//
-{
-	int	i;
-	int	offset;
-
-	i = 0;
-	offset = 240;
-	mvprintw(20, offset, "Our Gladiators, Ave Caesar, Morituri te salutant :");
-	while (i < vm->nb_players)
-	{
-		mvprintw(22 + i * 5, offset, "\tPlayer %d : %s", vm->core[i].id, vm->core[i].prog_name);
-		mvprintw(23 + i * 5, offset, "\tComment : %s", vm->core[i].comment);
-		mvprintw(24 + i * 5, offset, "\tWeight : %X", vm->core[i].prog_size);
-		++i;
-	}
 }
 
 static void		display_winner(t_vm *vm)//
@@ -101,16 +80,13 @@ int			main(int ac, char **av)
 		init_cores(&vm, 0);
 	else
 		errors(1, "No Players\n");
-	if (vm.flags & F_MUSIC)
+	if (!(vm.flags & F_MUTE))
 		play_music();
-	if (vm.flags >> 1)
+	if (vm.flags & F_VISUAL)
 		init_curse(&vm);
-	if (vm.flags & F_DISPLAY_PLAYERS)
-		curse_players(&vm);
 	gl_hf(&vm);
 	display_winner(&vm);
-	if (vm.flags & F_MUSIC) // verifier de test si la musique est terminee
-		system("killall afplay 2&>/dev/null >/dev/null");
+	system("killall afplay 2&>/dev/null >/dev/null");
 //	if (vm.flags & F_GRAPHIC_DISPLAY)
 //		endwin();
 	return (0);

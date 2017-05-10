@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 21:56:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:40:56 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ typedef struct			s_vm
 	int					last_check_live;
 	short				checks;
 	short				nb_total_live;
+	int					redcode;
 	t_rc				rc[17];
 	uint				arg[3];
 	unsigned char		type[3];
@@ -196,16 +197,9 @@ typedef struct			s_vm
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mgpvct"
-# define F_MUSIC				1
-# define F_GRAPHIC_DISPLAY		2
-# define F_DISPLAY_PLAYERS		4
-# define F_DISPLAY_MEM			8
-# define F_DISPLAY_CYCLES		16
-# define F_DISPLAY_SCV			32
-
-# define DISPLAY_FQCY			10//debug
-
+# define COREWAR_FLAGS 			"mv"
+# define F_MUTE					1
+# define F_VISUAL				2
 
 /*
 ** parsing options
@@ -224,7 +218,7 @@ void			init_scv(t_vm *vm);   // when parsing champ
 
 void			gl_hf(t_vm *vm);
 void			get_scv_redcode(t_vm *vm, t_scv **scv); // cooldown ready ?
-void			fetch(t_vm *vm, t_scv *scv, int redcode);  // execute new instruction
+void			fetch(t_vm *vm, t_scv *scv);  // execute new instruction
 void			reset_cycle(t_vm *vm);    // reset cycle and kill scv when cycle to die = 0
 void			kill_scv(t_vm *vm, t_scv **scv);
 t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv

@@ -6,19 +6,19 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:18:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:41:32 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-#include <sys/ioctl.h>
+#include <sys/ioctl.h>//
 
 /*
 ** at the end of nbr_cycles executed, dump the memory on the standard output
 ** and quit the game. The memory must be dumped in the hexadecimal format with
 ** 32 octets per line.
 */
-
+/*
 void		display_memory(t_vm *vm, int n)
 {
 	size_t	pc;
@@ -70,3 +70,4 @@ void		bsw(unsigned char b)//
 	printw("  >>>  %s %s %s %s\n", s[0], s[1], s[2], s[3]);
 	printw("Hexa 16 ~ %#11x\nBase 10 ~ %11d\n------------------------\n", b, b);
 }
+*/
