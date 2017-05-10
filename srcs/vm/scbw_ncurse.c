@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 23:48:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/10 23:55:20 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void        curse_display_threads(t_vm *vm)
 	refresh();
 }
 
-void		curse_color(t_vm *vm, t_scv *scv)//colors memory depending on thread creator
+void		curse_color(t_vm *vm, t_scv *scv, int i)//colors memory depending on thread creator
 {
 	attron(COLOR_PAIR(3));
 	mvprintw(3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
-	"%02x", vm->memory[(pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]);
+	"%02x", vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]);
 	attroff(COLOR_PAIR(3));
 }
 
