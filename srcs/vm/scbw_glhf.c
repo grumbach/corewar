@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 05:49:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:37:20 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static int	user_input(t_vm *vm)
 {
 	int		key;
-	
+
 	key = wgetch(vm->curse.win);
 	//	return (1);
 //	mvprintw(200, 300, "key : %d", key);//(key);
@@ -33,16 +33,13 @@ static int	user_input(t_vm *vm)
 //			;
 	else if (key == KEY_SPACE)
 		vm->curse.pause = 1 - vm->curse.pause;
-
 	else if (key == KEY_ESCAPE)
 	{
-	//	delwin(vm->curse.win);
+	//	kill_all_scv; // !!!!!!!!!!!!!!!!!! -> TO_DO
+		delwin(vm->curse.win);
 	//	clear();
 	//	refresh();
-
-	//	kill_all_scv; // !!!!!!!!!!!!!!!!!! -> TO_DO
 		endwin();
-	//	return (0);
 		exit(0);
 	}
 //	ft_putnbr(vm->curse.pause);
@@ -50,42 +47,6 @@ static int	user_input(t_vm *vm)
 	curse_memory(vm);
 	return (key);
 }
-
-void		gl_hf(t_vm *vm)
-{
-	vm->cycle_to_die = CYCLE_TO_DIE;
-	init_scv(vm);
-	if (vm->flags & F_VISUAL)
-		curse_init(vm);
-	while (vm->scv)//vm->cycle < 1)// && vm->scv)
-	{	
-//		if (!user_input(vm))
-//			break ;
-		if (vm->flags & F_VISUAL)
-		{
-			usleep(200000 - vm->curse.speed * 20000);
-			while (!user_input(vm) || vm->curse.pause)
-				;
-		}
-//		while (!user_input(vm) && vm->curse.pause)
-//			;
-		
-			
-//		nodelay(stdscr, vm->flags & F_PAUSE);
-		get_scv_redcode(vm, &vm->scv);			
-//		sleep(vm->curse.speed);
-		if (vm->cycle++ == vm->dump && vm->dump > -1)
-			break;
-		if (vm->cycle_to_die-- < 1)  // !!! does cycle 0 exist? !!!
-		{
-			reset_cycle(vm);
-			kill_scv(vm, &vm->scv);
-		}
-
-		
-	}
-}
-
 
 static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 {
@@ -102,6 +63,8 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 		arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)];
 		if (arg < 1 || arg > REG_NUMBER)
 			*pc = -1;
+		// if (NEED DEREFENCING)// most ?
+		// 	arg = mutate(vm, scv, arg, type);
 	}
 	else if (type == DIR_CODE)
 		while (i++ < vm->rc[vm->redcode].dir_size)
@@ -111,6 +74,8 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 		while (i++ < IND_SIZE)
 			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
 		arg &= (MEM_SIZE - 1);
+		// if (NEED DEREFENCING)// all but 1 or 2..?
+		// 	arg = mutate(vm, scv, arg, type);
 	}
 	return (arg);
 }
@@ -171,9 +136,8 @@ static int	fill_args(t_vm *vm, t_scv *scv)
 	return (1);
 }
 
-void	fetch(t_vm *vm, t_scv *scv)
+static void	fetch(t_vm *vm, t_scv *scv)
 {
-
 	if (0 < vm->redcode && vm->redcode < 17)
 	{
 		if (!vm->rc[vm->redcode].octal)
@@ -195,7 +159,7 @@ void	fetch(t_vm *vm, t_scv *scv)
 ** 3) check how long it will have to wait rc_cost(&lst->cooldown, redcode);
 */
 
-void		get_scv_redcode(t_vm *vm, t_scv **scv)
+static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 {
 	t_scv		*lst;
 	int			i;
@@ -204,7 +168,6 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	while (lst)
 	{
 		i = 0;
-
 	//	ft_printf("Hello Im scv %i at memory[%d]\n", vm->nb_scv - i++, lst->pc);//
 		if (!(lst->cooldown))
 		{
@@ -217,22 +180,33 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	}
 }
 
-/*
-int		check_octal(t_vm *vm, t_scv *scv, int redcode, unsigned char octal)
+void		gl_hf(t_vm *vm)
 {
-	int		i;
-	int		n;
-
-	if (octal & 3)
-		return (0);
-	n = vm->rc[redcode].arg_max;
-	while (n)
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	init_scv(vm);
+	if (vm->flags & F_VISUAL)
+		curse_init(vm);
+	while (vm->scv)//vm->cycle < 1)// && vm->scv)
 	{
-		i = vm->rc[redcode].arg_max - n;
-		vm->type[i] = (octal >> (n << 1)) & 3;
-		if (!((vm->rc[redcode].arg[i] >> (vm->type[i] - 1)) & 1))
-			return (0);
-		--n;
+//		if (!user_input(vm))
+//			break ;
+		if (vm->flags & F_VISUAL)
+		{
+			usleep(200000 - vm->curse.speed * 20000);
+			while (!user_input(vm) || vm->curse.pause)
+				;
+		}
+//		while (!user_input(vm) && vm->curse.pause)
+//			;
+//		nodelay(stdscr, vm->flags & F_PAUSE);
+		get_scv_redcode(vm, &vm->scv);
+//		sleep(vm->curse.speed);
+		if (vm->cycle++ == vm->dump && vm->dump > -1)
+			break;
+		if (vm->cycle_to_die-- < 1)  // !!! does cycle 0 exist? !!!
+		{
+			reset_cycle(vm);
+			kill_scv(vm, &vm->scv);
+		}
 	}
-	return (1);
-}*/
+}

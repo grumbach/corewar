@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 08:52:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 01:09:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:16:50 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void			rc_zjmp(t_vm *vm, t_scv *scv)
   //  vm->arg[0] >>= 8;
     if (scv->carry == 1)
     {
-        scv->pc += 2 + vm->arg[0];
+        scv->pc += vm->arg[0];
         scv->pc &= (IDX_MOD - 1);
     }
-    else
+/*    else
     {
         ++scv->pc;
         scv->pc &= (MEM_SIZE - 1);
-    }
+    }*/
 }

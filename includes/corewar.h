@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 06:42:46 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:04:10 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,8 @@ void			init_scv(t_vm *vm);   // when parsing champ
 */
 
 void			gl_hf(t_vm *vm);
-void			get_scv_redcode(t_vm *vm, t_scv **scv); // cooldown ready ?
-void			fetch(t_vm *vm, t_scv *scv);  // execute new instruction
+// void			get_scv_redcode(t_vm *vm, t_scv **scv); // cooldown ready ?
+// void			fetch(t_vm *vm, t_scv *scv);  // execute new instruction
 void			reset_cycle(t_vm *vm);    // reset cycle and kill scv when cycle to die = 0
 void			kill_scv(t_vm *vm, t_scv **scv);
 t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
@@ -271,7 +271,6 @@ void			rc_lldi(t_vm *vm, t_scv *scv);
 void			rc_lfork(t_vm *vm, t_scv *scv);
 void			rc_aff(t_vm *vm, t_scv *scv);
 
-
 /*
 ** future includes in libft
 */
@@ -279,11 +278,17 @@ void			rc_aff(t_vm *vm, t_scv *scv);
 unsigned int	ft_endian(unsigned int n);
 
 /*
-** error handling and misc
+** utils
+*/
+
+uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
+int				check_arg(unsigned char type, char a1, char a2, char a3);
+void			bsw(unsigned char a);//
+
+/*
+** error handling
 */
 
 long			errors(int id, char *comment);
-int				check_arg(unsigned char type, char a1, char a2, char a3);
-void			bsw(unsigned char a);//
 
 #endif

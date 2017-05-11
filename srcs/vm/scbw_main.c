@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 01:31:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:23:12 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int			main(int ac, char **av)
 	if (!(vm.flags & F_MUTE))
 		play_music();
 	gl_hf(&vm);
+	if (vm.flags & F_VISUAL)
+		system("reset");//plz b softer
 	if (vm.dump != -1)
 		dump_memory(&vm);
 	//!!! free scv list AGRUM!!!!!!!

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 06:59:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:11:54 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void		curse_window(WINDOW *win, int y, int x)
 	mvwprintw(win, 0, x - 1, "+");
 	mvwprintw(win, y - 1, x - 1, "+");
 	i = 0;
-	while (++i < 67)
+	while (++i < y)
 	{
 		mvwprintw(win, i, 0, "|");
 		mvwprintw(win, i, x - 1, "|");
 	}
 	i = 0;
-	while (++i < 156)
+	while (++i < x)
 	{
 		mvwprintw(win, 0, i, "-");
 		mvwprintw(win, y - 1, i, "-");
@@ -62,6 +62,8 @@ void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 			curse_color(vm, scv_lst, scv_lst->pc, 2);
 		//	wrefresh(vm->curse.win);
 		}
+		else
+			curse_color(vm, scv_lst, scv_lst->pc, 1);
 	//	mvwprintw(vm->curse.win, 3 + scv_lst->pc / vm->curse.n, 1 + (scv_lst->pc % vm->curse.n) * 3, "%02x", vm->memory[scv_lst->pc]);
 		if (i < 6)
 		{
@@ -72,7 +74,7 @@ void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 			++i;
 		}
 		scv_lst = scv_lst->next;
-		
+
 	}
 	wrefresh(vm->curse.win);
 }
@@ -97,7 +99,7 @@ void    curse_memory(t_vm *vm)//disp memory
 	mvwprintw(vm->curse.win, 1, 60, "Threads alive : %d", vm->nb_scv);
 	mvwprintw(vm->curse.win, 1, 90, "Game Speed : %02d [+] [-]", vm->curse.speed);
 	wattroff(vm->curse.win, COLOR_PAIR(11));
-	
+
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{
@@ -108,7 +110,7 @@ void    curse_memory(t_vm *vm)//disp memory
 		wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc]));
 		++pc;
 	}
-	
+
 //	wrefresh(vm->curse.win);
 	curse_scv(vm);
 }
@@ -144,16 +146,16 @@ void		curse_init(t_vm *vm)
 	init_pair(10, COLOR_WHITE, COLOR_CYAN);
 	init_pair(11, COLOR_GREEN, COLOR_BLACK);
 	init_pair(12, COLOR_BLACK, COLOR_GREEN);
-	init_pair(12, COLOR_WHITE, COLOR_GREEN);
+	init_pair(13, COLOR_WHITE, COLOR_GREEN);
 //	vm->curse.pause = 1;
 //	curse_players(vm);
-	vm->curse.win = newwin(200, 150, 0, 0);
+	vm->curse.win = newwin(vm->curse.y, vm->curse.x, 0, 0);
 	cbreak();
 	nodelay(vm->curse.win, TRUE);
 	curs_set(0);
 	noecho();
-//	box(vm->curse.win, '-' , '|');	
-//	
+//	box(vm->curse.win, '-' , '|');
+//
 //	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
 //	box(vm->win, ACS_VLINE, ACS_HLINE);
 }
