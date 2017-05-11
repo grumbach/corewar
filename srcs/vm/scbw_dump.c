@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 00:25:30 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 04:09:03 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void		display_winner(t_vm *vm)
 			ft_printf("\t%sID       \
 			%s%20d\n%s", GREEN, RED, vm->core[i].id, NORMAL);
 			ft_printf("\t%sComment  \
-			%s%20s\n%s", GREEN, RED, vm->core[i].comment, NORMAL);
+			%s%20s\n%s", GREEN, RED, vm->core[i].comment, NORMAL);// POTENTIALLY MORE THAN 20 CHARS !
 			ft_printf("\t%sWeight   \
 			%s%20X\n\n%s", GREEN, RED, vm->core[i].prog_size, NORMAL);
 			ft_printf("\t%sCycle    \
-			%s%20X\n\n%s", GREEN, BLUE, vm->cycle, NORMAL);
+			%s%20d\n\n%s", GREEN, BLUE, vm->cycle, NORMAL);
 			break;
 		}
 		++i;
@@ -48,6 +48,7 @@ void		dump_memory(t_vm *vm)
 {
 	size_t	pc;
 
+	if (vm->flags & F_VISUAL)
 	ft_printf("Reached cycle %d, now dumping memory :\n\n ", vm->dump);
 	pc = 0;
 	while (pc < MEM_SIZE)

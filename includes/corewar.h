@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 01:48:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 04:55:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,14 @@ typedef struct			s_rc
 ** players is the nb of player
 ** t_core has information for each player, on stack
 ** n is bytes per row
+** https://www.gnu.org/software/guile-ncurses/manual/html_node/
+**		Getting-characters-from-the-keyboard.html
 */
 
 # define	KEY_ESCAPE	27
-# define	KEY_ENTER	10
-# define	KEY_UP		65
-# define	KEY_DOWN	66
+//# define	KEY_ENTER	10
+//# define	KEY_UP		65
+//# define	KEY_DOWN	66
 # define	KEY_PLUS	43
 # define	KEY_MINUS	45
 # define	KEY_SPACE	32
@@ -175,8 +177,12 @@ typedef struct			s_rc
 typedef struct			s_curse
 {
 	WINDOW 				*win;
+	int					y;
+	int					x;
 	int					n;
 	int					speed;
+	char				pause;
+	int					key;
 }						t_curse;
 
 typedef struct			s_vm

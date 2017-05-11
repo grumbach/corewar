@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 01:48:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 05:49:35 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,35 @@
 static int	user_input(t_vm *vm)
 {
 	int		key;
-
-	key = getch();
-	mvprintw(200, 300, "key : %d", key);//(key);
-	if (key == KEY_PLUS && vm->curse.speed > 0)
-		--vm->curse.speed;
-	else if (key == KEY_MINUS && vm->curse.speed < 10)
+	
+	key = wgetch(vm->curse.win);
+	//	return (1);
+//	mvprintw(200, 300, "key : %d", key);//(key);
+	if (key == KEY_PLUS && vm->curse.speed < 10)
 		++vm->curse.speed;
+	else if (key == KEY_MINUS && vm->curse.speed > 0)
+		--vm->curse.speed;
+//	else if (key == KEY_SPACE)
+//		while ((key = getch()) != KEY_SPACE) // MOCHE !!
+//			;
 	else if (key == KEY_SPACE)
-		while ((key = getch()) != KEY_SPACE) // MOCHE !!
-			;
+		vm->curse.pause = 1 - vm->curse.pause;
+
 	else if (key == KEY_ESCAPE)
-		return (0);
-	return (1);
+	{
+	//	delwin(vm->curse.win);
+	//	clear();
+	//	refresh();
+
+	//	kill_all_scv; // !!!!!!!!!!!!!!!!!! -> TO_DO
+		endwin();
+	//	return (0);
+		exit(0);
+	}
+//	ft_putnbr(vm->curse.pause);
+	//	ft_putnbr(vm->curse.key);
+	curse_memory(vm);
+	return (key);
 }
 
 void		gl_hf(t_vm *vm)
@@ -42,20 +58,31 @@ void		gl_hf(t_vm *vm)
 	if (vm->flags & F_VISUAL)
 		curse_init(vm);
 	while (vm->scv)//vm->cycle < 1)// && vm->scv)
-	{
+	{	
+//		if (!user_input(vm))
+//			break ;
+		if (vm->flags & F_VISUAL)
+		{
+			usleep(200000 - vm->curse.speed * 20000);
+			while (!user_input(vm) || vm->curse.pause)
+				;
+		}
+//		while (!user_input(vm) && vm->curse.pause)
+//			;
+		
+			
+//		nodelay(stdscr, vm->flags & F_PAUSE);
+		get_scv_redcode(vm, &vm->scv);			
+//		sleep(vm->curse.speed);
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
 			break;
-		get_scv_redcode(vm, &vm->scv);
 		if (vm->cycle_to_die-- < 1)  // !!! does cycle 0 exist? !!!
 		{
 			reset_cycle(vm);
 			kill_scv(vm, &vm->scv);
 		}
-		if (!user_input(vm))
-			break;
-		if (vm->flags & F_VISUAL)
-			curse_memory(vm);
-		sleep(vm->curse.speed);
+
+		
 	}
 }
 
@@ -177,6 +204,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	while (lst)
 	{
 		i = 0;
+
 	//	ft_printf("Hello Im scv %i at memory[%d]\n", vm->nb_scv - i++, lst->pc);//
 		if (!(lst->cooldown))
 		{

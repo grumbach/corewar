@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:18:53 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 04:04:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,3 +109,36 @@ void	kill_scv(t_vm *vm, t_scv **scv)
 		ft_memdel((void **)&tmp);
     }
 }
+
+/* ANSELM TO_DO_LIST
+void	kill_all_scv(t_vm *vm, t_scv **scv)
+{
+	t_scv		*lst;
+	t_scv		*tmp;
+
+	lst = *scv;
+	while (lst)
+	{
+		if (lst->next)
+		{
+			if (!lst->next->live--)
+			{
+				tmp = lst->next;
+				lst->next = lst->next->next ? lst->next->next : NULL; // not sure if ternary is mandatory... have to check
+				ft_memdel((void **)&tmp);
+        		--vm->nb_scv;
+			}
+			else
+				--vm->nb_total_live; // !!!!!!!a verifier !!
+		}
+		lst = lst->next;
+	}
+	--vm->nb_total_live;
+	if (*scv && !((*scv)->live--) && vm->nb_scv--)
+    {
+        tmp = (*scv);
+		(*scv) = (*scv)->next; // if first item is dead then the next one become the first.
+		ft_memdel((void **)&tmp);
+    }
+}
+*/
