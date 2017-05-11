@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 04:55:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 06:42:46 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
 void			display_winner(t_vm *vm);
 void			dump_memory(t_vm *vm);
 void			curse_init(t_vm *vm);
-void			curse_color(t_vm *vm, t_scv *scv, int scv_nb);
+void			curse_color(t_vm *vm, t_scv *scv, int scv_position, int color);
 void    		curse_memory(t_vm *vm);
 void			display_players(t_vm *vm);
 void			play_music();

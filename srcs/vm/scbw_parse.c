@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 16:19:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 06:32:34 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,18 @@ void	init_cores(t_vm *vm, int i)
 		}
 	//	ft_printf("\nPROG SIZE %x\n", ft_endian(vm->core[i].prog_size));//
 		read(fd, &(vm->memory[(vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players]), vm->core[i].prog_size);
-		ft_memset(&(vm->creep[(vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players]), i, vm->core[i].prog_size);
+		ft_memset(&(vm->creep[(vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players]), (i * 3) + 2, vm->core[i].prog_size);
 	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->nb_players + (i & 1)]);
 		close(fd);
 		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
 			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");
+		
 //		else if (ft_endian(vm->core[i].prog_size != ) ~~~~A~~~~
 		++i;
 	}
+//	i = -1;
+//	while (++i < 4000)
+//	{
+//		ft_putchar('0'+ vm->creep[i]);
+//	}
 }

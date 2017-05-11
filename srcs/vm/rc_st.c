@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 00:09:02 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 06:56:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	rc_st(t_vm *vm, t_scv *scv)
 	while (i--)
 	{
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, i);
+			curse_color(vm, scv, (scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1), 1);
 		vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]
 			= (n >> (i << 3)) & 0xff;
 	}
@@ -66,7 +66,7 @@ void				rc_sti(t_vm *vm, t_scv *scv)
 	while (i--)
 	{
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, i);
+			curse_color(vm, scv, (scv->pc + 3 - i) & (MEM_SIZE - 1), 1);
 		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = (n >> (i << 3)) & 0xff;
 	}
 	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);

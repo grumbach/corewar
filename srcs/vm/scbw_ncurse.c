@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 05:55:09 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/11 06:59:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		curse_window(WINDOW *win, int y, int x)
 {
 	int		i;
 
-	wattron(win, COLOR_PAIR(6));
+	wattron(win, COLOR_PAIR(11));
 	mvwprintw(win, 0, 0, "+");
 	mvwprintw(win, y - 1, 0, "+");
 	mvwprintw(win, 0, x - 1, "+");
@@ -34,12 +34,18 @@ void		curse_window(WINDOW *win, int y, int x)
 		mvwprintw(win, y - 1, i, "-");
 	}
 	wrefresh(win);
-	wattroff(win, COLOR_PAIR(6));
+	wattroff(win, COLOR_PAIR(11));
 }
 
-/*
-** attron is used to put the green color with attron(COLOR_PAIR(2));
-*/
+void		curse_color(t_vm *vm, t_scv *scv, int pc, int color)//colors mem depending on thread creator
+{
+	wattron(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
+	mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + (pc % vm->curse.n) * 3,
+	"%02x", vm->memory[pc]);
+	wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
+	wrefresh(vm->curse.win);
+	(void)scv;// may be useful
+}
 
 void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 {
@@ -52,32 +58,25 @@ void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
 	{
 		if (!(scv_lst->cooldown))
 		{
-			attron(COLOR_PAIR(10));
-			mvwprintw(vm->curse.win, 3 + scv_lst->pc / vm->curse.n, 1 + (scv_lst->pc % vm->curse.n) * 3, "%02x", vm->memory[scv_lst->pc]);
-			attroff(COLOR_PAIR(10));
-			wrefresh(vm->curse.win);
+		//	vm->curse.pause = 1;//debug//
+			curse_color(vm, scv_lst, scv_lst->pc, 2);
+		//	wrefresh(vm->curse.win);
 		}
 	//	mvwprintw(vm->curse.win, 3 + scv_lst->pc / vm->curse.n, 1 + (scv_lst->pc % vm->curse.n) * 3, "%02x", vm->memory[scv_lst->pc]);
 		if (i < 6)
 		{
+			wattron(vm->curse.win, COLOR_PAIR(0 + (i << 1)));
 			mvwprintw(vm->curse.win, 100 + i % 3, 100 + (i / 3) * 150, "Scv %d at vm->memory[%d] active in %03d", i, scv_lst->pc, scv_lst->cooldown);
 			mvwprintw(vm->curse.win, 100 + i % 3, 100 + (i / 3) * 150, "REG[1] %d \tREG[2] %d \tREG[3] %d\n", scv_lst->reg[1], scv_lst->reg[2], scv_lst->reg[3]);
+			wattroff(vm->curse.win, COLOR_PAIR(0 + (i << 1)));
 			++i;
 		}
 		scv_lst = scv_lst->next;
-		attroff(COLOR_PAIR(1 + i));
+		
 	}
 	wrefresh(vm->curse.win);
 }
 
-void		curse_color(t_vm *vm, t_scv *scv, int i)//colors mem depending on thread creator
-{
-	attron(COLOR_PAIR(3));
-	mvwprintw(vm->curse.win, 3 + scv->pc / vm->curse.n, 1 + (scv->pc % vm->curse.n) * 3,
-	"%02x", vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]);
-	attroff(COLOR_PAIR(3));
-	wrefresh(vm->curse.win);
-}
 
 
 /*
@@ -92,22 +91,71 @@ void    curse_memory(t_vm *vm)//disp memory
 
 	curse_window(vm->curse.win, vm->curse.y, vm->curse.x);
 	move(1, 10);
-	attron(COLOR_PAIR(3)); // replace the value 2 by corresponding scv color
+	wattron(vm->curse.win, COLOR_PAIR(11)); // replace the value 2 by corresponding scv color
 	mvwprintw(vm->curse.win, 1, 2, "Current Cycle : %d", vm->cycle);
 	mvwprintw(vm->curse.win, 1, 30, "Remaining Cycles : %d", vm->cycle_to_die);
 	mvwprintw(vm->curse.win, 1, 60, "Threads alive : %d", vm->nb_scv);
-	mvwprintw(vm->curse.win, 1, 90, "Game Speed : %02d", vm->curse.speed);
-	attroff(COLOR_PAIR(3));
-	attron(COLOR_PAIR(6));
+	mvwprintw(vm->curse.win, 1, 90, "Game Speed : %02d [+] [-]", vm->curse.speed);
+	wattroff(vm->curse.win, COLOR_PAIR(11));
+	
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{
+		//ft_putchar(vm->creep[pc])
+	//	ft_putnbr(vm->creep[pc]);
+		wattron(vm->curse.win, COLOR_PAIR(vm->creep[pc]));
 		mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + (pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
+		wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc]));
 		++pc;
 	}
-	attroff(COLOR_PAIR(6));
-	wrefresh(vm->curse.win);
+	
+//	wrefresh(vm->curse.win);
 	curse_scv(vm);
+}
+
+
+void		curse_init(t_vm *vm)
+{
+    int		i;
+
+	vm->curse.speed = 2;
+	vm->curse.pause = 1;
+	initscr();
+    getmaxyx(stdscr, vm->curse.y, vm->curse.x);
+//	mvwprintw(vm->curse.win, 32, 220, "COLUMNS : %d", col);//
+	vm->curse.n = vm->curse.x / 3;
+	i = 1;
+	while (i < vm->curse.n)
+    	i <<= 1;
+	if ((vm->curse.n = i >> 1) < 1)
+		vm->curse.n = 4;
+    start_color();
+//	init_color(COLOR_CRIMSON, 0, 500, 1000); // use its own color instead
+    init_pair(0, COLOR_WHITE, COLOR_BLACK);
+	init_pair(1, COLOR_BLACK, COLOR_WHITE);
+	init_pair(2, COLOR_RED, COLOR_BLACK);
+	init_pair(3, COLOR_BLACK, COLOR_RED);
+	init_pair(4, COLOR_WHITE, COLOR_RED);
+    init_pair(5, COLOR_BLUE, COLOR_BLACK);
+	init_pair(6, COLOR_BLACK, COLOR_BLUE);
+	init_pair(7, COLOR_WHITE, COLOR_BLUE);
+	init_pair(8, COLOR_CYAN, COLOR_BLACK);
+	init_pair(9, COLOR_BLACK, COLOR_CYAN);
+	init_pair(10, COLOR_WHITE, COLOR_CYAN);
+	init_pair(11, COLOR_GREEN, COLOR_BLACK);
+	init_pair(12, COLOR_BLACK, COLOR_GREEN);
+	init_pair(12, COLOR_WHITE, COLOR_GREEN);
+//	vm->curse.pause = 1;
+//	curse_players(vm);
+	vm->curse.win = newwin(200, 150, 0, 0);
+	cbreak();
+	nodelay(vm->curse.win, TRUE);
+	curs_set(0);
+	noecho();
+//	box(vm->curse.win, '-' , '|');	
+//	
+//	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
+//	box(vm->win, ACS_VLINE, ACS_HLINE);
 }
 
 /*
@@ -150,47 +198,10 @@ static void	curse_players(t_vm *vm)//disp player info right of mem at start
 ** Each of the last three arguments must be a value between 0 and 1000.
 ** When init_color is used, all occurrences of that color on the screen
 ** immediately change to the new definition.
+** curs_set(0) hide cursor
+** nodelay is to be able to user key hook without waiting for user input
 */
 
-void		curse_init(t_vm *vm)
-{
-    int		i;
-
-	vm->curse.speed = 2;
-	vm->curse.pause = 1;
-	initscr();
-    getmaxyx(stdscr, vm->curse.y, vm->curse.x);
-//	mvwprintw(vm->curse.win, 32, 220, "COLUMNS : %d", col);//
-	vm->curse.n = vm->curse.x / 3;
-	i = 1;
-	while (i < vm->curse.n)
-    	i <<= 1;
-	if ((vm->curse.n = i >> 1) < 1)
-		vm->curse.n = 4;
-    start_color();
-//	init_color(COLOR_CRIMSON, 0, 500, 1000); // use its own color instead
-    init_pair(0, COLOR_GREEN, COLOR_BLACK);
-	init_pair(1, COLOR_BLACK, COLOR_GREEN);
-	init_pair(2, COLOR_RED, COLOR_BLACK);
-	init_pair(3, COLOR_BLACK, COLOR_RED);
-    init_pair(4, COLOR_BLUE, COLOR_BLACK);
-	init_pair(5, COLOR_BLACK, COLOR_BLUE);
-	init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
-	init_pair(7, COLOR_BLACK, COLOR_MAGENTA);
-	init_pair(8, COLOR_WHITE, COLOR_BLACK);
-	init_pair(9, COLOR_BLACK, COLOR_WHITE);
-	init_pair(10, COLOR_WHITE, COLOR_BLUE);
-//	vm->curse.pause = 1;
-//	curse_players(vm);
-	vm->curse.win = newwin(200, 150, 0, 0);
-	cbreak();
-	nodelay(vm->curse.win, TRUE);
-	noecho();
-//	box(vm->curse.win, '-' , '|');	
-//	
-//	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
-//	box(vm->win, ACS_VLINE, ACS_HLINE);
-}
 
 
 /*
