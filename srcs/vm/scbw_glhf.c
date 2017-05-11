@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 21:37:20 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/11 21:51:39 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,22 @@ static void	fetch(t_vm *vm, t_scv *scv)
 	else
 		scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }
+
+
+
+// IMPORTANT!! TODO
+// void		skip_if_octal_or_args_are_bullcrap()
+// {
+// 	if (octal)
+// 	{
+// 		pc+= sum(vm->types[])
+// 	}
+// 	else
+// 	{
+// 		pc+= sum(vm->rc.arg[])
+// 	}
+// }
+
 
 /*
 ** go through our scvus list and :
