@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:15:29 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/13 23:55:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,31 @@
 
 /*
 ** 0x02 rc_ld : Take a random argument and a registry (T_DIR | T_IND, T_REG).
-** Load the value of the argument in the registry and will change the carry.
+** Loads the value of the argument in the registry and changes the carry.
 */
 
 void			rc_ld(t_vm *vm, t_scv *scv)
 {
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	if (vm->type[0] == IND_CODE)
-		vm->arg[0] &= (IDX_MOD - 1);
-	scv->reg[vm->arg[1]] = vm->arg[0];     // IDX MOOD fonly for INDI
+		scv->reg[vm->arg[1]] = vm->arg[0] & (IDX_MOD - 1);// IDX MOOD fonly for INDI
+	else
+		scv->reg[vm->arg[1]] = vm->arg[0] & (MEM_SIZE - 1);
 	scv->carry = 1;
 	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }
 
 /*
-** 0x0d rc_lld : Means long-load. It the same as ld, but without % IDX_MOD.
+** 0x0d rc_lld : Means long-load. Similar to ld, but without % IDX_MOD.
 ** Also modifies the carry.
 */
 
 void			rc_lld(t_vm *vm, t_scv *scv)
 {
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	scv->reg[vm->arg[1]] = vm->arg[0] & (MEM_SIZE - 1);
 	scv->carry = 1;
-	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+	// scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);USELESS?
 }
 
 /*
