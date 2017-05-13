@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 04:04:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/13 23:25:59 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_scv	*new_scv(int coreid, int pc)
 	t_scv	*scv;
 
 	if (!(scv = (t_scv *)ft_memalloc(sizeof(t_scv))))
-		errors(5, 0);
+		errors(0, 0);
 	ft_bzero(scv->reg, sizeof(scv->reg));
 	scv->next = NULL;
 	scv->live = 0; // check if it shouldnt be 1 ?

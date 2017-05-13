@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 21:23:12 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/13 23:23:41 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			main(int ac, char **av)
 	if (vm.nb_players)
 		init_cores(&vm, 0);
 	else
-		errors(1, "No Players\n");
+		errors(1, "this memory is sad and lonely");
 	if (!(vm.flags & F_MUTE))
 		play_music();
 	gl_hf(&vm);
@@ -69,6 +69,29 @@ int			main(int ac, char **av)
 	display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);
+}
+
+/*
+** error handler
+*/
+
+long			errors(int id, char *comment)
+{
+	ft_putstr_fd("corewar: ", 2);
+	if (comment)
+		ft_putendl_fd(comment, 2);
+	if (id == 0)
+		ft_putendl_fd(strerror(errno), 2);
+	if (id == 2)
+		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "
+		"[-dump cyclecount] [-n id champ] [champs ...]\n"
+		"  -m : mute\n  -v : vizualizer\n", 2);
+	if (id == 3)
+		ft_putstr_fd("Name is too big give it up\n", 2);
+	if (id == 4)
+		ft_putstr_fd("\nPS: Any sufficiently advanced technology is"
+		"indistinguishable from magic\n", 2);
+	exit(1);
 }
 
 /*

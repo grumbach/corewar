@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 06:32:34 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/13 23:26:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 	int		j;
 
 	if (!(j = 0) && ac == 1)
-		errors(1, 0);
+		errors(2, "\n");
 	while (++i < ac)
 		if (ft_strequ(av[i], "-dump"))
 		{
 			if (av[i + 1] && ft_isdigit(*av[i + 1]))
 				vm->dump = ft_atoi(av[++i]);
 			else
-				errors(1, "Go take another dump");
+				errors(1, "go take another dump");
 		}
 		else if (ft_strequ(av[i], "-n"))
 		{
@@ -36,13 +36,13 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 				(*av[i] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
 				get_core(av, ft_atoi(av[i]), i, vm);
 			else
-				errors(1, "Invalid player id: should be nb > -1 or < -4");
+				errors(1, "invalid player id: should be > -1 or < -4");
 			++i;
 		}
 		else if (*av[i] != '-')
 			get_core(av, --j, i, vm);
 		else if (!parse_flag(av[i], &(vm->flags)))
-			errors(1, "Illegal option");
+			errors(2, "illegal option");
 }
 
 /*
@@ -55,14 +55,14 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 	int				j;
 
 	if (!(j = 0) && vm->nb_players == MAX_PLAYERS)
-		errors(1, "Too many players\n");
+		errors(1, "too many items");
 	vm->core[vm->nb_players].id = n;
 //	ft_printf("%d", n);
 	while (j < vm->nb_players)
 		if (vm->core[j++].id == vm->core[vm->nb_players].id)
-			errors(1, "Choose different ids for your champions\n");
+			errors(1, "one very bad id");
 	if ((n < 0 && n > -5 && !av[--i]) || !av[++i])
-		errors(1, "No champion\n");
+		errors(1, "boku no champion academia");
 	if (strlen(av[i]) > PROG_NAME_LENGTH)
 		errors(3, av[i]);
 	j = -1;
@@ -125,7 +125,7 @@ void	init_cores(t_vm *vm, int i)
 	{
 	//	ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
-			errors(4, "Failed to open champion file\n");
+			errors(0, vm->core[i].prog_name);
 		read(fd, &vm->core[i].magic, 4);
 		read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH);
 	//	ft_printf("\nPROG NAME %s\n", vm->core[i].prog_name);//
@@ -139,7 +139,7 @@ void	init_cores(t_vm *vm, int i)
 			> CHAMP_MAX_SIZE) // this is the VALUE but maybe the file is still too big
 		{
 			close(fd);
-			errors(4, "Warrior's Program too long");
+			errors(1, "way.... too... much.. code.");
 		}
 	//	ft_printf("\nPROG SIZE %x\n", ft_endian(vm->core[i].prog_size));//
 		read(fd, &(vm->memory[(vm->nb_players - i - 1) * MEM_SIZE / vm->nb_players]), vm->core[i].prog_size);
@@ -147,8 +147,8 @@ void	init_cores(t_vm *vm, int i)
 	//	ft_printf("\n%x\n", vm->memory[i * MEM_SIZE / vm->nb_players + (i & 1)]);
 		close(fd);
 		if (ft_endian(vm->core[i].magic) != COREWAR_EXEC_MAGIC)
-			errors(4, "Invalid file type, EXEC Code should be 0xea83f3");
-		
+			errors(4, "why not 0xea83f3 ?");
+
 //		else if (ft_endian(vm->core[i].prog_size != ) ~~~~A~~~~
 		++i;
 	}
