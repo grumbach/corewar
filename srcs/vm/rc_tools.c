@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 02:00:21 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/10 18:41:43 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 00:16:21 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 		return (scv->reg[raw]);
 	else if (type == IND_CODE)
 	{
-		i = raw;
+		if (vm->redcode < 13)
+			raw &= (IDX_MOD - 1); 
+		i = scv->pc + raw;
 		n = DIR_SIZE;
 		while (n--)
 			raw = vm->memory[i++ & (MEM_SIZE - 1)] | (raw << 8);
