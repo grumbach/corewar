@@ -24,10 +24,7 @@ void			rc_zjmp(t_vm *vm, t_scv *scv)
 {
     if (scv->carry == 1)
     {
-        scv->pc += vm->arg[0];
-        scv->pc &= (IDX_MOD - 1);
-		//NOTE why not this??? :O
-		// scv->pc += vm->arg[0] & (IDX_MOD - 1);
-		// scv->pc &= (MEM_SIZE - 1);
+		scv->pc += vm->arg[0] & (IDX_MOD - 1);
+		scv->pc &= (MEM_SIZE - 1);
     }
 }
