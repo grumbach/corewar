@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 21:49:04 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/10 16:17:47 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/15 00:30:15 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 
 void			rc_and(t_vm *vm, t_scv *scv)
 {
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = vm->arg[0] & vm->arg[1];
-	scv->carry = scv->reg[vm->arg[2]] ? 0 : 1;
+	scv->carry = 1;
 }
 
 /*
@@ -29,8 +31,10 @@ void			rc_and(t_vm *vm, t_scv *scv)
 
 void			rc_or(t_vm *vm, t_scv *scv)
 {
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = vm->arg[0] | vm->arg[1];
-	scv->carry = scv->reg[vm->arg[2]] ? 0 : 1;
+	scv->carry = 1;
 }
 
 /*
@@ -39,6 +43,8 @@ void			rc_or(t_vm *vm, t_scv *scv)
 
 void			rc_xor(t_vm *vm, t_scv *scv)
 {
-    scv->reg[vm->arg[2]] = vm->arg[0] ^ vm->arg[1];
-	scv->carry = scv->reg[vm->arg[2]] ? 0 : 1;
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->reg[vm->arg[2]] = vm->arg[0] ^ vm->arg[1];
+	scv->carry = 1;
 }
