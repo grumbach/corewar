@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/14 20:02:40 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 00:52:37 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void				init_scv(t_vm *vm)
 ** destroy a scv if live == 0
 */
 
+// TODO FIX THIS SHIT!!!!!!!!
 void	kill_dead_scvs(t_vm *vm, t_scv **scv)
 {
 	t_scv		*lst;

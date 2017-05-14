@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/14 19:44:47 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 01:03:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ typedef struct			s_scv
 
 typedef struct			s_core
 {
-	unsigned	magic;
 	char		prog_name[PROG_NAME_LENGTH + 1];
 	char		comment[COMMENT_LENGTH + 1];
 	unsigned	prog_size;
@@ -199,8 +198,8 @@ typedef struct			s_vm
 	t_scv				*scv;
 	uint				last_id_alive;
 	int					last_check_live;
-	short				checks;
-	short				nb_total_live;
+	int					checks;
+	int					nb_total_live;
 	int					redcode;
 	t_rc				rc[17];
 	uint				arg[3];
@@ -247,6 +246,8 @@ void			dump_memory(t_vm *vm);
 void			curse_init(t_vm *vm);
 void			curse_color(t_vm *vm, t_scv *scv, int scv_position, int color);
 void    		curse_memory(t_vm *vm);
+void			curse_putchar_log(uint c);
+void			curse_putstr_log(char *s);
 void			display_players(t_vm *vm);
 void			play_music();
 

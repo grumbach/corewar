@@ -6,11 +6,21 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/11 21:11:54 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 01:03:49 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
+
+void			curse_putchar_log(uint c)
+{
+	ft_putchar(c);//TODO!!
+}
+
+void			curse_putstr_log(char *s)
+{
+	ft_putstr(s);//TODO!!
+}
 
 void		curse_window(WINDOW *win, int y, int x)
 {
