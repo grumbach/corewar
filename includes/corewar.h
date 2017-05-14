@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/11 21:04:10 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/14 19:44:47 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct			s_scv
 {
 	unsigned int		reg[REG_NUMBER + 1];
 	int					live;
-	int					pc;
+	uint				pc;
 	int					cooldown;
 	int					carry;
 	struct s_scv	  	*next;
@@ -235,7 +235,7 @@ void			gl_hf(t_vm *vm);
 // void			get_scv_redcode(t_vm *vm, t_scv **scv); // cooldown ready ?
 // void			fetch(t_vm *vm, t_scv *scv);  // execute new instruction
 void			reset_cycle(t_vm *vm);    // reset cycle and kill scv when cycle to die = 0
-void			kill_scv(t_vm *vm, t_scv **scv);
+void			kill_dead_scvs(t_vm *vm, t_scv **scv);
 t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
 
 /*

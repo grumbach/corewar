@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/13 23:25:59 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/14 20:02:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,10 @@ void				init_scv(t_vm *vm)
 }
 
 /*
-** once vm->cycle_to_die reaches 0 it is reset
-** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
-** we kill all scvus who didn't use live
-*/
-
-void	reset_cycle(t_vm *vm)
-{
-	static int	cycle_to_die = CYCLE_TO_DIE;
-
-	if (++vm->checks == 10 || vm->nb_total_live >= 21) // 9 // CHECKS == 10| 9 // verif si superieur ou egal ou juste superieur
-		vm->checks = 0;
-	vm->cycle_to_die = cycle_to_die - (!vm->checks ? CYCLE_DELTA : 0);
-}
-
-/*
 ** destroy a scv if live == 0
 */
 
-void	kill_scv(t_vm *vm, t_scv **scv)
+void	kill_dead_scvs(t_vm *vm, t_scv **scv)
 {
 	t_scv		*lst;
 	t_scv		*tmp;
@@ -91,6 +76,7 @@ void	kill_scv(t_vm *vm, t_scv **scv)
 		{
 			if (!lst->next->live--)
 			{
+				//foamy boat!
 				tmp = lst->next;
 				lst->next = lst->next->next ? lst->next->next : NULL; // not sure if ternary is mandatory... have to check
 				ft_memdel((void **)&tmp);
@@ -110,7 +96,7 @@ void	kill_scv(t_vm *vm, t_scv **scv)
     }
 }
 
-/* ANSELM TO_DO_LIST
+/* TODO
 void	kill_all_scv(t_vm *vm, t_scv **scv)
 {
 	t_scv		*lst;

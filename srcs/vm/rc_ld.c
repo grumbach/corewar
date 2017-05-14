@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/13 23:55:32 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/14 23:56:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@
 void			rc_ld(t_vm *vm, t_scv *scv)
 {
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	if (vm->type[0] == IND_CODE)
-		scv->reg[vm->arg[1]] = vm->arg[0] & (IDX_MOD - 1);// IDX MOOD fonly for INDI
-	else
-		scv->reg[vm->arg[1]] = vm->arg[0] & (MEM_SIZE - 1);
+	scv->reg[vm->arg[1]] = vm->arg[0] & (IDX_MOD - 1);
 	scv->carry = 1;
 	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }
@@ -38,7 +35,6 @@ void			rc_lld(t_vm *vm, t_scv *scv)
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	scv->reg[vm->arg[1]] = vm->arg[0] & (MEM_SIZE - 1);
 	scv->carry = 1;
-	// scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);USELESS?
 }
 
 /*
@@ -49,18 +45,15 @@ void			rc_lld(t_vm *vm, t_scv *scv)
 
 void			rc_ldi(t_vm *vm, t_scv *scv)
 {
-	uint	pc;
-	int		i;
+	uint		pc;
 
-	if (vm->type[0] == IND_CODE)
-		vm->arg[0] %= IDX_MOD;
-	pc = (vm->arg[0] + vm->arg[1]);
-	i = REG_SIZE;
-	scv->reg[vm->arg[2]] = 0;
-	while (i--)
-		scv->reg[vm->arg[2]] |= vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)]
-			<< (i << 1);
-	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+
+	pc = ((vm->arg[0] + vm->arg[1]) & (IDX_MOD - 1)) & (MEM_SIZE - 1);
+
+	scv->reg[vm->arg[2]] = mutate(vm, scv, \
+		pc, IND_CODE);
 }
 
 /*
@@ -69,16 +62,9 @@ void			rc_ldi(t_vm *vm, t_scv *scv)
 
 void			rc_lldi(t_vm *vm, t_scv *scv)
 {
-	const uint	pc = (vm->arg[0] + vm->arg[1]);
-	int			i;
-
-	i = REG_SIZE;
-	scv->reg[vm->arg[2]] = 0;
-	while (i--)
-	{
-		scv->reg[vm->arg[2]] |= vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)]
-			<< (i << 1);
-	}
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->reg[vm->arg[2]] = mutate(vm, scv, \
+		(vm->arg[0] + vm->arg[1]) & (MEM_SIZE - 1), IND_CODE);
 	scv->carry = 1;
-	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }
