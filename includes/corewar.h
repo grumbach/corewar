@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 01:03:40 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 01:40:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ typedef struct			s_vm t_vm;
 
 typedef struct			s_scv
 {
-	unsigned int		reg[REG_NUMBER + 1];
-	int					live;
+	uint				reg[REG_NUMBER + 1];
 	uint				pc;
-	int					cooldown;
 	int					carry;
+	int					live;
+	int					cooldown;
 	struct s_scv	  	*next;
 }						t_scv;
 
@@ -112,12 +112,12 @@ typedef struct			s_scv
 
 typedef struct			s_core
 {
+	uint		prog_size;
+	uint		id;
+	uint		color;
 	char		prog_name[PROG_NAME_LENGTH + 1];
 	char		comment[COMMENT_LENGTH + 1];
-	unsigned	prog_size;
 	char		code[COMMENT_LENGTH + 1];// check about this it seems wrong
-	unsigned	id;
-	unsigned	color;
 }						t_core;
 
 /*
@@ -180,31 +180,31 @@ typedef struct			s_curse
 	int					x;
 	int					n;
 	int					speed;
-	char				pause;
 	int					key;
+	char				pause;
 }						t_curse;
 
 typedef struct			s_vm
 {
-	unsigned char		memory[MEM_SIZE];
-	unsigned char		creep[MEM_SIZE];
-	int					dump;
+	t_scv				*scv;
 	int					nb_scv;
 	int					flags;
 	int					nb_players;
-	t_core				core[MAX_PLAYERS];
 	int					cycle;
 	int					cycle_to_die;
-	t_scv				*scv;
+	int					checks;
 	uint				last_id_alive;
 	int					last_check_live;
-	int					checks;
 	int					nb_total_live;
+	int					dump;
 	int					redcode;
 	t_rc				rc[17];
 	uint				arg[3];
 	unsigned char		type[3];
 	t_curse				curse;
+	unsigned char		memory[MEM_SIZE];
+	unsigned char		creep[MEM_SIZE];
+	t_core				core[MAX_PLAYERS];
 }						t_vm;
 
 /*
