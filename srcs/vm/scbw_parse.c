@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 01:46:19 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 02:34:37 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 	int		j;
 
 	if (!(j = 0) && ac == 1)
-		errors(2, "\n");
+		errors(2, "");
 	while (++i < ac)
 		if (ft_strequ(av[i], "-dump"))
 		{

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/13 23:37:43 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 02:35:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,51 +21,48 @@
 
 void	rc_st(t_vm *vm, t_scv *scv)
 {
+	int		pc;
 	int		i;
-	uint	n;
 
-	n = scv->reg[vm->arg[0]];
-	i = 4;
-	while (i--)
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	if (vm->type[1] == IND_CODE)
 	{
-		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, (scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1), 1);
-		vm->memory[(scv->pc + (3 - i) % IDX_MOD) & (MEM_SIZE - 1)]
-			= (n >> (i << 3)) & 0xff;
+		i = 4;
+		pc = scv->pc + vm->arg[1] & (IDX_MOD - 1);
+		while (i--)
+		{
+			vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
+				(vm->arg[0] >> (i << 3)) & 0xff;
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, scv, (pc + 3 - i) & (MEM_SIZE - 1), 1);
+		}
 	}
+	else if (vm->type[1] == REG_CODE)
+		scv->reg[vm->arg[1]] = vm->arg[0];
 }
 
 /*
 ** 0x0b rc_sti :
-** a[0] = T_REG, a[1] = T_REG | T_DIR | T_IND, a[2] = T_DIR | T_REG
-** ex: 		0b 	(68)  01 		[01 (10) 11] 		[01 (10)]
+** sti: Opcode 11. Take a registry, and two indexes (potentially registries)
 ** add the two indexes, and use this result as an address where the value of
 ** the first parameter will be copied.
-** Example :
-** Type = 104 means 01,10,10,00 in binary : a[0] as reg, a[1] and a[2] as dir
-**
-** sti r2,%4,%5 sti copie REG_SIZE octet de r2 a l’adresse (4 + 5)
-** Les paramètres 2 et 3 sont des index. Si les paramètres 2 ou 3 sont
-** des registres, on utilisera leur contenu comme un index.
 */
 
 void				rc_sti(t_vm *vm, t_scv *scv)
 {
-	uint		pc;
-	int			i;
-	uint		n;
+	int		pc;
+	int		i;
 
-	if (vm->type[1] == IND_CODE)
-		vm->arg[1] %= IDX_MOD;
-	if (vm->type[2] == IND_CODE)
-		vm->arg[2] %= IDX_MOD;
-	pc = (vm->arg[1] + vm->arg[2]) & (MEM_SIZE - 1);
-	n = scv->reg[vm->arg[0]];
-	i = REG_SIZE;
+	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
+	i = 4;
+	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) & (IDX_MOD - 1));
 	while (i--)
 	{
+		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
+			(vm->arg[0] >> (i << 3)) & 0xff;
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, (scv->pc + 3 - i) & (MEM_SIZE - 1), 1);
-		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = (n >> (i << 3)) & 0xff;//whut?
+			curse_color(vm, scv, (pc + 3 - i) & (MEM_SIZE - 1), 1);
 	}
 }

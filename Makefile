@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/15 01:29:48 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/05/15 02:24:20 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,7 +128,7 @@ fclean: clean
 	@/bin/rm -f ${ASM_NAME}
 
 test:
-	@${CC} -g ${INCLUDES_VM} -fsanitize=address -Weverything ${LIB} \
+	@${CC} -g ${INCLUDES_VM} -fsanitize=address ${LIB} \
 	-I. -o ${VM_NAME} $(addprefix srcs/vm/, ${VM_SRC})
 	@${CC} -g ${INCLUDES_ASM} -fsanitize=address ${LIB} \
 	-I. -o ${ASM_NAME} $(addprefix srcs/asm/, ${ASM_SRC})
