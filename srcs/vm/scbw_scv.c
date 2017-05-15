@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 05:00:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 11:42:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,9 @@ void	kill_dead_scvs(t_vm *vm)
 	}
 }
 
-static void	zergling(void *scv, size_t i)
+void		call_zerglings(t_scv *scv)
 {
-	i = 42;
+	if (scv && scv->next)
+		call_zerglings(scv->next);
 	free(scv);
-}
-
-void		kill_all_scvs(t_vm *vm)
-{
-	void	*alst;
-
-	alst = &(vm->scv);
-	ft_printf("hi");//
-	ft_lstdel((t_list**)alst, &zergling);
-	ft_printf("a\n");//
 }

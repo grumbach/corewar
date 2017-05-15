@@ -6,47 +6,33 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 04:55:13 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 12:03:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-/*
-** Our main program
-** gcc -framework GLUT -framework OpenGL -framework Cocoa opengl.gl -o vizualiser
-*/
 
 static int	user_input(t_vm *vm)
 {
 	int		key;
 
 	key = wgetch(vm->curse.win);
-	//	return (1);
-//	mvprintw(200, 300, "key : %d", key);//(key);
 	if (key == KEY_PLUS && vm->curse.speed < 10)
 		++vm->curse.speed;
 	else if (key == KEY_MINUS && vm->curse.speed > 0)
 		--vm->curse.speed;
-//	else if (key == KEY_SPACE)
-//		while ((key = getch()) != KEY_SPACE) // MOCHE !!
-//			;
 	else if (key == KEY_SPACE)
 		vm->curse.pause = 1 - vm->curse.pause;
 	else if (key == KEY_ESCAPE)
 	{
-	//	kill_all_scvs; // !!!!!!!!!!!!!!!!!! -> TO_DO
 		delwin(vm->curse.win);
-	//	clear();
-	//	refresh();
 		endwin();
-		system("killall afplay");
-		kill_all_scvs(vm);
+		system("killall afplay 2&>/dev/null >/dev/null");
+		call_zerglings(vm->scv);
 		exit(0);
 	}
-//	ft_putnbr(vm->curse.pause);
-	//	ft_putnbr(vm->curse.key);
-	curse_memory(vm);
+	if (!vm->curse.pause)
+		curse_memory(vm);
 	return (key);
 }
 
@@ -196,6 +182,8 @@ void	reset_cycle(t_vm *vm)
 			cycle_to_die = SUDDEN_DEATH;
 	}
 	vm->cycle_to_die = cycle_to_die;
+	if (!(vm->flags & F_MUTE))
+		play_foam();
 	kill_dead_scvs(vm);
 	lst = vm->scv;
 	while (lst)
@@ -211,7 +199,7 @@ void		gl_hf(t_vm *vm)
 	init_scv(vm);
 	if (vm->flags & F_VISUAL)
 		curse_init(vm);
-	while (vm->scv)//vm->cycle < 1)// && vm->scv)
+	while (vm->scv)
 	{
 		if (vm->flags & F_VISUAL)
 		{

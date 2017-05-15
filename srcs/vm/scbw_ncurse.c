@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 04:50:46 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 12:04:02 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void		curse_color(t_vm *vm, t_scv *scv, int pc, int color)//colors mem depending
 {
 	if (color == 14)
 	{
-		play_foam();
 		wattron(vm->curse.win, COLOR_PAIR(color));
 		mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + \
 			(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
@@ -124,15 +123,12 @@ void    curse_memory(t_vm *vm)//disp memory
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{
-		//ft_putchar(vm->creep[pc])
-	//	ft_putnbr(vm->creep[pc]);
 		wattron(vm->curse.win, COLOR_PAIR(vm->creep[pc]));
 		mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + (pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
 		wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc]));
 		++pc;
 	}
-
-//	wrefresh(vm->curse.win);
+	wrefresh(vm->curse.win);
 	curse_scv(vm);
 }
 
@@ -176,6 +172,7 @@ void		curse_init(t_vm *vm)
 	nodelay(vm->curse.win, TRUE);
 	curs_set(0);
 	noecho();
+	curse_memory(vm);
 //	box(vm->curse.win, '-' , '|');
 //
 //	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!

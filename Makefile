@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/15 02:24:20 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/05/15 11:26:19 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,8 @@ CUT = "\033[K"
 ############################## RULES ###########################################
 
 all: libft ride ${VM_NAME} ${ASM_NAME} unicorn
+
+silent: libft ${VM_NAME} ${ASM_NAME} unicorn
 
 libft: dragon
 	@make -C libft/

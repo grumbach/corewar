@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 04:53:43 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 12:15:02 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ void			reset_cycle(t_vm *vm);
 
 t_scv			*new_scv(void);
 void			kill_dead_scvs(t_vm *vm);
-void			kill_all_scvs(t_vm *vm);
+void			call_zerglings(t_scv *scv);
 
 /*
 ** display functions
@@ -256,7 +256,7 @@ void			curse_putstr_log(char *s);
 */
 
 void			play_music();
-int				play_foam(void);
+void			play_foam(void);
 
 /*
 ** redcode functions

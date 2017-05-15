@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 04:57:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 11:43:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int			main(int ac, char **av)
 	init_rc(&vm);
 	vm.dump = -1;
 	parsing(ac, av, &vm, 0);
+	if (!(vm.flags & F_VISUAL))
+		vm.flags |= F_MUTE;
 	if (vm.nb_players)
 		init_cores(&vm, 0);
 	else
@@ -62,10 +64,13 @@ int			main(int ac, char **av)
 		play_music();
 	gl_hf(&vm);
 	if (vm.flags & F_VISUAL)
-		system("reset");//plz b softer
+	{
+		delwin(vm.curse.win);
+		endwin();
+	}
 	if (vm.dump != -1)
 		dump_memory(&vm);
-	kill_all_scvs(&vm);
+	call_zerglings(vm.scv);
 	display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);
