@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 12:03:31 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 14:50:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,16 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 		if (!(lst->cooldown))
 		{
 			vm->redcode = vm->memory[lst->pc & (MEM_SIZE - 1)];
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, lst, lst->pc, 2);
 			fetch(vm, lst);
 		}
 		else
+		{
 			--lst->cooldown;
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, lst, lst->pc, 1);
+		}
 		lst = lst->next;
 	}
 }

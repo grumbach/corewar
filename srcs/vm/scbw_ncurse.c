@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 13:10:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:15:41 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,38 +71,56 @@ void		curse_color(t_vm *vm, t_scv *scv, int pc, int color)//colors mem depending
 	(void)scv;//
 }
 
-void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
+static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
+{
+	uint		x;
+//	uint		y;
+
+	//while (++ < )
+	x = 0;
+	while (++x <= REG_NUMBER)
+	{
+		wattron(win, COLOR_PAIR(8));
+		mvwprintw(win, 3 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
+		mvwprintw(win, 4 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
+		mvwprintw(win, 5 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
+		mvwprintw(win, 6 + i * 5, 224 + x * 3, "%02x", reg[x] & 0xff);
+		wattron(win, COLOR_PAIR(8));
+	}
+}
+
+void        curse_scv(WINDOW *win, t_scv *scv)//disp info about working scvs right of mem
 {
     t_scv   *scv_lst;
     int     i;
-	int		reg;
 
     i = 0;
-	scv_lst = vm->scv;
+	wattron(win, COLOR_PAIR(11));
+	mvwprintw(win, 1, 220, "reg:   01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
+	wattroff(win, COLOR_PAIR(11));
+	scv_lst = scv;
 	while (scv_lst)
 	{
-		if (!(scv_lst->cooldown))
-			curse_color(vm, scv_lst, scv_lst->pc, 2);
-		else
-			curse_color(vm, scv_lst, scv_lst->pc, 1);
-		if (i < 12)
+		if (i < 16)
 		{
-			wattron(vm->curse.win, COLOR_PAIR(0 + (i << 1)));
-			mvwprintw(vm->curse.win, 100 + i, 250, "Scv %d at vm->memory[%d] active in %03d", i, scv_lst->pc, scv_lst->cooldown);
-			reg = 0;
-			// while (reg < REG_NUMBER)
-				// mvwprintw(vm->curse.win, 100 + i, 250, "REG[%d] %x\n", reg, scv_lst->reg[1]);
-			wattroff(vm->curse.win, COLOR_PAIR(0 + (i << 1)));
+			wattron(win, COLOR_PAIR(8));
+			mvwprintw(win, 3 + i * 5, 200, "pc       % 6u", scv_lst->pc);
+			mvwprintw(win, 4 + i * 5, 200, "cooldown % 6u", scv_lst->cooldown);
+			mvwprintw(win, 5 + i * 5, 200, "carry    % 6u", scv_lst->carry);
+			mvwprintw(win, 6 + i * 5, 200, "live     % 6u", scv_lst->live);
+			curse_reg(win, scv_lst->reg, i);
+			wattroff(win, COLOR_PAIR(8));
 			++i;
 		}
 		scv_lst = scv_lst->next;
 	}
-	wrefresh(vm->curse.win);
+	wrefresh(win);
 }
 
 
-/*
-** 46 00 00 00|	scv:			reg:45 45 00 00 45 45 00 00 45 45 00 00 45 45 00 00
+/*                           reg:   01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16
+**
+** 46 00 00 00|	    cooldown = 0	45 45 00 00 45 45 00 00 45 45 00 00 45 45 00 00
 ** 00 00 00 00|		pc = 0			45 45 00 00 45 45 00 00 45 45 00 00 45 45 00 00
 ** 00 00 00 00|		carry = 0		45 45 00 00 45 45 00 00 45 45 00 00 45 45 00 00
 ** 00 00 00 00|		live = 0		45 45 00 00 45 45 00 00 45 45 00 00 45 45 00 00
@@ -120,10 +138,12 @@ void    curse_memory(t_vm *vm)//disp memory
 	size_t	pc;
 
 	wattron(vm->curse.win, COLOR_PAIR(11));
-	mvwprintw(vm->curse.win, 1, 2, "Current Cycle : %d", vm->cycle);
-	mvwprintw(vm->curse.win, 1, 30, "Cycles to Die : %d", vm->cycle_to_die);
-	mvwprintw(vm->curse.win, 1, 60, "Threads Alive : %d", vm->nb_scv);
-	mvwprintw(vm->curse.win, 1, 90, "Game Speed : %02d [+] [-]", vm->curse.speed);
+	mvwprintw(vm->curse.win, 1, 2, "Current Cycle : % 6d", vm->cycle);
+	mvwprintw(vm->curse.win, 1, 30, "Cycles to Die : % 6d", vm->cycle_to_die);
+	mvwprintw(vm->curse.win, 1, 60, "Threads Alive : % 6d", vm->nb_scv);
+	mvwprintw(vm->curse.win, 1, 90, "Total Lives : % 6d", vm->nb_total_live);
+	mvwprintw(vm->curse.win, 1, 120, "Last Live : % 4d", vm->last_id_alive);
+	mvwprintw(vm->curse.win, 1, 169, "Game Speed : %02d [+] [-]", vm->curse.speed);
 	wattroff(vm->curse.win, COLOR_PAIR(11));
 
 	pc = 0;
@@ -135,7 +155,7 @@ void    curse_memory(t_vm *vm)//disp memory
 		++pc;
 	}
 	wrefresh(vm->curse.win);
-	curse_scv(vm);
+	curse_scv(vm->curse.win, vm->scv);
 }
 
 
