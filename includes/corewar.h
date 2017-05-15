@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 15:10:38 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:58:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct			s_scv
 	int					carry;
 	int					live;
 	int					cooldown;
+	int					color;
 	struct s_scv	  	*next;
 }						t_scv;
 
@@ -246,7 +247,7 @@ void			call_zerglings(t_scv *scv);
 void			display_winner(t_vm *vm);
 void			dump_memory(t_vm *vm);
 void			curse_init(t_vm *vm);
-void			curse_color(t_vm *vm, t_scv *scv, int scv_position, int color);
+void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_putchar_log(uint c);
 void			curse_putstr_log(char *s);

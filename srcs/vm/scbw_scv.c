@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 11:42:18 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:58:57 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ void				init_scv(t_vm *vm)
     vm->nb_scv = vm->nb_players;
     i = vm->nb_players - 1;
 	scv = new_scv();
+	scv->color = vm->nb_players * 3 - 1;
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
 	scv->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
     while (i--)
     {
         scv->next = new_scv();
+		scv->next->color = i * 3 + 2;
 		scv->next->reg[1] = vm->core[i].id;
 		scv->next->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
         scv = scv->next;
@@ -65,7 +67,7 @@ void	kill_dead_scvs(t_vm *vm)
 		if (!lst->next->live)
 		{
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->next, lst->next->pc, 14);
+				curse_color(vm, lst->next->pc, 14);
 			tmp = lst->next;
 			lst->next = lst->next->next;
 			free(tmp);

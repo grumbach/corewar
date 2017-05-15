@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 04:31:40 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:59:29 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	rc_st(t_vm *vm, t_scv *scv)
 		{
 			vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
 				(vm->arg[0] >> (i << 3)) & 0xff;
-			// vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->reg[1];
+			vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, scv, (pc + 3 - i) & (MEM_SIZE - 1), 1);
+				curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), \
+				scv->color + 1);
 		}
 	}
 	else if (vm->type[1] == REG_CODE)
@@ -63,7 +64,8 @@ void				rc_sti(t_vm *vm, t_scv *scv)
 	{
 		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
 			(vm->arg[0] >> (i << 3)) & 0xff;
+		vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv, (pc + 3 - i) & (MEM_SIZE - 1), 1);
+			curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), scv->color + 1);
 	}
 }
