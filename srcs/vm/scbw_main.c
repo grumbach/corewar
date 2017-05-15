@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 02:34:26 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:57:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			main(int ac, char **av)
 		system("reset");//plz b softer
 	if (vm.dump != -1)
 		dump_memory(&vm);
-	//!!! free scv list AGRUM!!!!!!!
+	kill_all_scvs(&vm);
 	display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);

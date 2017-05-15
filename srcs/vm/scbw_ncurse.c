@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 01:03:49 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:50:46 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,23 @@ void		curse_window(WINDOW *win, int y, int x)
 
 void		curse_color(t_vm *vm, t_scv *scv, int pc, int color)//colors mem depending on thread creator
 {
-	wattron(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
-	mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + (pc % vm->curse.n) * 3,
-	"%02x", vm->memory[pc]);
-	wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
+	if (color == 14)
+	{
+		play_foam();
+		wattron(vm->curse.win, COLOR_PAIR(color));
+		mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + \
+			(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
+		wattroff(vm->curse.win, COLOR_PAIR(color));
+	}
+	else
+	{
+		wattron(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
+		mvwprintw(vm->curse.win, 3 + pc / vm->curse.n, 1 + \
+			(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
+		wattroff(vm->curse.win, COLOR_PAIR(vm->creep[pc] + color));
+	}
 	wrefresh(vm->curse.win);
-	(void)scv;// may be useful
+	(void)scv;//
 }
 
 void        curse_scv(t_vm *vm)//disp info about working scvs right of mem
@@ -105,8 +116,8 @@ void    curse_memory(t_vm *vm)//disp memory
 	move(1, 10);
 	wattron(vm->curse.win, COLOR_PAIR(11)); // replace the value 2 by corresponding scv color
 	mvwprintw(vm->curse.win, 1, 2, "Current Cycle : %d", vm->cycle);
-	mvwprintw(vm->curse.win, 1, 30, "Remaining Cycles : %d", vm->cycle_to_die);
-	mvwprintw(vm->curse.win, 1, 60, "Threads alive : %d", vm->nb_scv);
+	mvwprintw(vm->curse.win, 1, 30, "Cycles to Die : %d", vm->cycle_to_die);
+	mvwprintw(vm->curse.win, 1, 60, "Threads Alive : %d", vm->nb_scv);
 	mvwprintw(vm->curse.win, 1, 90, "Game Speed : %02d [+] [-]", vm->curse.speed);
 	wattroff(vm->curse.win, COLOR_PAIR(11));
 
@@ -157,6 +168,7 @@ void		curse_init(t_vm *vm)
 	init_pair(11, COLOR_GREEN, COLOR_BLACK);
 	init_pair(12, COLOR_BLACK, COLOR_GREEN);
 	init_pair(13, COLOR_WHITE, COLOR_GREEN);
+	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
 //	vm->curse.pause = 1;
 //	curse_players(vm);
 	vm->curse.win = newwin(vm->curse.y, vm->curse.x, 0, 0);

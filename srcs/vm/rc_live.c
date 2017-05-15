@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 00:48:50 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:18:34 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void			rc_live(t_vm *vm, t_scv *scv)
 	while (++i < vm->nb_players)
 		if (vm->core[i].id == vm->arg[0])
 		{
+			vm->last_id_alive = vm->arg[0];
 			++scv->live;
 			++vm->nb_total_live;
 		}

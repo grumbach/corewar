@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 03:58:25 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:55:13 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	user_input(t_vm *vm)
 	//	clear();
 	//	refresh();
 		endwin();
+		system("killall afplay");
+		kill_all_scvs(vm);
 		exit(0);
 	}
 //	ft_putnbr(vm->curse.pause);
@@ -190,6 +192,8 @@ void	reset_cycle(t_vm *vm)
 	{
 		vm->checks = 0;
 		cycle_to_die -= CYCLE_DELTA;
+		if (cycle_to_die < 0)
+			cycle_to_die = SUDDEN_DEATH;
 	}
 	vm->cycle_to_die = cycle_to_die;
 	kill_dead_scvs(vm);

@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 04:09:52 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:53:43 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef char	t_arg_type;
 
 # define CYCLE_TO_DIE			1536
 # define CYCLE_DELTA			50
+# define SUDDEN_DEATH			4
 # define NBR_LIVE				21
 # define MAX_CHECKS				10
 
@@ -224,13 +225,19 @@ void			init_cores(t_vm *vm, int i);
 void			init_scv(t_vm *vm);
 
 /*
-** the fight begins
+** virtual machine
 */
 
 void			gl_hf(t_vm *vm);
 void			reset_cycle(t_vm *vm);
-void			kill_dead_scvs(t_vm *vm);
+
+/*
+** scvs functions
+*/
+
 t_scv			*new_scv(void);
+void			kill_dead_scvs(t_vm *vm);
+void			kill_all_scvs(t_vm *vm);
 
 /*
 ** display functions

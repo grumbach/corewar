@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 04:03:41 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 05:00:17 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	kill_dead_scvs(t_vm *vm)
 	{
 		if (!lst->next->live)
 		{
-			if (vm->flags & F_VISUAL && play_foam())
-				curse_color(vm, lst->next, lst->next->pc, 0);
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, lst->next, lst->next->pc, 14);
 			tmp = lst->next;
 			lst->next = lst->next->next;
 			free(tmp);
@@ -90,7 +90,10 @@ static void	zergling(void *scv, size_t i)
 
 void		kill_all_scvs(t_vm *vm)
 {
-	const void *alst = &(vm->scv);
+	void	*alst;
 
+	alst = &(vm->scv);
+	ft_printf("hi");//
 	ft_lstdel((t_list**)alst, &zergling);
+	ft_printf("a\n");//
 }
