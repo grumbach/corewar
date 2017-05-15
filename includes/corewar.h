@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 01:40:31 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 04:09:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,6 @@ typedef struct			s_rc
 */
 
 # define	KEY_ESCAPE	27
-//# define	KEY_ENTER	10
-//# define	KEY_UP		65
-//# define	KEY_DOWN	66
 # define	KEY_PLUS	43
 # define	KEY_MINUS	45
 # define	KEY_SPACE	32
@@ -224,18 +221,16 @@ void			get_core(char **av, int n, int i, t_vm *vm);
 int				parse_flag(char *s, int *flags);
 int				flag_index(char *s, int c);
 void			init_cores(t_vm *vm, int i);
-void			init_scv(t_vm *vm);   // when parsing champ
+void			init_scv(t_vm *vm);
 
 /*
 ** the fight begins
 */
 
 void			gl_hf(t_vm *vm);
-// void			get_scv_redcode(t_vm *vm, t_scv **scv); // cooldown ready ?
-// void			fetch(t_vm *vm, t_scv *scv);  // execute new instruction
-void			reset_cycle(t_vm *vm);    // reset cycle and kill scv when cycle to die = 0
-void			kill_dead_scvs(t_vm *vm, t_scv **scv);
-t_scv			*new_scv(int coreid, int pc); // occurring if forked OR init scv
+void			reset_cycle(t_vm *vm);
+void			kill_dead_scvs(t_vm *vm);
+t_scv			*new_scv(void);
 
 /*
 ** display functions
@@ -248,8 +243,13 @@ void			curse_color(t_vm *vm, t_scv *scv, int scv_position, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_putchar_log(uint c);
 void			curse_putstr_log(char *s);
-void			display_players(t_vm *vm);
+
+/*
+** sound functions
+*/
+
 void			play_music();
+int				play_foam(void);
 
 /*
 ** redcode functions
@@ -273,23 +273,12 @@ void			rc_lfork(t_vm *vm, t_scv *scv);
 void			rc_aff(t_vm *vm, t_scv *scv);
 
 /*
-** future includes in libft
-*/
-
-unsigned int	ft_endian(unsigned int n);
-
-/*
 ** utils
 */
 
+long			errors(int id, char *comment);
+unsigned int	endianize(unsigned int n);
 uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
 int				check_arg(unsigned char type, char a1, char a2, char a3);
-void			bsw(unsigned char a);//
-
-/*
-** error handling
-*/
-
-long			errors(int id, char *comment);
 
 #endif

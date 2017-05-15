@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/14 23:45:49 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 03:58:25 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	user_input(t_vm *vm)
 		vm->curse.pause = 1 - vm->curse.pause;
 	else if (key == KEY_ESCAPE)
 	{
-	//	kill_all_scv; // !!!!!!!!!!!!!!!!!! -> TO_DO
+	//	kill_all_scvs; // !!!!!!!!!!!!!!!!!! -> TO_DO
 		delwin(vm->curse.win);
 	//	clear();
 	//	refresh();
@@ -184,6 +184,7 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 void	reset_cycle(t_vm *vm)
 {
 	static int	cycle_to_die = CYCLE_TO_DIE;
+	t_scv		*lst;
 
 	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
 	{
@@ -191,7 +192,13 @@ void	reset_cycle(t_vm *vm)
 		cycle_to_die -= CYCLE_DELTA;
 	}
 	vm->cycle_to_die = cycle_to_die;
-	kill_dead_scvs(vm, &vm->scv);
+	kill_dead_scvs(vm);
+	lst = vm->scv;
+	while (lst)
+	{
+		lst->live = 0;
+		lst = lst->next;
+	}
 }
 
 void		gl_hf(t_vm *vm)

@@ -17,7 +17,7 @@
 ** 0xf3 83 ea 00 ---->	0x00 ea 83 f3 EXEC MAGIC
 */
 
-unsigned int	ft_endian(unsigned int n)
+unsigned int	endianize(unsigned int n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
 		((n & 0xff) << 24));

@@ -132,7 +132,7 @@ void	init_cores(t_vm *vm, int i)
 		lseek(fd, 0x88, SEEK_SET);
 		read(fd, &vm->core[i].prog_size, 4); // !!!!!!!!!!! ON 8 BYTES!!!!!!!!!!!!
 		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
-		vm->core[i].prog_size = ft_endian(vm->core[i].prog_size);
+		vm->core[i].prog_size = endianize(vm->core[i].prog_size);
 		read(fd, &(vm->memory[(vm->nb_players - i - 1) * \
 			MEM_SIZE / vm->nb_players]), vm->core[i].prog_size);
 		ft_memset(&(vm->creep[(vm->nb_players - i - 1) * \
@@ -140,7 +140,7 @@ void	init_cores(t_vm *vm, int i)
 		close(fd);
 		if (vm->core[i].prog_size > CHAMP_MAX_SIZE)
 			errors(1, "way.... too... much.. code.");
-		if (ft_endian(magic) != COREWAR_EXEC_MAGIC)
+		if (endianize(magic) != COREWAR_EXEC_MAGIC)
 			errors(4, "why not 0xea83f3 ?");
 		++i;
 	}
