@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 15:58:33 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:49:50 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,20 @@ typedef struct			s_rc
 **		Getting-characters-from-the-keyboard.html
 */
 
-# define	KEY_ESCAPE	27
-# define	KEY_PLUS	43
-# define	KEY_MINUS	45
-# define	KEY_SPACE	32
+# define	KEY_ESCAPE		27
+# define	KEY_PLUS		43
+# define	KEY_MINUS		45
+# define	KEY_SPACE		32
+
+# define	COL_RED			9
+# define 	COL_ORANGE		215
+# define	COL_EMERALD		2
+# define	COL_MARINE_BLUE	69
+
+# define	COLOR_1			COL_ORANGE
+# define	COLOR_2			COL_EMERALD
+# define	COLOR_3			COL_MARINE_BLUE
+# define	COLOR_4			COL_RED
 
 typedef struct			s_curse
 {

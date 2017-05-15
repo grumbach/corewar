@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 16:03:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:35:54 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void        curse_scv(WINDOW *win, t_scv *scv)//disp info about working scvs rig
 
     i = 0;
 	wattron(win, COLOR_PAIR(11));
-	mvwprintw(win, 1, 220, "reg:   01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
+	mvwprintw(win, 1, 220, \
+		"reg:   01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
 	wattroff(win, COLOR_PAIR(11));
 	scv_lst = scv;
 	while (scv_lst)
@@ -150,21 +151,20 @@ void		curse_init(t_vm *vm)
 	if ((vm->curse.n = i >> 1) < 1)
 		vm->curse.n = 4;
     start_color();
-//	init_color(COLOR_CRIMSON, 0, 500, 1000); // use its own color instead
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
-	init_pair(2, COLOR_RED, COLOR_BLACK);
-	init_pair(3, COLOR_BLACK, COLOR_RED);
-	init_pair(4, COLOR_WHITE, COLOR_RED);
-    init_pair(5, COLOR_BLUE, COLOR_BLACK);
-	init_pair(6, COLOR_BLACK, COLOR_BLUE);
-	init_pair(7, COLOR_WHITE, COLOR_BLUE);
-	init_pair(8, COLOR_CYAN, COLOR_BLACK);
-	init_pair(9, COLOR_BLACK, COLOR_CYAN);
-	init_pair(10, COLOR_WHITE, COLOR_CYAN);
-	init_pair(11, COLOR_GREEN, COLOR_BLACK);
-	init_pair(12, COLOR_BLACK, COLOR_GREEN);
-	init_pair(13, COLOR_WHITE, COLOR_GREEN);
+	init_pair(2, COLOR_1, COLOR_BLACK);
+	init_pair(3, COLOR_BLACK, COLOR_1);
+	init_pair(4, COLOR_WHITE, COLOR_1);
+    init_pair(5, COLOR_2, COLOR_BLACK);
+	init_pair(6, COLOR_BLACK, COLOR_2);
+	init_pair(7, COLOR_WHITE, COLOR_2);
+	init_pair(8, COLOR_3, COLOR_BLACK);
+	init_pair(9, COLOR_BLACK, COLOR_3);
+	init_pair(10, COLOR_WHITE, COLOR_3);
+	init_pair(11, COLOR_4, COLOR_BLACK);
+	init_pair(12, COLOR_BLACK, COLOR_4);
+	init_pair(13, COLOR_WHITE, COLOR_4);
 	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
 //	vm->curse.pause = 1;
 //	curse_players(vm);
