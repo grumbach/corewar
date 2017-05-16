@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 22:50:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 00:42:09 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 		x[(scv->color - 2) / 3] = 0;
 		y[(scv->color - 2) / 3] += 1;
 	}
-	wmove(vm->curse.win, 68 + y[(scv->color - 2) / 3] % 15, 2 + \
+	wmove(vm->curse.win, 68 + y[(scv->color - 2) / 3], 2 + \
 	x[(scv->color - 2) / 3] + ((scv->color - 2) / 3) * 190 / vm->nb_players);
 	wattron(vm->curse.win, COLOR_PAIR(scv->color));
 	wprintw(vm->curse.win, s);
@@ -32,6 +32,10 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 	{
 		x[(scv->color - 2) / 3] = 0;
 		y[(scv->color - 2) / 3] += 1;
+	}
+	if (y[(scv->color - 2) / 3] > 14)
+	{
+		y[(scv->color - 2) / 3] = 0;
 	}
 }
 
