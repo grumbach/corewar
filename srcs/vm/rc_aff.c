@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 03:00:23 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 17:19:16 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/16 19:42:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,30 @@
 
 static void	curse_putchar_log(t_vm *vm, t_scv *scv)
 {
-	char	a[2];
-	int			i;
+	char		a[2];
+	int			n;
+	static int	i[MAX_PLAYERS];
+	static int	check = 0;
 
-	i = 0;
-	while (i < vm->nb_players)
+	n = 0;
+	if (!check++)
+		while (n < vm->nb_players)
+			i[n++] = 0;
+	n = 0;
+	while (n < vm->nb_players)
 	{
-		if (vm->core[i].id == scv->reg[1])
+		if (vm->core[n].id == scv->reg[1])
 		{
 			a[0] = vm->arg[0];
 			a[1] = 0;
-			wattron(vm->curse.win, COLOR_PAIR((2 + vm->core[i].color)));
-			mvwprintw(vm->curse.win, 68, 2, a);
-			wattroff(vm->curse.win, COLOR_PAIR((2 + vm->core[i].color)));
+			wattron(vm->curse.win, COLOR_PAIR((2 + vm->core[n].color)));
+			mvwprintw(vm->curse.win, \
+				68 + (i[n] / 0xbe) + (n << 1), 1 + i[n] % 0xbe, a);
+			++i[n];
+			wattroff(vm->curse.win, COLOR_PAIR((2 + vm->core[n].color)));
 		//	ft_putnbr(vm->core[3].color); //!!!!! fix color
 		}
-		++i;
+		++n;
 	}
 }
 

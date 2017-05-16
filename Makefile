@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/15 11:26:19 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/05/16 18:20:57 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,12 @@ VM_SRC = \
 	scbw_misc.c \
 	scbw_ncurse.c \
 	play_music.c \
-	rc_binary.c \
+	rc_0x4-8.c \
 	rc_live.c \
 	rc_zjmp.c \
 	rc_ld.c \
 	rc_fork.c \
 	rc_st.c \
-	rc_add_sub.c \
 	rc_aff.c \
 	rc_tools.c
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 16:37:33 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/16 18:22:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void			rc_live(t_vm *vm, t_scv *scv)
 	{
 		if (vm->core[i].id == vm->arg[0])
 		{
-			vm->last_id_alive = change_carry(&scv->carry, vm->arg[0]);
+			vm->last_id_alive = vm->arg[0];
 			++scv->live;
 			++vm->nb_total_live;
 		}
 		++i;
 	}
+	scv->carry = !vm->arg[0];
 }
