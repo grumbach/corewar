@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 00:42:03 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 01:03:55 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,9 @@ typedef struct			s_rc
 
 typedef struct			s_curse
 {
-	WINDOW 				*win;
+	WINDOW 				*win1;
+	WINDOW 				*win2;
+	WINDOW 				*win3;
 	int					y;
 	int					x;
 	int					n;

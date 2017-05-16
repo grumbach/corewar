@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/16 16:57:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 01:04:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			main(int ac, char **av)
 	gl_hf(&vm);
 	if (vm.flags & F_VISUAL)
 	{
-		delwin(vm.curse.win);
+		//delwin(vm.curse.win);
 		endwin();
 	}
 	if (vm.dump != -1)

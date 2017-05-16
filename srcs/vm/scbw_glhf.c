@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/16 16:20:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 01:05:13 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	user_input(t_vm *vm)
 {
 	int		key;
 
-	key = wgetch(vm->curse.win);
+	key = wgetch(vm->curse.win1);
 	if (key == KEY_PLUS && vm->curse.speed < 10)
 		++vm->curse.speed;
 	else if (key == KEY_MINUS && vm->curse.speed > 0)
@@ -25,7 +25,7 @@ static int	user_input(t_vm *vm)
 		vm->curse.pause = 1 - vm->curse.pause;
 	else if (key == KEY_ESCAPE)
 	{
-		delwin(vm->curse.win);
+		delwin(vm->curse.win1);
 		endwin();
 		system("killall afplay 2&>/dev/null >/dev/null");
 		call_zerglings(vm->scv);
