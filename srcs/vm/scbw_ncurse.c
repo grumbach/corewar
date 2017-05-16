@@ -6,16 +6,29 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 15:38:26 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/16 22:24:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-void			curse_putstr_log(WINDOW *win, char *s)
+void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 {
-	ft_putstr(s);//TODO!!
-	mvwprintw(win, 300, 2, s);//
+	static int	y[MAX_PLAYERS] = {0, 0, 0, 0};
+	static int	x[MAX_PLAYERS] = {2, 2, 2, 2};
+
+	if (x[(scv->color - 2) / 3] + (int)ft_strlen(s) > 190 / vm->nb_players || \
+	ft_strchr(s, '!'))
+	{
+		x[(scv->color - 2) / 3] = 2;
+		y[(scv->color - 2) / 3] += 1;
+	}
+	wmove(vm->curse.win, 68 + y[(scv->color - 2) / 3] % 15, \
+	x[(scv->color - 2) / 3] + ((scv->color - 2) / 3) * 190 / vm->nb_players);
+	wattron(vm->curse.win, COLOR_PAIR(scv->color));
+	wprintw(vm->curse.win, s);
+	wattroff(vm->curse.win, COLOR_PAIR(scv->color));
+	x[(scv->color - 2) / 3] += ft_strlen(s);
 }
 
 static void		curse_frame(WINDOW *win, int y, int x, int n)

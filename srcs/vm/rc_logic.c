@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rc_0x4-8.c                                         :+:      :+:    :+:   */
+/*   rc_logic.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 21:49:04 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 18:20:27 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/16 19:50:21 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** result in the 3d, right before modifying the carry.
 */
 
-void	rc_add(t_vm *vm, t_scv *scv)
+void			rc_add(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		+ mutate(vm, scv, vm->arg[1], vm->type[1]);
@@ -28,7 +28,7 @@ void	rc_add(t_vm *vm, t_scv *scv)
 ** 0x05 rc_sub : see above
 */
 
-void	rc_sub(t_vm *vm, t_scv *scv)
+void			rc_sub(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		- mutate(vm, scv, vm->arg[1], vm->type[1]);

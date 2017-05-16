@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/16 17:07:03 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/16 20:14:34 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void			dump_memory(t_vm *vm);
 void			curse_init(t_vm *vm);
 void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
-void			curse_putstr_log(WINDOW *win, char *s);
+void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);
 
 /*
 ** sound functions
