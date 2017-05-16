@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 15:59:11 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:20:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,39 +61,6 @@ static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 	return (arg);
 }
 
-/*
-** check coding byte
-** vm->type[i]  01 10 10 00
-** vm->rc[redcode].arg[i] -> {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}
-** i is tab index;
-*/
-
-static void	check_octal(t_vm *vm, t_scv *scv, int *pc)
-{
-	unsigned char	octal;
-	int				arg;
-
-	if ((octal = vm->memory[scv->pc + ++(*pc) & (MEM_SIZE - 1)]) & 3)
-	{
-		*pc = -1;
-		return ;
-	}
-	arg = 0;
-	while (arg < vm->rc[vm->redcode].arg_max)
-	{
-		vm->type[arg] = (octal >> ((3 - arg) << 1)) & 3; // 01 00 00 00
-		if (!((vm->rc[vm->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
-		{
-			*pc = -1;
-			return ;
-		}
-		vm->arg[arg] = get_args(vm, scv, pc, vm->type[arg]);
-		if (*pc < 0)
-			return ;
-		++arg;
-	}
-}
-
 static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 {
 	int		i;
@@ -111,6 +78,39 @@ static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 	}
 }
 
+/*
+** check coding byte
+** vm->type[i]  01 10 10 00
+** vm->rc[redcode].arg[i] -> {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}
+** i is tab index;
+*/
+
+static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
+{
+	unsigned char	octal;
+	int				arg;
+
+	if ((octal = vm->memory[scv->pc + ++(*pc) & (MEM_SIZE - 1)]) & 3)
+	{
+		*pc = -1;
+		return ;
+	}
+	arg = 0;
+	while (arg < vm->rc[vm->redcode].arg_max)
+	{
+		vm->type[arg] = (octal >> ((3 - arg) << 1)) & 3;
+		if (!((vm->rc[vm->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
+		{
+			*pc = -1;
+			return ;
+		}
+		vm->arg[arg] = get_args(vm, scv, pc, vm->type[arg]);
+		if (*pc < 0)
+			return ;
+		++arg;
+	}
+}
+
 static void	fetch(t_vm *vm, t_scv *scv)
 {
 	int		pc;
@@ -121,7 +121,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		if (!vm->rc[vm->redcode].octal)
 			fill_args(vm, scv, &pc);
 		else
-			check_octal(vm, scv, &pc);
+			check_ocp(vm, scv, &pc);
 		if (pc >= 0)
 		{
 			vm->rc[vm->redcode].func(vm, scv);
@@ -165,36 +165,6 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 			if (vm->flags & F_VISUAL)
 				curse_color(vm, lst->pc, lst->color + 1);
 		}
-		lst = lst->next;
-	}
-}
-
-/*
-** once vm->cycle_to_die reaches 0 it is reset
-** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
-** we kill all scvus who didn't use live
-*/
-
-void	reset_cycle(t_vm *vm)
-{
-	static int	cycle_to_die = CYCLE_TO_DIE;
-	t_scv		*lst;
-
-	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
-	{
-		vm->checks = 0;
-		cycle_to_die -= CYCLE_DELTA;
-		if (cycle_to_die < 0)
-			cycle_to_die = SUDDEN_DEATH;
-	}
-	vm->cycle_to_die = cycle_to_die;
-	if (!(vm->flags & F_MUTE))
-		play_foam();
-	kill_dead_scvs(vm);
-	lst = vm->scv;
-	while (lst)
-	{
-		lst->live = 0;
 		lst = lst->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 16:49:50 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/16 17:07:03 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,57 @@ typedef struct			s_core
 }						t_core;
 
 /*
-** Redcodes define
+** 0x01 rc_live : The instruction that allows a scv to stay alive.
+** It can also record that the player whose number is the argument is indeed
+** alive. Its argument is on 4 bytes
+**
+** 0x02 rc_ld : Take a random argument and a registry. Load the value of the 1st
+** argument in the registry and will change the carry.
+**
+** 0x0d rc_lld : Means long-load. It the same as ld, but without % IDX_MOD.
+** Modify the carry.
+**
+** 0x03 rc_st : take a registry and (a registry || an indirect) and
+** store the value of the registry toward a second argument.
+** ie : st r1, 42 store the value of r1 at the address (PC + (42 % IDX_MOD))
+**
+** 0x0b rc_sti : Take a registry, and two indexes (potentially registries),
+** add the two indexes, and use this result as an address where the value of
+** the first parameter will be copied.
+**
+** 0x04 rc_add : Take 3 registries, add the first two, and place the result
+** in the 3d, right before modifying the carry.
+**
+** 0x05 rc_sub : same as add but with a substraction.
+**
+** rc_add_sub(vm, scv, 9 - (redcode << 1)); if 0x04 we get 1, if 0x05 we get -1
+**
+** 0x06 rc_and : Apply an & (bit-to-bit AND) over the first two arguments and
+** store the result in a registry, which is the 3d argument. Modifies the carry
+**
+** 0x07 rc_or : This operation is an bit-to-bit OR.
+**
+** 0x08 rc_xor : Acts like and with an exclusive OR.
+**
+** 0x09 rc_zjmp : No argument’s coding byte behind this operation.
+** It will take an index and jump to this address if the carry is 1.
+**
+** 0x0a rc_ldi : ldi will use 2 indexes and 1 registry, adding the first
+** two, treating that like an address, reading a value of a registry’s size
+** and putting it on the third.
+**
+** 0x0e rc_lldi : Same as ldi, but does not apply any modulo to the addresses.
+** It will however, modify the carry
+**
+** 0x0c rc_fork : no argument’s coding byte, take an index. Create a
+** new scv that will inherit the different states of its father, except its PC,
+** which will be put at (PC + (1st parameter % IDX_MOD)).
+**
+** 0x0f rc_lfork : long-fork. Same as a fork without modulo in the address.
+**
+** 0x10 rc_aff : There is an argument’s coding byte which is a registry,
+** and its content is interpreted by the character’s ASCII value
+** to display on the standard output. The code is modulo 256
 */
 
 # define LIVE	0x01
@@ -259,8 +309,7 @@ void			dump_memory(t_vm *vm);
 void			curse_init(t_vm *vm);
 void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
-void			curse_putchar_log(uint c);
-void			curse_putstr_log(char *s);
+void			curse_putstr_log(WINDOW *win, char *s);
 
 /*
 ** sound functions
@@ -289,6 +338,8 @@ void			rc_lld(t_vm *vm, t_scv *scv);
 void			rc_lldi(t_vm *vm, t_scv *scv);
 void			rc_lfork(t_vm *vm, t_scv *scv);
 void			rc_aff(t_vm *vm, t_scv *scv);
+void			rc_calc(t_vm *vm, t_scv *scv);
+uint			change_carry(int *carry, uint result);
 
 /*
 ** utils
@@ -297,6 +348,5 @@ void			rc_aff(t_vm *vm, t_scv *scv);
 long			errors(int id, char *comment);
 unsigned int	endianize(unsigned int n);
 uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
-int				check_arg(unsigned char type, char a1, char a2, char a3);
 
 #endif

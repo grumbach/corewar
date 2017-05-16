@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:56 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/13 22:00:00 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:16:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,31 @@ unsigned int	endianize(unsigned int n)
 }
 
 /*
-** Original idea Clanier : checks that the args (a1 a2 a3) are the right type.
+** once vm->cycle_to_die reaches 0 it is reset
+** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
+** we kill all scvus who didn't use live
 */
 
-int				check_arg(unsigned char type, char a1, char a2, char a3)
+void	reset_cycle(t_vm *vm)
 {
-	char	a[3];
+	static int	cycle_to_die = CYCLE_TO_DIE;
+	t_scv		*lst;
 
-	a[0] = a1;
-	a[1] = a2;
-	a[2] = a3;
-
-	if ((((type >> 6) & a[0]) != 1)
-		|| (((type >> 4) & a[1]) != 1)
-		|| (((type >> 2) & a[2]) != 1))
-		return (FALSE);
-	return (TRUE);
+	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
+	{
+		vm->checks = 0;
+		cycle_to_die -= CYCLE_DELTA;
+		if (cycle_to_die < 0)
+			cycle_to_die = SUDDEN_DEATH;
+	}
+	vm->cycle_to_die = cycle_to_die;
+	if (!(vm->flags & F_MUTE))
+		play_foam();
+	kill_dead_scvs(vm);
+	lst = vm->scv;
+	while (lst)
+	{
+		lst->live = 0;
+		lst = lst->next;
+	}
 }

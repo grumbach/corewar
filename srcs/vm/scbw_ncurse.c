@@ -6,20 +6,16 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 16:35:54 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/16 15:38:26 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-void			curse_putchar_log(uint c)
-{
-	ft_putchar(c);//TODO!!
-}
-
-void			curse_putstr_log(char *s)
+void			curse_putstr_log(WINDOW *win, char *s)
 {
 	ft_putstr(s);//TODO!!
+	mvwprintw(win, 300, 2, s);//
 }
 
 static void		curse_frame(WINDOW *win, int y, int x, int n)
