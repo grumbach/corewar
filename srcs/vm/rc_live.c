@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 22:23:27 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/16 22:36:27 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static void		reportalive(t_vm *vm, t_scv *scv, int i)
 {
-	char		number[MAX_LL_LEN];
+	char		number[12];
 
 	if (vm->flags & F_VISUAL)
 	{
