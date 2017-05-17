@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 15:58:57 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:23:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ void	kill_dead_scvs(t_vm *vm)
 	t_scv		*tmp;
 
 	lst = vm->scv;
-	while (lst && lst->next)
+	while (lst)
 	{
-		if (!lst->next->live)
+		if (lst->next && !lst->next->live)
 		{
 			if (vm->flags & F_VISUAL)
 				curse_color(vm, lst->next->pc, 14);
+			curse_puts_log(vm, lst->next, "hello!");
 			tmp = lst->next;
 			lst->next = lst->next->next;
 			free(tmp);
@@ -82,6 +83,8 @@ void	kill_dead_scvs(t_vm *vm)
 		vm->scv = vm->scv->next;
 		free(tmp);
 	}
+	werase(vm->curse.win2);
+	wrefresh(vm->curse.win2);
 }
 
 void		call_zerglings(t_scv *scv)

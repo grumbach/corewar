@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 01:39:11 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:12:05 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,24 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 {
 	static int	y[MAX_PLAYERS] = {0, 0, 0, 0};
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
+	const int	i = (scv->color - 2) / 3;
 
-	if (x[(scv->color - 2) / 3] + (int)ft_strlen(s) > 190 / vm->nb_players)
-	{
-		x[(scv->color - 2) / 3] = 0;
-		y[(scv->color - 2) / 3] += 1;
-	}
-	wmove(vm->curse.win3, 1 + y[(scv->color - 2) / 3], 2 + \
-	x[(scv->color - 2) / 3] + ((scv->color - 2) / 3) * 190 / vm->nb_players);
+	if (x[i] + (int)ft_strlen(s) > 186 / vm->nb_players && ++y[i])
+		x[i] = 0;
+	wmove(vm->curse.win3, 1 + y[i], 2 + \
+	x[i] + (i) * 190 / vm->nb_players);
 	wattron(vm->curse.win3, COLOR_PAIR(scv->color));
 	wprintw(vm->curse.win3, s);
 	wattroff(vm->curse.win3, COLOR_PAIR(scv->color));
-	x[(scv->color - 2) / 3] += ft_strlen(s);
-	if (ft_strchr(s, '!'))
+	x[i] += ft_strlen(s);
+	if (ft_strchr(s, '!') && ++y[i])
+		x[i] = 0;
+	if (y[i] > 16)
 	{
-		x[(scv->color - 2) / 3] = 0;
-		y[(scv->color - 2) / 3] += 1;
-	}
-	if (y[(scv->color - 2) / 3] > 14)
-	{
-		y[(scv->color - 2) / 3] = 0;
+		y[i] = 0;
+		while (y[i] < 16)
+			curse_puts_log(vm, scv, " ");
+		y[i] = 0;
 	}
 	wrefresh(vm->curse.win3);
 }
@@ -85,10 +83,10 @@ static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
 	x = 0;
 	while (++x <= REG_NUMBER)
 	{
-		mvwprintw(win, 3 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
-		mvwprintw(win, 4 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
-		mvwprintw(win, 5 + i * 5, 224 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
-		mvwprintw(win, 6 + i * 5, 224 + x * 3, "%02x", reg[x] & 0xff);
+		mvwprintw(win, 3 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
+		mvwprintw(win, 4 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
+		mvwprintw(win, 5 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
+		mvwprintw(win, 6 + i * 5, 24 + x * 3, "%02x", reg[x] & 0xff);
 	}
 }
 
