@@ -20,7 +20,7 @@
 void			rc_ld(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry ^= scv->carry;
+	scv->carry ^= 1;
 }
 
 /*
@@ -32,7 +32,7 @@ void			rc_ld(t_vm *vm, t_scv *scv)
 void			rc_lld(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry ^= scv->carry;
+	scv->carry ^= 1;
 }
 
 /*
@@ -60,5 +60,5 @@ void			rc_lldi(t_vm *vm, t_scv *scv)
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = \
 		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) & (MEM_SIZE - 1), IND_CODE);
-	scv->carry ^= scv->carry;
+	scv->carry ^= 1;
 }
