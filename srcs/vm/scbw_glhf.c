@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 05:25:52 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:36:14 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 	{
 		i = vm->rc[vm->redcode].arg_max - arg;
 		vm->arg[i] = get_args(vm, scv, pc, \
-			vm->rc[vm->redcode].arg[i] - (vm->rc[vm->redcode].arg[i] >> 2));// 1=1 2=2 4=3 oh my dayum
+			vm->rc[vm->redcode].arg[i] - (vm->rc[vm->redcode].arg[i] >> 2));
 		if (*pc < 0)
 			return ;
 		--arg;
@@ -86,10 +86,10 @@ static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 
 static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 {
-	unsigned char	octal;
+	unsigned char	ocp;
 	int				arg;
 
-	if ((octal = vm->memory[scv->pc + ++(*pc) & (MEM_SIZE - 1)]) & 3)
+	if ((ocp = vm->memory[scv->pc + ++(*pc) & (MEM_SIZE - 1)]) & 3)
 	{
 		*pc = -1;
 		return ;
@@ -97,7 +97,7 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 	arg = 0;
 	while (arg < vm->rc[vm->redcode].arg_max)
 	{
-		vm->type[arg] = (octal >> ((3 - arg) << 1)) & 3;
+		vm->type[arg] = (ocp >> ((3 - arg) << 1)) & 3;
 		if (!((vm->rc[vm->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
 		{
 			*pc = -1;
@@ -117,7 +117,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 	pc = 0;
 	if (0 < vm->redcode && vm->redcode < 17)
 	{
-		if (!vm->rc[vm->redcode].octal)
+		if (!vm->rc[vm->redcode].ocp)
 			fill_args(vm, scv, &pc);
 		else
 			check_ocp(vm, scv, &pc);
@@ -125,7 +125,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		{
 			vm->rc[vm->redcode].func(vm, scv);
 			scv->cooldown = vm->rc[vm->redcode].cooldown;
-			scv->pc = (scv->pc + pc) & (MEM_SIZE - 1);
+			scv->pc = (scv->pc + pc + 1) & (MEM_SIZE - 1);
 		}
 		else
 		{

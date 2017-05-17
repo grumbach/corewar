@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 23:04:23 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:42:53 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,4 @@ void			rc_live(t_vm *vm, t_scv *scv)
 		}
 		++i;
 	}
-	scv->carry = !vm->arg[0];
 }

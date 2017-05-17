@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 04:54:49 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:31:24 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ typedef struct			s_rc
 	int					arg_max;
 	int					arg[3];
 	int					cooldown;
-	int					octal;
+	int					ocp;
 	int					dir_size;
 }						t_rc;
 
