@@ -34,7 +34,25 @@ VM_SRC = \
 	rc_aff.c \
 	rc_tools.c
 
-ASM_SRC = asm.c
+ASM_SRC = \
+	main.c \
+	error.c \
+	parse.c \
+	utils.c \
+	type_of_line.c \
+	put_name.c \
+	put_comment.c \
+	put_label.c \
+	put_inst.c \
+	get_arg.c \
+	arg_syntax.c \
+	check_arg_type.c \
+	generate_file.c \
+	check_label.c \
+	header.c \
+	write_instruction.c \
+	write_process.c \
+	free.c \
 
 OBJDIR = objs
 
@@ -48,7 +66,7 @@ INCLUDES_ASM = -Ilibft/includes/ -Iincludes/
 
 DEPVM = includes/corewar.h libft/includes/libft.h libft/includes/ft_printf.h
 
-DEPASM = libft/includes/libft.h
+DEPASM = libft/includes/libft.h includes/op.h includes/asm.h
 
 CC = gcc
 
