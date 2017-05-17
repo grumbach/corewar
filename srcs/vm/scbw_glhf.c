@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 13:36:10 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 14:45:54 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static int	user_input(t_vm *vm)
 	return (key);
 }
 
-static unsigned int	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
+static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 {
-    unsigned int	arg;
-	int				i;
+	uint	arg;
+	int		i;
 
 	i = 0;
 	arg = 0;
@@ -121,24 +121,16 @@ static void	fetch(t_vm *vm, t_scv *scv)
 			fill_args(vm, scv, &pc);
 		else
 			check_ocp(vm, scv, &pc);
-		if (pc >= 0)
+		if (pc > 0)
 		{
 			vm->rc[vm->redcode].func(vm, scv);
 			scv->cooldown = vm->rc[vm->redcode].cooldown;
-			scv->pc = (scv->pc + pc + 1) & (MEM_SIZE - 1);
+			scv->pc += pc;
 		}
 		else
-		{
-			curse_puts_log(vm, scv, "FAIL..");
-			scv->carry = 0;
-			scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
-		}
+			scv->carry ^= scv->carry;
 	}
-	else
-	{
-		curse_puts_log(vm, scv, "OOPS.. ");
-		scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
-	}
+	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 }
 
 /*
@@ -171,7 +163,6 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 		lst = lst->next;
 	}
 }
-
 
 /*
 ** once vm->cycle_to_die reaches 0 it is reset
@@ -219,7 +210,7 @@ void		gl_hf(t_vm *vm)
 		}
 		get_scv_redcode(vm, &vm->scv);
 		if (vm->cycle++ == vm->dump && vm->dump > -1)
-			break;
+			break ;
 		if (!vm->cycle_to_die--)
 			reset_cycle(vm);
 	}

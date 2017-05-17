@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/15 11:27:39 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 14:07:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 	if (!(j = 0) && vm->nb_players == MAX_PLAYERS)
 		errors(1, "too many items");
 	vm->core[vm->nb_players].id = n;
-//	ft_printf("%d", n);
 	while (j < vm->nb_players)
 		if (vm->core[j++].id == vm->core[vm->nb_players].id)
 			errors(1, "one very bad id");
@@ -69,8 +68,6 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 	while (++j < PROG_NAME_LENGTH)
 		vm->core[vm->nb_players].prog_name[j] = av[i][j];
 	vm->core[vm->nb_players].prog_name[PROG_NAME_LENGTH] = 0;
-//	ft_putnbr(vm->core[vm->nb_players].id);//debug
-//	ft_putendl(vm->core[vm->nb_players].prog_name);//
 	++vm->nb_players;
 }
 

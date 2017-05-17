@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/16 19:50:18 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/05/17 14:12:38 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,6 @@ VM_SRC = \
 	scbw_scv.c \
 	scbw_dump.c \
 	scbw_misc.c \
-	scbw_ncurse.c \
-	play_music.c \
 	rc_logic.c \
 	rc_live.c \
 	rc_zjmp.c \
@@ -32,7 +30,11 @@ VM_SRC = \
 	rc_fork.c \
 	rc_st.c \
 	rc_aff.c \
-	rc_tools.c
+	rc_tools.c \
+	scbw_ncurse.c \
+	play_music.c \
+
+#BONUS_SRC =	
 
 ASM_SRC = asm.c
 
@@ -53,7 +55,7 @@ DEPASM = libft/includes/libft.h
 CC = gcc
 
 VM_OBJ = $(addprefix ${OBJDIR}/, $(VM_SRC:.c=.o))
-
+VM_OBJ = $(addprefix ${OBJDIR}/, $(VM_SRC:.c=.o))
 ASM_OBJ = $(addprefix ${OBJDIR}/, $(ASM_SRC:.c=.o))
 
 ############################## COLORS ##########################################

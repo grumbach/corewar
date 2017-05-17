@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 04:19:33 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 14:09:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,33 @@ t_scv	*new_scv(void)
 ** the last warriors given as arg start first
 */
 
-void				init_scv(t_vm *vm)
+void	init_scv(t_vm *vm)
 {
-    int             i;
-    t_scv          *scv;
+	int		i;
+	t_scv	*scv;
 
-    vm->nb_scv = vm->nb_players;
-    i = vm->nb_players - 1;
+	vm->nb_scv = vm->nb_players;
+	i = vm->nb_players - 1;
 	scv = new_scv();
 	scv->color = vm->nb_players * 3 - 1;
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
 	scv->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
-    while (i--)
-    {
-        scv->next = new_scv();
+	while (i--)
+	{
+		scv->next = new_scv();
 		scv->next->color = i * 3 + 2;
 		scv->next->reg[1] = vm->core[i].id;
 		scv->next->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
-        scv = scv->next;
-    }
+		scv = scv->next;
+	}
 }
 
 /*
 ** destroy a scv if live == 0
 */
 
-t_scv		*six_pool(t_vm *vm, t_scv *scv)
+t_scv	*six_pool(t_vm *vm, t_scv *scv)
 {
 	t_scv	*infested_terran;
 
@@ -80,7 +80,7 @@ t_scv		*six_pool(t_vm *vm, t_scv *scv)
 ** destroy scv if it looks yummy
 */
 
-void		call_zerglings(t_scv *scv)
+void	call_zerglings(t_scv *scv)
 {
 	if (scv && scv->next)
 		call_zerglings(scv->next);
