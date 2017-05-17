@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 02:43:07 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:48:53 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ void			reset_cycle(t_vm *vm);
 */
 
 t_scv			*new_scv(void);
-void			kill_dead_scvs(t_vm *vm);
+t_scv			*six_pool(t_vm *vm, t_scv *scv);
 void			call_zerglings(t_scv *scv);
 
 /*

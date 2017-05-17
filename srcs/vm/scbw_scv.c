@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 03:25:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:47:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,46 +56,16 @@ void				init_scv(t_vm *vm)
 ** destroy a scv if live == 0
 */
 
-void	kill_dead_scvs(t_vm *vm)
+t_scv		*six_pool(t_vm *vm, t_scv *scv)
 {
-	t_scv		*lst;
-	t_scv		*tmp;
-	short		first;
-
-	lst = vm->scv;
-	first = 0;
-	while (lst)
+	if (scv)
 	{
-		if (lst->live)
-		{
-			if (!first && lst && ++first)
-				vm->scv = lst;	
-			lst = lst->next;
-		}
-		else
-		{
-			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc, 14);
-		//	curse_puts_log(vm, lst, "hello!");
-			tmp = lst;
-			lst = lst->next;
-			free(tmp);
-			--vm->nb_scv ;
-		}
-//	
+		if (scv->live)
+		scv->next = six_pool(scv->next);
+		return (scv);
 	}
-
-
-	vm->nb_total_live = 0;
-	werase(vm->curse.win2);
-	wrefresh(vm->curse.win2);
-}
-
-void		kill_dead_scvs(t_vm *vm)
-{
-	if (scv && scv->next)
-		call_zerglings(scv->next);
-	free(scv);
+	else
+		return (NULL);
 }
 
 void		call_zerglings(t_scv *scv)

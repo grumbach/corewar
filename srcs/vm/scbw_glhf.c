@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_glhf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 02:47:23 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:48:38 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,40 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 		}
 		lst = lst->next;
 	}
+}
+
+
+/*
+** once vm->cycle_to_die reaches 0 it is reset
+** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
+** we kill all scvus who didn't use live
+*/
+
+static void	reset_cycle(t_vm *vm)
+{
+	static int	cycle_to_die = CYCLE_TO_DIE;
+	t_scv		*lst;
+
+	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
+	{
+		vm->checks = 0;
+		cycle_to_die -= CYCLE_DELTA;
+		if (cycle_to_die < 0)
+			cycle_to_die = SUDDEN_DEATH;
+	}
+	vm->cycle_to_die = cycle_to_die;
+	if (!(vm->flags & F_MUTE))
+		play_foam();
+	vm->scv = six_pool(vm, vm->scv);
+	lst = vm->scv;
+	while (lst)//? 6 pool does it?
+	{
+		lst->live = 0;
+		lst = lst->next;
+	}
+	vm->nb_total_live = 0;
+	werase(vm->curse.win2);
+	wrefresh(vm->curse.win2);
 }
 
 void		gl_hf(t_vm *vm)
