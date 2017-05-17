@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 02:52:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:24:24 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,60 +20,31 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 
 	if (x[i] + (int)ft_strlen(s) > 186 / vm->nb_players && ++y[i])
 		x[i] = 0;
-	wmove(vm->curse.win3, 1 + y[i], 2 + \
+	wmove(vm->curse.wlog, 1 + y[i], 2 + \
 	x[i] + (i) * 190 / vm->nb_players);
-	wattron(vm->curse.win3, COLOR_PAIR(scv->color));
-	wprintw(vm->curse.win3, s);
-	wattroff(vm->curse.win3, COLOR_PAIR(scv->color));
+	wattron(vm->curse.wlog, COLOR_PAIR(scv->color));
+	wprintw(vm->curse.wlog, s);
+	wattroff(vm->curse.wlog, COLOR_PAIR(scv->color));
 	x[i] += ft_strlen(s);
 	if (ft_strchr(s, '!') && ++y[i])
 		x[i] = 0;
-	if (y[i] > 16)
+	if (y[i] > 15)
 	{
 		y[i] = 0;
-		while (y[i] < 16)
+		while (y[i] < 15)
 			curse_puts_log(vm, scv, " ");
 		y[i] = 0;
 	}
-	wrefresh(vm->curse.win3);
-}
-
-static void		curse_frame(WINDOW *win, int y, int x, int n)
-{
-	int		i;
-
-	wattron(win, COLOR_PAIR(11));
-	mvwprintw(win, 0, 0, "+");
-	mvwprintw(win, y - 1, 0, "+");
-	mvwprintw(win, 0, x - 1, "+");
-	mvwprintw(win, y - 1, x - 1, "+");
-	i = 0;
-	while (++i < y - 1)
-	{
-		mvwprintw(win, i, 0, "|");
-		mvwprintw(win, i, x - 1, "|");
-	}
-	i = 0;
-	while (++i < x - 1)
-	{
-		mvwprintw(win, 0, i, "-");
-		mvwprintw(win, y - 1, i, "-");
-		mvwprintw(win, 3 + MEM_SIZE / n, (i < n * 3 ? i : 3), "-");
-	}
-	i = 0;
-	while (++i < y - 1)
-		mvwprintw(win, i, n * 3, "|");
-	wrefresh(win);
-	wattroff(win, COLOR_PAIR(11));
+	wrefresh(vm->curse.wlog);
 }
 
 void		curse_color(t_vm *vm, int pc, int color)
 {
-	wattron(vm->curse.win1, COLOR_PAIR(color));
-	mvwprintw(vm->curse.win1, 3 + pc / vm->curse.n, 1 + \
+	wattron(vm->curse.wmem, COLOR_PAIR(color));
+	mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
 		(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
-	wattroff(vm->curse.win1, COLOR_PAIR(color));
-	wrefresh(vm->curse.win1);
+	wattroff(vm->curse.wmem, COLOR_PAIR(color));
+	wrefresh(vm->curse.wmem);
 }
 
 static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
@@ -83,22 +54,22 @@ static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
 	x = 0;
 	while (++x <= REG_NUMBER)
 	{
-		mvwprintw(win, 3 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
-		mvwprintw(win, 4 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
-		mvwprintw(win, 5 + i * 5, 24 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
-		mvwprintw(win, 6 + i * 5, 24 + x * 3, "%02x", reg[x] & 0xff);
+		mvwprintw(win, 3 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
+		mvwprintw(win, 4 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
+		mvwprintw(win, 5 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
+		mvwprintw(win, 6 + i * 5, 20 + x * 3, "%02x", reg[x] & 0xff);
 	}
 }
 
-static void	curse_scv(WINDOW *win, t_scv *scv)//disp info about working scvs right of mem
+static void	curse_scv(WINDOW *win, t_scv *scv)
 {
     t_scv   *scv_lst;
     int     i;
 
     i = 0;
 	wattron(win, COLOR_PAIR(11));
-	mvwprintw(win, 1, 20, \
-		"reg:   01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
+	mvwprintw(win, 1, 2, \
+		"[SCVs]  {registries} 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
 	wattroff(win, COLOR_PAIR(11));
 	scv_lst = scv;
 	while (scv_lst)
@@ -106,10 +77,10 @@ static void	curse_scv(WINDOW *win, t_scv *scv)//disp info about working scvs rig
 		if (i < 16)
 		{
 			wattron(win, COLOR_PAIR(scv_lst->color));
-			mvwprintw(win, 3 + i * 5, 0, "pc       % 6u", scv_lst->pc);
-			mvwprintw(win, 4 + i * 5, 0, "cooldown % 6u", scv_lst->cooldown);
-			mvwprintw(win, 5 + i * 5, 0, "carry    % 6u", scv_lst->carry);
-			mvwprintw(win, 6 + i * 5, 0, "live     % 6u", scv_lst->live);
+			mvwprintw(win, 3 + i * 5, 2, "pc       % 6u", scv_lst->pc);
+			mvwprintw(win, 4 + i * 5, 2, "cooldown % 6u", scv_lst->cooldown);
+			mvwprintw(win, 5 + i * 5, 2, "carry    % 6u", scv_lst->carry);
+			mvwprintw(win, 6 + i * 5, 2, "live     % 6u", scv_lst->live);
 			curse_reg(win, scv_lst->reg, i);
 			wattroff(win, COLOR_PAIR(scv_lst->color));
 			++i;
@@ -125,33 +96,33 @@ static void	curse_scv(WINDOW *win, t_scv *scv)//disp info about working scvs rig
 ** 32 octets per line.
 */
 
-void    curse_memory(t_vm *vm)//disp memory
+void    curse_memory(t_vm *vm)
 {
 	size_t	pc;
 
-	wattron(vm->curse.win1, COLOR_PAIR(11));
-	mvwprintw(vm->curse.win1, 1, 2, "Current Cycle : % 6d", vm->cycle);
-	mvwprintw(vm->curse.win1, 1, 30, "Cycles to Die : % 6d", vm->cycle_to_die);
-	mvwprintw(vm->curse.win1, 1, 60, "Threads Alive : % 6d", vm->nb_scv);
-	mvwprintw(vm->curse.win1, 1, 90, "Total Lives : % 6d", vm->nb_total_live);
-	mvwprintw(vm->curse.win1, 1, 120, "Last Live : % 4d", vm->last_id_alive);
-	mvwprintw(vm->curse.win1, 1, 169, "Game Speed : %02d [+] [-]", vm->curse.speed);
-	wattroff(vm->curse.win1, COLOR_PAIR(11));
+	wattron(vm->curse.wmem, COLOR_PAIR(11));
+	mvwprintw(vm->curse.wmem, 1, 2, "Current Cycle : % 6d", vm->cycle);
+	mvwprintw(vm->curse.wmem, 1, 30, "Cycles to Die : % 6d", vm->cycle_to_die);
+	mvwprintw(vm->curse.wmem, 1, 60, "SCVs Alive : % 6d", vm->nb_scv);
+	mvwprintw(vm->curse.wmem, 1, 90, "Total Lives : % 6d", vm->nb_total_live);
+	mvwprintw(vm->curse.wmem, 1, 120, "Last Live : % 4d", vm->last_id_alive);
+	mvwprintw(vm->curse.wmem, 1, 169, "Game Speed : %02d [+] [-]", \
+		vm->curse.speed);
+	wattroff(vm->curse.wmem, COLOR_PAIR(11));
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{
-		wattron(vm->curse.win1, COLOR_PAIR(vm->creep[pc]));
-		mvwprintw(vm->curse.win1, 3 + pc / vm->curse.n, 1 + \
+		wattron(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
+		mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
 			(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
-		wattroff(vm->curse.win1, COLOR_PAIR(vm->creep[pc]));
+		wattroff(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 		++pc;
 	}
-	wrefresh(vm->curse.win1);
-	curse_scv(vm->curse.win2, vm->scv);
-	
+	wrefresh(vm->curse.wmem);
+	curse_scv(vm->curse.wscv, vm->scv);
 }
 
-static void	curse_init_colors(void)
+static void	curse_init_colors(t_curse *curse)
 {
     start_color();
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
@@ -169,17 +140,22 @@ static void	curse_init_colors(void)
 	init_pair(12, COLOR_BLACK, COLOR_4);
 	init_pair(13, COLOR_WHITE, COLOR_4);
 	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
+	wattron(curse->wmem, COLOR_PAIR(11));
+	box(curse->wmem, '|' , '=');
+	wattroff(curse->wmem, COLOR_PAIR(11));
+	wattron(curse->wscv, COLOR_PAIR(11));
+	box(curse->wscv, '|' , '=');
+	wattroff(curse->wscv, COLOR_PAIR(11));
+	wattron(curse->wlog, COLOR_PAIR(11));
+	box(curse->wlog, '|' , '=');
+	wattroff(curse->wlog, COLOR_PAIR(11));
 }
 
 void		curse_init(t_curse *curse)
 {
     int		i;
 
-	curse->speed = 2;
-	curse->pause = 1;
-	
 	initscr();
-	curse_init_colors();
     getmaxyx(stdscr, curse->y, curse->x);
 	curse->n = curse->x / 3;
 	i = 1;
@@ -187,15 +163,27 @@ void		curse_init(t_curse *curse)
     	i <<= 1;
 	if ((curse->n = i >> 1) < 1)
 		curse->n = 4;
-	curse->win1 = newwin(MEM_SIZE / curse->n + 3, curse->n * 3 + 1, 0, 0);
-	curse->win2 = newwin(curse->y, curse->x - curse->n * 3 + 1, 0, curse->n * 3 + 2);
-	curse->win3 = newwin(20, curse->x, MEM_SIZE / curse->n + 4, 0);
+	curse->speed = 2;
+	curse->pause = 1;
+	curse->wmem = newwin(MEM_SIZE / curse->n + 4, curse->n * 3 + 1, 0, 0);
+	curse->wscv = newwin(curse->y, curse->x - curse->n * 3 - 1, 0, curse->n * 3 + 1);
+	curse->wlog = newwin(curse->y - MEM_SIZE / curse->n - 4, curse->n * 3 + 1, MEM_SIZE / curse->n + 4, 0);
+	curse_init_colors(curse);
+	wrefresh(curse->wmem);
+	wrefresh(curse->wscv);
+	wrefresh(curse->wlog);
 	cbreak();
-	nodelay(curse->win1, TRUE);
 	noecho();
-	curse_frame(curse->win1, curse->y, curse->x, curse->n);
-//	box(curse->win, '-' , '|');
-//	box(*win, ACS_VLINE, ACS_HLINE);
+	nodelay(curse->wmem, TRUE);
+}
+
+void		curse_clear_scvs(t_curse *curse)
+{
+	werase(curse->wscv);
+	wattron(curse->wscv, COLOR_PAIR(11));
+	box(curse->wscv, '|' , '=');
+	wattroff(curse->wscv, COLOR_PAIR(11));
+	wrefresh(curse->wscv);
 }
 
 /*

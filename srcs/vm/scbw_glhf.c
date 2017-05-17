@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 03:48:38 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:25:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	user_input(t_vm *vm)
 {
 	int		key;
 
-	key = wgetch(vm->curse.win1);
+	key = wgetch(vm->curse.wmem);
 	if (key == KEY_PLUS && vm->curse.speed < 10)
 		++vm->curse.speed;
 	else if (key == KEY_MINUS && vm->curse.speed > 0)
@@ -25,7 +25,6 @@ static int	user_input(t_vm *vm)
 		vm->curse.pause = 1 - vm->curse.pause;
 	else if (key == KEY_ESCAPE)
 	{
-		delwin(vm->curse.win1);
 		endwin();
 		system("killall afplay 2&>/dev/null >/dev/null");
 		call_zerglings(vm->scv);
@@ -193,14 +192,8 @@ static void	reset_cycle(t_vm *vm)
 		play_foam();
 	vm->scv = six_pool(vm, vm->scv);
 	lst = vm->scv;
-	while (lst)//? 6 pool does it?
-	{
-		lst->live = 0;
-		lst = lst->next;
-	}
 	vm->nb_total_live = 0;
-	werase(vm->curse.win2);
-	wrefresh(vm->curse.win2);
+	curse_clear_scvs(&vm->curse);
 }
 
 void		gl_hf(t_vm *vm)

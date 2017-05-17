@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 04:16:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 04:19:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,10 @@ t_scv		*six_pool(t_vm *vm, t_scv *scv)
 	scv->live = 0;
 	return (scv);
 }
+
+/*
+** destroy scv if it looks yummy
+*/
 
 void		call_zerglings(t_scv *scv)
 {

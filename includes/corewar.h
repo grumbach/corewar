@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 03:54:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 04:54:49 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,9 +234,9 @@ typedef struct			s_rc
 
 typedef struct			s_curse
 {
-	WINDOW 				*win1;
-	WINDOW 				*win2;
-	WINDOW 				*win3;
+	WINDOW 				*wmem;
+	WINDOW 				*wscv;
+	WINDOW 				*wlog;
 	int					y;
 	int					x;
 	int					n;
@@ -311,6 +311,7 @@ void			curse_init(t_curse *curse);
 void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);
+void			curse_clear_scvs(t_curse *curse);
 
 /*
 ** sound functions
