@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 03:48:53 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:54:17 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,6 @@ void			init_scv(t_vm *vm);
 */
 
 void			gl_hf(t_vm *vm);
-void			reset_cycle(t_vm *vm);
 
 /*
 ** scvs functions

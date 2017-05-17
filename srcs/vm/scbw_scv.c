@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 03:47:18 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 04:16:08 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,22 @@ void				init_scv(t_vm *vm)
 
 t_scv		*six_pool(t_vm *vm, t_scv *scv)
 {
-	if (scv)
-	{
-		if (scv->live)
-		scv->next = six_pool(scv->next);
-		return (scv);
-	}
-	else
+	t_scv	*infested_terran;
+
+	if (!scv)
 		return (NULL);
+	scv->next = six_pool(vm, scv->next);
+	if (!scv->live)
+	{
+		infested_terran = scv->next;
+		if (vm->flags & F_VISUAL)
+			curse_color(vm, scv->pc, 14);
+		--vm->nb_scv;
+		free(scv);
+		return (infested_terran);
+	}
+	scv->live = 0;
+	return (scv);
 }
 
 void		call_zerglings(t_scv *scv)
