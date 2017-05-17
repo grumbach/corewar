@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 06:22:01 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 08:22:24 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
 	const int	i = (scv->color - 2) / 3;
 
-	if (x[i] + (int)ft_strlen(s) > 186 / vm->nb_players && ++y[i])
+	if (x[i] + (int)ft_strlen(s) > (vm->curse.n * 3 - 3) / \
+		vm->nb_players && ++y[i])
 		x[i] = 0;
 	if (y[i] > 13)
 	{
@@ -27,8 +28,8 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 			curse_puts_log(vm, scv, " ");
 		y[i] = 0;
 	}
-	wmove(vm->curse.wlog, 1 + y[i], 2 + \
-	x[i] + (i) * 190 / vm->nb_players);
+	wmove(vm->curse.wlog, 1 + y[i], 1 + \
+	x[i] + (i) * (vm->curse.n * 3 - 3) / vm->nb_players);
 	wattron(vm->curse.wlog, COLOR_PAIR(scv->color));
 	wprintw(vm->curse.wlog, s);
 	wattroff(vm->curse.wlog, COLOR_PAIR(scv->color));
@@ -163,7 +164,7 @@ void		curse_init(t_curse *curse)
     	i <<= 1;
 	if ((curse->n = i >> 1) < 1)
 		curse->n = 4;
-	curse->speed = 2;
+	curse->speed = DEFAULT_SPEED;
 	curse->pause = 1;
 	curse->wmem = newwin(MEM_SIZE / curse->n + 4, curse->n * 3 + 1, 0, 0);
 	curse->wscv = newwin(curse->y, curse->x - curse->n * 3 - 1, 0, curse->n * 3 + 1);

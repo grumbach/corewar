@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 05:31:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 07:55:03 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,8 @@ typedef struct			s_rc
 ** https://www.gnu.org/software/guile-ncurses/manual/html_node/
 **		Getting-characters-from-the-keyboard.html
 */
+
+# define	DEFAULT_SPEED	8
 
 # define	KEY_ESCAPE		27
 # define	KEY_PLUS		43

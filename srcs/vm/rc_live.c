@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 05:42:53 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 07:07:05 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		reportalive(t_vm *vm, t_scv *scv, int i)
 		curse_puts_log(vm, scv, " is alive! Somebody kill him!");
 	}
 	else
-		ft_printf("OMG player %d (%s) is alive! Somebody kill him!", \
+		ft_printf("OMG player %d (%s) is alive! Somebody kill him!\n", \
 		vm->core[i].id, vm->core[i].prog_name);
 }
 
