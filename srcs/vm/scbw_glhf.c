@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 16:53:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 17:18:36 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void		gl_hf(t_vm *vm)
 				;
 		}
 		get_scv_redcode(vm, &vm->scv);
-		if (vm->cycle++ == vm->dump && vm->dump > -1)
+		if ((vm->cycle++ == vm->dump && vm->dump > -1) || vm->nb_scv == 1)// check about last uid alive conclicts
 			break ;
 		if (!vm->cycle_to_die--)
 			reset_cycle(vm);
