@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 16:19:39 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 17:08:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,14 @@ long			errors(int id, char *comment)
 	if (id == 0)
 		ft_putendl_fd(strerror(errno), 2);
 	if (id == 2)
-		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "
+		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "	
+		"  -m : Mute\n"
+		"  -v : Vizualizer Ncurses\n"
+		"  -a : Display 0x10 aff redcode (hidden by default)\n"
+		"  -s : Stealth mode (no clue about what is read in the memory)\n"
+		"  -Dx : Dump memory every x cycle\n"
 		"[-dump cyclecount] [-n id champ] [champs ...]\n"
-		"  -m : mute\n"
-		"  -v : vizualizer\n"
-		"  -a : display 0x10 aff redcode (hidden by default)\n"
-		"  -s : stealthmode (no clue about what is read in the memory)\n"
-		"  -Dx : dump memory every x cycle\n", 2);
+		"example : make && ./corewar -vmsD500 -dump 2500 warriors/zork.cor", 2);
 	if (id == 3)
 		ft_putstr_fd("Name is too big give it up\n", 2);
 	if (id == 4)

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 16:44:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 17:04:28 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ typedef struct			s_vm
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mnasD"
+# define COREWAR_FLAGS 			"mvasD"
 # define F_MUTE					1
 # define F_VISUAL				2
 # define F_RC_AFF				4
