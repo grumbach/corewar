@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 02:12:05 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:37:24 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,7 @@ void		curse_init(t_vm *vm)
 		vm->curse.n = 4;
 	vm->curse.win1 = newwin(67, vm->curse.n * 3 + 1, 0, 0);// newwin(vm->curse.y + 4, vm->curse.n * 3, 0, 0);
 	vm->curse.win2 = newwin(vm->curse.y, 100, 0, vm->curse.n * 3 + 2);//newwin(20, vm->curse.n * 3, vm->curse.y - 20 - 4, 0);
-	vm->curse.win3 = newwin(20, 300, 67, 0);//newwin(vm->curse.y + 4, vm->curse.x - vm->curse.n * 3, 0, \
-		vm->curse.n * 3);
+	vm->curse.win3 = newwin(20, 300, 67, 0);//newwin(vm->curse.y + 4, vm->curse.x - vm->curse.n * 3, 0, vm->curse.n * 3);
 	cbreak();
 	nodelay(vm->curse.win1, TRUE);
 	noecho();
