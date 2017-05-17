@@ -1,8 +1,12 @@
 .name "see file name"
 .comment "..."
 
-l2:sti r1, %:live, %1
-	and r1, %0, r1
+ld %65, r2
+ld %22, r3
+or r2,r3,r1
+aff r1
 
-live:live %1
-	zjmp %:live
+ld %75, r2
+ld %22, r3
+or r2,r3,r1
+aff r1
