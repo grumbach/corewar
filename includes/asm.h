@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:40:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:43:39 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:05:49 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include "op.h"
 # include <fcntl.h>
 
@@ -155,5 +155,15 @@ void				write_arg(int fd, t_arg *arg, t_env *env, t_inst *inst);
 */
 
 void				free_env(t_env *env);
+
+/*
+** tools
+*/
+
+char	*ft_strjoin_f(char const *s1, char const *s2);
+char	*ft_strjoin_f1(char const *s1, char const *s2);
+char				*ft_strdup_f(const char *s);
+char	*ft_strtrim_f(char const *s);
+char	*ft_strsub_f(char const *s, unsigned int start, size_t len);
 
 #endif

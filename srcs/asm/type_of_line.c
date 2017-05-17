@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/asm.h"
+#include "asm.h"
 
 static int		check_if_label(char *line)
 {

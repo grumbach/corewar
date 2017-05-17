@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/16 19:50:18 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/05/17 03:00:48 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ ASM_SRC = \
 	write_instruction.c \
 	write_process.c \
 	free.c \
+	tools.c
 
 OBJDIR = objs
 

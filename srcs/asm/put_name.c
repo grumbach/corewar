@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   put_name.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 14:20:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 15:38:20 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:04:55 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/asm.h"
+#include "asm.h"
 
 static void		last_join(char *s, t_env *env)
 {
@@ -44,7 +44,7 @@ static void		name_process(t_env *env, char *tmp)
 	line = NULL;
 	c = 0;
 	ft_memdel((void **)&tmp);
-	while (get_next_line(env->fd, &line) > 0)
+	while (ft_get_next_line(env->fd, &line) > 0)
 	{
 		env->nb_l++;
 		if (contain_quote(line))

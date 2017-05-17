@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 18:43:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:40:53 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:57:01 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/asm.h"
+#include "asm.h"
 
 static void		put_file_name(char *file, t_env *env)
 {
@@ -85,7 +85,7 @@ t_env			*parse_s_file(char *file)
 	put_file_name(file, env);
 	env->fd = open(file, O_RDONLY);
 	check_fd_file(env);
-	while ((gnl = get_next_line(env->fd, &line)) > 0)
+	while ((gnl = ft_get_next_line(env->fd, &line)) > 0)
 	{
 		env->nb_l++;
 		line_type = get_type_line(line);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/asm.h"
+#include "asm.h"
 
 static int				is_label(char *name)
 {
