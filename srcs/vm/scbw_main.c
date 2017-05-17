@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 14:52:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:19:39 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ long			errors(int id, char *comment)
 		"  -m : mute\n"
 		"  -v : vizualizer\n"
 		"  -a : display 0x10 aff redcode (hidden by default)\n"
-		"  -s : stealthmode (no clue about what is read in the memory)\n", 2);
+		"  -s : stealthmode (no clue about what is read in the memory)\n"
+		"  -Dx : dump memory every x cycle\n", 2);
 	if (id == 3)
 		ft_putstr_fd("Name is too big give it up\n", 2);
 	if (id == 4)

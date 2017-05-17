@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 15:51:52 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:58:57 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** 32 octets per line.
 */
 
-void		display_winner(t_vm *vm)
+void	display_winner(t_vm *vm)
 {
 	int	i;
 
@@ -45,12 +45,12 @@ void		display_winner(t_vm *vm)
 	ft_printf("\n   %sWhat a bunch of loosers...\n\n%s", RED, NORMAL);
 }
 
-void		dump_memory(t_vm *vm)
+void	dump_memory(t_vm *vm)
 {
 	size_t	pc;
 
 	if (vm->flags & F_VISUAL)
-	ft_printf("Reached cycle %d, now dumping memory :\n\n ", vm->dump);
+		ft_printf("Reached cycle %d, now dumping memory :\n\n ", vm->dump);
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 07:07:05 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:51:53 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void			rc_live(t_vm *vm, t_scv *scv)
 			vm->last_id_alive = vm->arg[0];
 			++scv->live;
 			++vm->nb_total_live;
-			reportalive(vm, scv, i);
+			if (vm->flags & F_RC_AFF)
+				reportalive(vm, scv, i);
 		}
 		++i;
 	}

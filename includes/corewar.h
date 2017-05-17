@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 14:56:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:44:18 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,11 @@ typedef struct			s_curse
 	char				pause;
 }						t_curse;
 
+typedef struct			s_bonus
+{
+	int					dump_frequency;
+}						t_bonus;
+
 typedef struct			s_vm
 {
 	t_scv				*scv;
@@ -268,17 +273,19 @@ typedef struct			s_vm
 	unsigned char		memory[MEM_SIZE];
 	unsigned char		creep[MEM_SIZE];
 	t_core				core[MAX_PLAYERS];
+	t_bonus				bonus;
 }						t_vm;
 
 /*
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mnas"
+# define COREWAR_FLAGS 			"mnasD"
 # define F_MUTE					1
 # define F_VISUAL				2
 # define F_RC_AFF				4
 # define F_STEALTH				8
+# define F_DUMP_FREQUENCY		16
 
 /*
 ** parsing options
@@ -286,8 +293,7 @@ typedef struct			s_vm
 
 void			parsing(int ac, char **av, t_vm *vm, int i);
 void			get_core(char **av, int n, int i, t_vm *vm);
-int				parse_flag(char *s, int *flags);
-int				flag_index(char *s, int c);
+int				parse_flag(char *s, int *flags, t_bonus *bonus);
 void			init_cores(t_vm *vm, int i);
 void			init_scv(t_vm *vm);
 

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 15:10:59 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:59:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void		curse_color(t_vm *vm, int pc, int color)
 	mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
 		(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
 	wattroff(vm->curse.wmem, COLOR_PAIR(color));
-	wrefresh(vm->curse.wmem);
+	if (!(vm->flags & F_DUMP_FREQUENCY)
+		|| !(vm->cycle % vm->bonus.dump_frequency))
+		wrefresh(vm->curse.wmem);
 }
 
 static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
@@ -68,7 +70,7 @@ static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
 	}
 }
 
-static void	curse_scv(WINDOW *win, t_scv *scv)
+static void	curse_scv(WINDOW *win, t_scv *scv, t_vm *vm)
 {
     t_scv   *scv_lst;
     int     i;
@@ -94,7 +96,9 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 		}
 		scv_lst = scv_lst->next;
 	}
-	wrefresh(win);
+	if (!(vm->flags & F_DUMP_FREQUENCY)
+		|| !(vm->cycle % vm->bonus.dump_frequency))
+		wrefresh(win);
 }
 
 /*
@@ -126,8 +130,10 @@ void    curse_memory(t_vm *vm)
 		wattroff(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 		++pc;
 	}
-	wrefresh(vm->curse.wmem);
-	curse_scv(vm->curse.wscv, vm->scv);
+	if (!(vm->flags & F_DUMP_FREQUENCY)
+		|| !(vm->cycle % vm->bonus.dump_frequency))
+			wrefresh(vm->curse.wmem);
+	curse_scv(vm->curse.wscv, vm->scv, vm);
 }
 
 static void	curse_init_colors(t_curse *curse)

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 14:45:54 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:53:58 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	user_input(t_vm *vm)
 		exit(0);
 	}
 	if (!vm->curse.pause)
+		if (!(vm->flags & F_DUMP_FREQUENCY) \
+			|| !(vm->cycle % vm->bonus.dump_frequency))
 		curse_memory(vm);
 	return (key);
 }

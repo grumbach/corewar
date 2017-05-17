@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 14:07:50 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:45:49 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** -dump n means that the game will finish earlier, at cycle n
 */
 
-void	parsing(int ac, char **av, t_vm *vm, int i)
+void		parsing(int ac, char **av, t_vm *vm, int i)
 {
 	int		j;
 
@@ -33,7 +33,7 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 		else if (ft_strequ(av[i], "-n"))
 		{
 			if (av[++i] && (ft_isdigit(*av[i]) || \
-				(*av[i] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
+			(*av[i] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
 				get_core(av, ft_atoi(av[i]), i, vm);
 			else
 				errors(1, "invalid player id: should be > -1 or < -4");
@@ -41,7 +41,7 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 		}
 		else if (*av[i] != '-')
 			get_core(av, --j, i, vm);
-		else if (!parse_flag(av[i], &(vm->flags)))
+		else if (!parse_flag(av[i], &(vm->flags), &(vm->bonus)))
 			errors(2, "illegal option");
 }
 
@@ -50,7 +50,7 @@ void	parsing(int ac, char **av, t_vm *vm, int i)
 ** like ./corewar -n 0 warriors/bee_gees.s
 */
 
-void	get_core(char **av, int n, int i, t_vm *vm)
+void		get_core(char **av, int n, int i, t_vm *vm)
 {
 	int				j;
 
@@ -71,20 +71,7 @@ void	get_core(char **av, int n, int i, t_vm *vm)
 	++vm->nb_players;
 }
 
-int		parse_flag(char *s, int *flags)
-{
-	int		n;
-
-	while (*(++s))
-	{
-		if ((n = flag_index(COREWAR_FLAGS, *s)) < 0)
-			return (0);
-		*flags |= (1 << n);
-	}
-	return (1);
-}
-
-int		flag_index(char *s, int c)
+static int	flag_index(char *s, int c)
 {
 	int		i;
 
@@ -96,6 +83,36 @@ int		flag_index(char *s, int c)
 		++i;
 	}
 	return (-1);
+}
+
+/*
+**     int *flags :   0x0000-0xffff  00000000 00000000 00000000 00000101 with ma 
+*/
+
+int			parse_flag(char *s, int *flags, t_bonus *bonus)
+{
+	int		n;
+
+	while (*(++s))
+	{
+		ft_putchar('a');
+		if ((n = flag_index(COREWAR_FLAGS, *s)) < 0)
+			return (0);
+			ft_putchar('b');
+		*flags |= (1 << n);
+		if ((1 << n) == F_DUMP_FREQUENCY)
+		{
+			
+			if (*(s + 1) && ft_isdigit(*(s + 1)) && ((n = ft_atoi(++s)) > 0))
+				bonus->dump_frequency = n;
+			else
+				return (0);
+			while (*s && ft_strchr("0123456789", *s))
+				++s;
+			--s;
+		}	
+	}
+	return (1);
 }
 
 /*
@@ -114,7 +131,7 @@ int		flag_index(char *s, int c)
 ** !!! MAYBE WE COULD REMOVE EXEC MAGIC FROM VARIABLE
 */
 
-void	init_cores(t_vm *vm, int i)
+void		init_cores(t_vm *vm, int i)
 {
 	int				fd;
 	uint			magic;
