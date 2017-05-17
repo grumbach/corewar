@@ -21,7 +21,7 @@ void			rc_add(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		+ mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !scv->reg[vm->arg[2]];
+	scv->carry ^= scv->carry;
 }
 
 /*
@@ -32,7 +32,7 @@ void			rc_sub(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		- mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !scv->reg[vm->arg[2]];
+	scv->carry ^= scv->carry;
 }
 
 /*
@@ -44,7 +44,7 @@ void			rc_and(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		& mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !scv->reg[vm->arg[2]];
+	scv->carry ^= scv->carry;
 }
 
 /*
@@ -55,7 +55,7 @@ void			rc_or(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		| mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !scv->reg[vm->arg[2]];
+	scv->carry ^= scv->carry;
 }
 
 /*
@@ -66,5 +66,5 @@ void			rc_xor(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		^ mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !scv->reg[vm->arg[2]];
+	scv->carry ^= scv->carry;
 }

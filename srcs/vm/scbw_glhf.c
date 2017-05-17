@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 05:36:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 05:58:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,16 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		}
 		else
 		{
+			curse_puts_log(vm, scv, "FAIL..");
 			scv->carry = 0;
 			scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
 		}
 	}
 	else
+	{
+		curse_puts_log(vm, scv, "OOPS.. ");
 		scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+	}
 }
 
 /*
