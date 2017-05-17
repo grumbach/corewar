@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 08:22:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 13:51:19 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
 	const int	i = (scv->color - 2) / 3;
 
+	if (!(vm->flags & F_VISUAL))
+		return ;
 	if (x[i] + (int)ft_strlen(s) > (vm->curse.n * 3 - 3) / \
 		vm->nb_players && ++y[i])
 		x[i] = 0;
@@ -55,9 +57,9 @@ static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
 	x = 0;
 	while (++x <= REG_NUMBER)
 	{
-		mvwprintw(win, 3 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 6) & 0xff);
-		mvwprintw(win, 4 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 4) & 0xff);
-		mvwprintw(win, 5 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 2) & 0xff);
+		mvwprintw(win, 3 + i * 5, 20 + x * 3, "%02x", (reg[x] >> 6));
+		mvwprintw(win, 4 + i * 5, 20 + x * 3, "%02x", (reg[x] & 0x00ff0000) >> 4);
+		mvwprintw(win, 5 + i * 5, 20 + x * 3, "%02x", (reg[x] & 0x0000ff00) >> 2);
 		mvwprintw(win, 6 + i * 5, 20 + x * 3, "%02x", reg[x] & 0xff);
 	}
 }

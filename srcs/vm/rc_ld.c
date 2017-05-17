@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 05:50:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 13:44:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 void			rc_ld(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	ft_putnbr(vm->arg[1]);//
 	scv->carry ^= 1;
 }
 
