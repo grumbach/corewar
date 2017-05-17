@@ -20,6 +20,7 @@
 void			rc_ld(t_vm *vm, t_scv *scv)
 {
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
+	ft_putnbr(vm->arg[1]);//
 	scv->carry ^= 1;
 }
 
