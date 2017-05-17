@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 02:37:24 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:52:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,34 +171,31 @@ static void	curse_init_colors(void)
 	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
 }
 
-void		curse_init(t_vm *vm)
+void		curse_init(t_curse *curse)
 {
     int		i;
 
-	vm->curse.speed = 2;
-	vm->curse.pause = 1;
+	curse->speed = 2;
+	curse->pause = 1;
 	
 	initscr();
 	curse_init_colors();
-    getmaxyx(stdscr, vm->curse.y, vm->curse.x);
-	vm->curse.n = vm->curse.x / 3;
+    getmaxyx(stdscr, curse->y, curse->x);
+	curse->n = curse->x / 3;
 	i = 1;
-	while (i < vm->curse.n)
+	while (i < curse->n)
     	i <<= 1;
-	if ((vm->curse.n = i >> 1) < 1)
-		vm->curse.n = 4;
-	vm->curse.win1 = newwin(67, vm->curse.n * 3 + 1, 0, 0);// newwin(vm->curse.y + 4, vm->curse.n * 3, 0, 0);
-	vm->curse.win2 = newwin(vm->curse.y, 100, 0, vm->curse.n * 3 + 2);//newwin(20, vm->curse.n * 3, vm->curse.y - 20 - 4, 0);
-	vm->curse.win3 = newwin(20, 300, 67, 0);//newwin(vm->curse.y + 4, vm->curse.x - vm->curse.n * 3, 0, vm->curse.n * 3);
+	if ((curse->n = i >> 1) < 1)
+		curse->n = 4;
+	curse->win1 = newwin(MEM_SIZE / curse->n + 3, curse->n * 3 + 1, 0, 0);
+	curse->win2 = newwin(curse->y, curse->x - curse->n * 3 + 1, 0, curse->n * 3 + 2);
+	curse->win3 = newwin(20, curse->x, MEM_SIZE / curse->n + 4, 0);
 	cbreak();
-	nodelay(vm->curse.win1, TRUE);
+	nodelay(curse->win1, TRUE);
 	noecho();
-	curse_frame(vm->curse.win1, vm->curse.y, vm->curse.x, vm->curse.n);
-	curse_memory(vm);
-//	box(vm->curse.win, '-' , '|');
-//
-//	vm->win = subwin(stdscr, row + 2, col + 2, 0, 0); // TTY  !!!!!!!!!!
-//	box(vm->win, ACS_VLINE, ACS_HLINE);
+	curse_frame(curse->win1, curse->y, curse->x, curse->n);
+//	box(curse->win, '-' , '|');
+//	box(*win, ACS_VLINE, ACS_HLINE);
 }
 
 /*

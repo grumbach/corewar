@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 01:04:42 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:53:22 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,7 @@ int			main(int ac, char **av)
 		play_music();
 	gl_hf(&vm);
 	if (vm.flags & F_VISUAL)
-	{
-		//delwin(vm.curse.win);
 		endwin();
-	}
 	if (vm.dump != -1)
 		dump_memory(&vm);
 	call_zerglings(vm.scv);

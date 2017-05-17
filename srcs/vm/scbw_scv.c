@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 02:23:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 03:25:01 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,31 +60,42 @@ void	kill_dead_scvs(t_vm *vm)
 {
 	t_scv		*lst;
 	t_scv		*tmp;
+	short		first;
 
 	lst = vm->scv;
+	first = 0;
 	while (lst)
 	{
-		if (lst->next && !lst->next->live)
+		if (lst->live)
+		{
+			if (!first && lst && ++first)
+				vm->scv = lst;	
+			lst = lst->next;
+		}
+		else
 		{
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->next->pc, 14);
-			curse_puts_log(vm, lst->next, "hello!");
-			tmp = lst->next;
-			lst->next = lst->next->next;
+				curse_color(vm, lst->pc, 14);
+		//	curse_puts_log(vm, lst, "hello!");
+			tmp = lst;
+			lst = lst->next;
 			free(tmp);
-			--vm->nb_scv;
+			--vm->nb_scv ;
 		}
-		--vm->nb_total_live;
-		lst = lst->next;
+//	
 	}
-	if (!vm->scv->live)
-	{
-		tmp = vm->scv;
-		vm->scv = vm->scv->next;
-		free(tmp);
-	}
+
+
+	vm->nb_total_live = 0;
 	werase(vm->curse.win2);
 	wrefresh(vm->curse.win2);
+}
+
+void		kill_dead_scvs(t_vm *vm)
+{
+	if (scv && scv->next)
+		call_zerglings(scv->next);
+	free(scv);
 }
 
 void		call_zerglings(t_scv *scv)

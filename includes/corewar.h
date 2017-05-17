@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 01:03:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:43:07 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,7 +308,7 @@ void			call_zerglings(t_scv *scv);
 
 void			display_winner(t_vm *vm);
 void			dump_memory(t_vm *vm);
-void			curse_init(t_vm *vm);
+void			curse_init(t_curse *curse);
 void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);

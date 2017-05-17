@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 01:05:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/17 02:47:23 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,10 @@ void		gl_hf(t_vm *vm)
 	vm->cycle_to_die = CYCLE_TO_DIE;
 	init_scv(vm);
 	if (vm->flags & F_VISUAL)
-		curse_init(vm);
+	{
+		curse_init(&vm->curse);
+		curse_memory(vm);
+	}
 	while (vm->scv)
 	{
 		if (vm->flags & F_VISUAL)
