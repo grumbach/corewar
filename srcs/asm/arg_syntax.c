@@ -6,29 +6,36 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 07:45:28 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 19:07:26 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/18 20:09:15 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
+static void				direct_label(char *arg, int *i)
+{
+	char	*lchars;
+
+	lchars = ft_strdup(LABEL_CHARS);
+	while (arg[*i] && ft_strchr(lchars, arg[*i]))
+		(*i)++;
+	ft_memdel((void **)&lchars);
+}	
+
 static void				process_valid_arg(char *arg, int *i, int dig, t_env *e)
 {
-	int check;
+	int		check;
 
 	check = 0;
 	if (dig == 1)
 	{
-		if (arg[*i] == '-')
+		if (arg[*i] && arg[*i] == '-')
 			(*i)++;
 		while (arg[*i] && ft_isdigit(arg[*i]))
 			(*i)++;
 	}
 	else if (!dig)
-	{
-		while (arg[*i] && !ft_strchr())
-			(*i)++;
-	}
+		direct_label(arg, i);
 	else
 	{
 		while (arg[*i] && ft_isdigit(arg[*i]))

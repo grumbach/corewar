@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 22:40:39 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:03:24 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/18 20:10:41 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char			*get_inst_name(char **l)
 	while (l[0][i] && ft_isalpha(l[0][i]) && l[0][i] != DIRECT_CHAR)
 		i++;
 	tmp = ft_strsub(l[0], 0, i);
-	l[0] = ft_strsub_f(l[0], i, ft_strlen(l[0]) - 1);
+	l[0] = ft_strsub_f(l[0], i, ft_strlen(l[0]) - i);
 	l[0] = ft_strtrim_f(l[0]);
 	return (tmp);
 }
