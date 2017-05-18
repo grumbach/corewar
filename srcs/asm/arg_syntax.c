@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 07:45:28 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:09:15 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/19 00:45:30 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void				direct_label(char *arg, int *i)
 	while (arg[*i] && ft_strchr(lchars, arg[*i]))
 		(*i)++;
 	ft_memdel((void **)&lchars);
-}	
+}
 
 static void				process_valid_arg(char *arg, int *i, int dig, t_env *e)
 {
