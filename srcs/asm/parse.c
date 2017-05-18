@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 18:43:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:33:31 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/19 01:29:55 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int		check_line(char *l, t_env *env, int type)
 		return (0);
 	while (l[i])
 		i++;
-	if (i > 0 && l[i - 1] == ',')
+	if (type != 1 && type != 2 && i > 0 && l[i - 1] == ',')
 		return (0);
 	return (1);
 }
