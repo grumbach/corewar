@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 18:43:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 19:27:12 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/18 20:33:31 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_env			*parse_s_file(char *file)
 	t_env	*env;
 	char	*line;
 	int		line_type;
-	int		gnl;
 
 	env = (t_env *)ft_memalloc(sizeof(t_env));
 	!(env) ? malloc_error(0, NULL) : 0;
@@ -85,7 +84,7 @@ t_env			*parse_s_file(char *file)
 	put_file_name(file, env);
 	env->fd = open(file, O_RDONLY);
 	check_fd_file(env);
-	while ((gnl = ft_get_next_line(env->fd, &line)) > 0)
+	while (ft_get_next_line(env->fd, &line) > 0)
 	{
 		env->nb_l++;
 		line_type = get_type_line(line);

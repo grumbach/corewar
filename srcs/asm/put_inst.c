@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 22:40:39 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:10:41 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/18 20:34:46 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int			get_position(t_env *env)
 
 	pos = 0;
 	tmp = env->inst;
-	while (tmp->next)
+	while (tmp && tmp->next)
 	{
 		pos += tmp->size;
 		tmp = tmp->next;
@@ -46,7 +46,7 @@ static t_inst		*get_last_inst(t_env *env)
 		return (env->inst);
 	}
 	tmp = env->inst;
-	while (tmp->next)
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	return (tmp);
 }
