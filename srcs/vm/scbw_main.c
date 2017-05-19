@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 23:45:57 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 00:16:50 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,6 @@ long	errors(int id, char *comment)
 		ft_putstr_fd("Name is too big give it up\n", 2);
 	if (id == 4)
 		ft_putstr_fd("\nPS: Any sufficiently advanced technology is"
-		"indistinguishable from magic\n", 2);
+		" indistinguishable from magic\n", 2);
 	exit(1);
 }

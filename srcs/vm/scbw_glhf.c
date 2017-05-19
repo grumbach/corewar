@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 23:48:19 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 00:15:02 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ static int	user_input(t_vm *vm)
 	else if (key == KEY_MINUS && vm->curse.speed > 0)
 		--vm->curse.speed;
 	else if (key == KEY_SPACE)
+	{
+		if (vm->curse.pause)
+			curse_clear_scvs(&vm->curse);
 		vm->curse.pause = 1 - vm->curse.pause;
+	}
 	else if (key == KEY_ESCAPE)
 	{
 		endwin();
@@ -78,7 +82,7 @@ static void	game_init(t_vm *vm)
 	{
 		curse_init(&vm->curse);
 		curse_memory(vm);
-		curse_players(vm, 0);
+		curse_players(vm, 0, -1);
 	}
 }
 
@@ -102,7 +106,7 @@ void		gl_hf(t_vm *vm)
 			reset_cycle(vm);
 		++vm->cycle;
 	}
-	curse_players(vm, 1);
+	curse_players(vm, 1, -1);
 	vm->curse.pause = 1;
 	maelstrom(vm);
 }

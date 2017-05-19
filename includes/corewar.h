@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 23:29:56 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 00:14:38 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);
 void			curse_clear_scvs(t_curse *curse);
-void			curse_players(t_vm *vm, int end);
+void			curse_players(t_vm *vm, int end, int i);
 
 /*
 ** sound functions

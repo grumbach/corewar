@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 22:35:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 00:06:04 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,19 +126,19 @@ void		init_cores(t_vm *vm, int i)
 
 	while (i < vm->nb_players)
 	{
-		magic = 0;
+		vm->core[i].color = (i * 3) + 2;
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
 			errors(0, vm->core[i].prog_name);
 		read(fd, &magic, 4);
 		read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH);
 		lseek(fd, 0x88, SEEK_SET);
-		read(fd, &vm->core[i].prog_size, 4);// !!!!!!!!!!! ON 8 BYTES!!!!!!!!!!!!
+		read(fd, &vm->core[i].prog_size, 4);
 		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
 		vm->core[i].prog_size = endianize(vm->core[i].prog_size);
 		read(fd, &(vm->memory[(vm->nb_players - i - 1) * \
-			MEM_SIZE / vm->nb_players]), vm->core[i].prog_size);
+		MEM_SIZE / vm->nb_players]), vm->core[i].prog_size);
 		ft_memset(&(vm->creep[(vm->nb_players - i - 1) * \
-			MEM_SIZE / vm->nb_players]), (i * 3) + 2, vm->core[i].prog_size);
+		MEM_SIZE / vm->nb_players]), vm->core[i].color, vm->core[i].prog_size);
 		close(fd);
 		if (vm->core[i].prog_size > CHAMP_MAX_SIZE)
 			errors(1, "way.... too... much.. code.");

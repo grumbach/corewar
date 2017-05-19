@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/19 23:36:53 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 00:15:42 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,30 +132,31 @@ void		curse_init(t_curse *curse)
 	nodelay(curse->wmem, TRUE);
 }
 
-void	curse_players(t_vm *vm, int end)
+void	curse_players(t_vm *vm, int end, int i)
 {
-	int	i;
-
-	i = -1;
 	curse_clear_scvs(&vm->curse);
 	while (++i < vm->nb_players)
 		if ((end && vm->core[i].id == vm->last_id_alive) || \
 			(!end))
 		{
+			wattron(vm->curse.wscv, COLOR_PAIR(vm->core[i].color));
 			if (end)
 				mvwprintw(vm->curse.wscv, 1, 4,"Glory and Kittens to:");
-			mvwprintw(vm->curse.wscv, 3 + i * 5 * !end, 4, \
+			mvwprintw(vm->curse.wscv, 3 + i * 6 * !end, 4, \
 				"Name    %s", vm->core[i].prog_name);
-			mvwprintw(vm->curse.wscv, 4 + i * 5 * !end, 4, \
-				"ID      %s", vm->core[i].id);
-			mvwprintw(vm->curse.wscv, 5 + i * 5 * !end, 4, \
-				"Weight  %s", vm->core[i].prog_size);
-			mvwprintw(vm->curse.wscv, 6 + i * 5 * !end, 4, \
+			mvwprintw(vm->curse.wscv, 4 + i * 6 * !end, 4, \
+				"ID      %d", vm->core[i].id);
+			mvwprintw(vm->curse.wscv, 5 + i * 6 * !end, 4, \
+				"Weight  %d", vm->core[i].prog_size);
+			mvwprintw(vm->curse.wscv, 6 + i * 6 * !end, 4, \
 				"Comment %s", vm->core[i].comment);
-			mvwprintw(vm->curse.wscv, 7 + i * 5 * !end, 4, \
-				"Cycle   %s", vm->cycle);
+			mvwprintw(vm->curse.wscv, 7 + i * 6 * !end, 4, \
+				"Cycle   %d", vm->cycle);
+			wattroff(vm->curse.wscv, COLOR_PAIR(vm->core[i].color));
+			if (end)
+				break;
 		}
-	if (i == vm->nb_players)
+	if (i == vm->nb_players && end)
 		mvwprintw(vm->curse.wscv, 1, 4, "What a bunch of loosers...");
 	wrefresh(vm->curse.wscv);
 }
