@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 17:04:28 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 23:29:56 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
 
-# define IND_SIZE						2
-# define REG_SIZE						4
-# define DIR_SIZE						REG_SIZE
+# define IND_SIZE				2
+# define REG_SIZE				4
+# define DIR_SIZE				REG_SIZE
 
-# define REG_CODE						0b01
-# define DIR_CODE						0b10
-# define IND_CODE						0b11
+# define REG_CODE				0b01
+# define DIR_CODE				0b10
+# define IND_CODE				0b11
 
 /*
 **
@@ -39,42 +39,41 @@
 
 typedef char	t_arg_type;
 
-# define T_REG							1
-# define T_DIR							2
-# define T_IND							4
-# define T_LAB							8// peut etre a virer ?
+# define T_REG					1
+# define T_DIR					2
+# define T_IND					4
+# define T_LAB					8// peut etre a virer ?
 
 # define MAX_ARGS_NUMBER		4
-# define MAX_PLAYERS				4
-# define MEM_SIZE						(4096)
-# define IDX_MOD						(MEM_SIZE / 8)
+# define MAX_PLAYERS			4
+# define MEM_SIZE				(4096)
+# define IDX_MOD				(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
-# define COMMENT_CHAR				'#'
-# define LABEL_CHAR					':'
-# define DIRECT_CHAR				'%'
+# define COMMENT_CHAR			'#'
+# define LABEL_CHAR				':'
+# define DIRECT_CHAR			'%'
 # define SEPARATOR_CHAR			','
 
-# define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
+# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
 
 # define NAME_CMD_STRING		".name"
-# define COMMENT_CMD_STRING	".comment"
+# define COMMENT_CMD_STRING		".comment"
 
-# define REG_NUMBER					16
+# define REG_NUMBER				16
 # define SLEEP							vm->speed//
-
-# define CYCLE_TO_DIE				1536
-# define CYCLE_DELTA				50
-# define SUDDEN_DEATH				4
-# define NBR_LIVE						21
-# define MAX_CHECKS					10
+# define CYCLE_TO_DIE			1536
+# define CYCLE_DELTA			50
+# define SUDDEN_DEATH			4
+# define NBR_LIVE				21
+# define MAX_CHECKS				10
 
 /*
 ** booleans define
 */
 
-# define TRUE								1
-# define FALSE							0
+# define TRUE					1
+# define FALSE					0
 
 typedef struct			s_vm t_vm;
 
@@ -108,8 +107,8 @@ typedef struct			s_scv
 ** color is player color
 */
 
-# define PROG_NAME_LENGTH			(128)
-# define COMMENT_LENGTH				(2048)
+# define PROG_NAME_LENGTH		(128)
+# define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3	/* why not */
 
 typedef struct			s_core
@@ -220,14 +219,14 @@ typedef struct			s_rc
 # define	DEFAULT_SPEED		8
 
 # define	KEY_ESCAPE			27
-# define	KEY_PLUS				43
-# define	KEY_MINUS				45
-# define	KEY_SPACE				32
+# define	KEY_PLUS			43
+# define	KEY_MINUS			45
+# define	KEY_SPACE			32
 
-# define	COL_RED					9
+# define	COL_RED				9
 # define 	COL_ORANGE			215
 # define	COL_EMERALD			2
-# define	COL_MARINE_BLUE	69
+# define	COL_MARINE_BLUE		69
 
 # define	COLOR_1					COL_ORANGE
 # define	COLOR_2					COL_EMERALD
@@ -246,11 +245,6 @@ typedef struct			s_curse
 	int					key;
 	char				pause;
 }						t_curse;
-
-typedef struct			s_bonus
-{
-	int					dump_frequency;
-}						t_bonus;
 
 typedef struct			s_vm
 {
@@ -273,7 +267,6 @@ typedef struct			s_vm
 	unsigned char		memory[MEM_SIZE];
 	unsigned char		creep[MEM_SIZE];
 	t_core				core[MAX_PLAYERS];
-	t_bonus				bonus;
 }						t_vm;
 
 /*
@@ -286,14 +279,13 @@ typedef struct			s_vm
 # define F_RC_AFF				4
 # define F_STEALTH				8
 # define F_DUMP_FREQUENCY		16
+# define F_DUMP					32
 
 /*
 ** parsing options
 */
 
 void			parsing(int ac, char **av, t_vm *vm, int i);
-void			get_core(char **av, int n, int i, t_vm *vm);
-int				parse_flag(char *s, int *flags, t_bonus *bonus);
 void			init_cores(t_vm *vm, int i);
 void			init_scv(t_vm *vm);
 
@@ -302,6 +294,7 @@ void			init_scv(t_vm *vm);
 */
 
 void			gl_hf(t_vm *vm);
+void			get_scv_redcode(t_vm *vm, t_scv **scv);
 
 /*
 ** scvs functions
@@ -322,6 +315,7 @@ void			curse_color(t_vm *vm, int pc, int color);
 void    		curse_memory(t_vm *vm);
 void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);
 void			curse_clear_scvs(t_curse *curse);
+void			curse_players(t_vm *vm, int end);
 
 /*
 ** sound functions

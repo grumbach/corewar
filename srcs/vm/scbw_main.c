@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 20:05:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 23:45:57 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,22 @@ int		main(int ac, char **av)
 
 	ft_bzero(&vm, sizeof(vm));
 	init_rc(&vm);
-	vm.dump = -1;
-	vm.bonus.dump_frequency = 1;
+	vm.dump = 1;
 	parsing(ac, av, &vm, 0);
 	if (!(vm.flags & F_VISUAL))
 		vm.flags |= F_MUTE;
-	if (vm.nb_players)
-		init_cores(&vm, 0);
-	else
+	vm.nb_players ? init_cores(&vm, 0) : \
 		errors(1, "this memory is sad and lonely");
 	if (!(vm.flags & F_MUTE))
 		play_music();
 	gl_hf(&vm);
 	if (vm.flags & F_VISUAL)
 		endwin();
-	if (vm.dump != -1)
+	if (vm.flags & F_DUMP)
 		dump_memory(&vm);
 	call_zerglings(vm.scv);
-	display_winner(&vm);
+	if (!(vm.flags & F_VISUAL))
+		display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);
 }

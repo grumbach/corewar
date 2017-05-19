@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/04 18:44:23 by angavrel          #+#    #+#              #
-#    Updated: 2017/05/17 14:12:38 by angavrel         ###   ########.fr        #
+#    Updated: 2017/05/19 23:33:48 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ VM_SRC = \
 	scbw_main.c \
 	scbw_parse.c \
 	scbw_glhf.c \
+	scbw_redcode.c \
 	scbw_scv.c \
 	scbw_dump.c \
 	scbw_misc.c \

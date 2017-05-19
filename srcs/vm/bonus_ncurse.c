@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scbw_ncurse.c                                      :+:      :+:    :+:   */
+/*   bonus_ncurse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/19 20:39:13 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 23:13:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ void		curse_memory(t_vm *vm)
 	size_t	pc;
 
 	curse_menu(vm);
-	if (!(vm->cycle % vm->bonus.dump_frequency))
+	if (!(vm->cycle % vm->dump))
 	{
 		pc = 0;
-		wattron(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 		while (pc < MEM_SIZE)
 		{
+			wattron(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 			mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, \
 				1 + (pc % vm->curse.n) * 3, "%02x", \
 			!(vm->flags & F_STEALTH) ? vm->memory[pc] : 0xff);
+			wattroff(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 			++pc;
 		}
-		wattroff(vm->curse.wmem, COLOR_PAIR(vm->creep[pc]));
 		wrefresh(vm->curse.wmem);
 		curse_scv(vm->curse.wscv, vm->scv);
 	}
@@ -109,24 +109,3 @@ void		curse_clear_scvs(t_curse *curse)
 	wattroff(curse->wscv, COLOR_PAIR(11));
 	wrefresh(curse->wscv);
 }
-
-/*
-** display player info
-
-static void	curse_players(t_vm *vm)//disp player info right of mem at start
-{
-	int	i;
-	int	offset;
-
-	i = 0;
-	offset = 240;
-	mvwprintw(vm->curse.win, 20, offset, "Our Gladiators, Ave Caesar, Morituri te salutant :");
-	while (i < vm->nb_players)
-	{
-		mvwprintw(vm->curse.win, 22 + i * 5, offset, "\tPlayer %d : %s", vm->core[i].id, vm->core[i].prog_name);
-		mvwprintw(vm->curse.win, 23 + i * 5, offset, "\tComment : %s", vm->core[i].comment);
-		mvwprintw(vm->curse.win, 24 + i * 5, offset, "\tWeight : %X", vm->core[i].prog_size);
-		++i;
-	}
-	wrefresh(vm->curse.win);
-}*/

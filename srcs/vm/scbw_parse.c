@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scbw_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 20:22:31 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 22:35:08 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,44 @@
 ** -dump n means that the game will finish earlier, at cycle n
 */
 
-void		parsing(int ac, char **av, t_vm *vm, int i)
+static int	flag_index(char *s, int c)
 {
-	int		j;
+	int		i;
 
-	if (!(j = 0) && ac == 1)
-		errors(2, "");
-	while (++i < ac)
-		if (ft_strequ(av[i], "-dump"))
-		{
-			if (av[i + 1] && ft_isdigit(*av[i + 1]))
-				vm->dump = ft_atoi(av[++i]);
-			else
-				errors(1, "go take another dump");
-		}
-		else if (ft_strequ(av[i], "-n"))
-		{
-			if (av[++i] && (ft_isdigit(*av[i]) || \
-			(*av[i] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
-				get_core(av, ft_atoi(av[i]), i, vm);
-			else
-				errors(1, "invalid player id: should be > -1 or < -4");
-			++i;
-		}
-		else if (*av[i] != '-')
-			get_core(av, --j, i, vm);
-		else if (!parse_flag(av[i], &(vm->flags), &(vm->bonus)))
-			errors(2, "illegal option");
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		++i;
+	}
+	return (-1);
 }
 
-/*
-** TO_DO : add parsing if warrior program is in a subfolder.
-** like ./corewar -n 0 warriors/bee_gees.s
-*/
+static int	parse_flag(char *s, int *flags, t_vm *vm)
+{
+	int		n;
 
-void		get_core(char **av, int n, int i, t_vm *vm)
+	while (*(++s))
+	{
+		if ((n = flag_index(COREWAR_FLAGS, *s)) < 0)
+			return (0);
+		*flags |= (1 << n);
+		if ((1 << n) == F_DUMP_FREQUENCY)
+		{
+			if (*(s + 1) && ft_isdigit(*(s + 1)) && ((n = ft_atoi(++s)) > 0))
+				vm->dump = n;
+			else
+				return (0);
+			while (ft_isdigit(*s))
+				++s;
+			--s;
+		}
+	}
+	return (1);
+}
+
+static void	get_core(char **av, int n, int i, t_vm *vm)
 {
 	int				j;
 
@@ -71,44 +74,33 @@ void		get_core(char **av, int n, int i, t_vm *vm)
 	++vm->nb_players;
 }
 
-static int	flag_index(char *s, int c)
+void		parsing(int ac, char **av, t_vm *vm, int i)
 {
-	int		i;
+	int		j;
 
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (i);
-		++i;
-	}
-	return (-1);
-}
-
-int			parse_flag(char *s, int *flags, t_bonus *bonus)
-{
-	int		n;
-
-	while (*(++s))
-	{
-		ft_putchar('a');
-		if ((n = flag_index(COREWAR_FLAGS, *s)) < 0)
-			return (0);
-			ft_putchar('b');
-		*flags |= (1 << n);
-		if ((1 << n) == F_DUMP_FREQUENCY)
+	if (!(j = 0) && ac == 1)
+		errors(2, "");
+	while (++i < ac)
+		if (ft_strequ(av[i], "-dump") && (vm->flags |= F_DUMP))
 		{
-
-			if (*(s + 1) && ft_isdigit(*(s + 1)) && ((n = ft_atoi(++s)) > 0))
-				bonus->dump_frequency = n;
+			if (av[i + 1] && ft_isdigit(*av[i + 1]))
+				vm->dump = ft_atoi(av[++i]);
 			else
-				return (0);
-			while (*s && ft_strchr("0123456789", *s))
-				++s;
-			--s;
+				errors(1, "go take another dump");
 		}
-	}
-	return (1);
+		else if (ft_strequ(av[i], "-n"))
+		{
+			if (av[++i] && (ft_isdigit(*av[i]) || \
+			(*av[i] == '-' && ft_isdigit(av[i][1]) && ft_atoi(av[i]) < -4)))
+				get_core(av, ft_atoi(av[i]), i, vm);
+			else
+				errors(1, "invalid player id: should be > -1 or < -4");
+			++i;
+		}
+		else if (*av[i] != '-')
+			get_core(av, --j, i, vm);
+		else if (!parse_flag(av[i], &(vm->flags), vm))
+			errors(2, "illegal option");
 }
 
 /*
@@ -140,7 +132,7 @@ void		init_cores(t_vm *vm, int i)
 		read(fd, &magic, 4);
 		read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH);
 		lseek(fd, 0x88, SEEK_SET);
-		read(fd, &vm->core[i].prog_size, 4); // !!!!!!!!!!! ON 8 BYTES!!!!!!!!!!!!
+		read(fd, &vm->core[i].prog_size, 4);// !!!!!!!!!!! ON 8 BYTES!!!!!!!!!!!!
 		read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4);
 		vm->core[i].prog_size = endianize(vm->core[i].prog_size);
 		read(fd, &(vm->memory[(vm->nb_players - i - 1) * \

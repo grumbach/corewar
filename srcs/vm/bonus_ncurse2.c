@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scbw_ncurse2.c                                     :+:      :+:    :+:   */
+/*   bonus_ncurse2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/19 20:36:58 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 23:36:53 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void		curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
 	const int	i = (scv->color - 2) / 3;
 
-	if (!(vm->flags & F_VISUAL))
-		return ;
 	if (x[i] + (int)ft_strlen(s) > (vm->curse.n * 3 - 3) / \
 		vm->nb_players && ++y[i])
 		x[i] = 0;
@@ -51,8 +49,7 @@ void		curse_color(t_vm *vm, int pc, int color)
 	mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
 		(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
 	wattroff(vm->curse.wmem, COLOR_PAIR(color));
-	if (!(vm->flags & F_DUMP_FREQUENCY)
-		|| !(vm->cycle % vm->bonus.dump_frequency))
+	if (!(vm->cycle % vm->dump))
 		wrefresh(vm->curse.wmem);
 }
 
@@ -133,4 +130,32 @@ void		curse_init(t_curse *curse)
 	cbreak();
 	noecho();
 	nodelay(curse->wmem, TRUE);
+}
+
+void	curse_players(t_vm *vm, int end)
+{
+	int	i;
+
+	i = -1;
+	curse_clear_scvs(&vm->curse);
+	while (++i < vm->nb_players)
+		if ((end && vm->core[i].id == vm->last_id_alive) || \
+			(!end))
+		{
+			if (end)
+				mvwprintw(vm->curse.wscv, 1, 4,"Glory and Kittens to:");
+			mvwprintw(vm->curse.wscv, 3 + i * 5 * !end, 4, \
+				"Name    %s", vm->core[i].prog_name);
+			mvwprintw(vm->curse.wscv, 4 + i * 5 * !end, 4, \
+				"ID      %s", vm->core[i].id);
+			mvwprintw(vm->curse.wscv, 5 + i * 5 * !end, 4, \
+				"Weight  %s", vm->core[i].prog_size);
+			mvwprintw(vm->curse.wscv, 6 + i * 5 * !end, 4, \
+				"Comment %s", vm->core[i].comment);
+			mvwprintw(vm->curse.wscv, 7 + i * 5 * !end, 4, \
+				"Cycle   %s", vm->cycle);
+		}
+	if (i == vm->nb_players)
+		mvwprintw(vm->curse.wscv, 1, 4, "What a bunch of loosers...");
+	wrefresh(vm->curse.wscv);
 }
