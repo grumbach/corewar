@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 17:18:36 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 20:07:08 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ static int	user_input(t_vm *vm)
 		call_zerglings(vm->scv);
 		exit(0);
 	}
-	if (!vm->curse.pause)
-		if (!(vm->flags & F_DUMP_FREQUENCY) \
-			|| !(vm->cycle % vm->bonus.dump_frequency))
-		curse_memory(vm);
 	return (key);
 }
 
@@ -169,7 +165,7 @@ static void	get_scv_redcode(t_vm *vm, t_scv **scv)
 /*
 ** once vm->cycle_to_die reaches 0 it is reset
 ** to cycle_to_die original value - CYCLE_DELTA making next clear quicker
-** we kill all scvus who didn't use live
+** we kill all scvs who didn't use live
 */
 
 static void	reset_cycle(t_vm *vm)
@@ -210,8 +206,10 @@ void		gl_hf(t_vm *vm)
 			while (!user_input(vm) || vm->curse.pause)
 				;
 		}
+		if (!(vm->cycle % vm->bonus.dump_frequency))
+			(vm->flags & F_VISUAL) ? curse_memory(vm) : dump_memory(vm);
 		get_scv_redcode(vm, &vm->scv);
-		if ((vm->cycle++ == vm->dump && vm->dump > -1) || vm->nb_scv == 1)// check about last uid alive conclicts
+		if (vm->cycle++ == vm->dump && vm->dump > -1)
 			break ;
 		if (!vm->cycle_to_die--)
 			reset_cycle(vm);

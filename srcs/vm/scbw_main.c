@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 17:08:18 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 20:05:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 ** check verbose mode with : ./corewar -v 31 ../warriors/helltrain.cor > test
 */
 
-void		init_rc(t_vm *vm)
+void	init_rc(t_vm *vm)
 {
-	const t_rc	rc[17] = \
-	{
-		{NULL, 0, {0}, 0, 0, 0},
+	const t_rc	rc[17] = {{NULL, 0, {0}, 0, 0, 0},
 		{&rc_live, 1, {T_DIR}, 10, 0, 4},
 		{&rc_ld, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4},
 		{&rc_st, 2, {T_REG, T_IND | T_REG}, 5, 1, 0},
 		{&rc_add, 3, {T_REG, T_REG, T_REG}, 10, 1, 0},
 		{&rc_sub, 3, {T_REG, T_REG, T_REG}, 10, 1, 0},
-		{&rc_and, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},
-		{&rc_or, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},
-		{&rc_xor, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4},
+		{&rc_and, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, \
+			6, 1, 4},
+		{&rc_or, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, \
+			6, 1, 4},
+		{&rc_xor, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, \
+			6, 1, 4},
 		{&rc_zjmp, 1, {T_DIR}, 20, 0, 2},
 		{&rc_ldi, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, 1, 2},
 		{&rc_sti, 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, 1, 2},
@@ -46,13 +47,14 @@ void		init_rc(t_vm *vm)
 ** dump is used to display memory at the dump cycle
 */
 
-int			main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_vm		vm;
 
 	ft_bzero(&vm, sizeof(vm));
 	init_rc(&vm);
 	vm.dump = -1;
+	vm.bonus.dump_frequency = 1;
 	parsing(ac, av, &vm, 0);
 	if (!(vm.flags & F_VISUAL))
 		vm.flags |= F_MUTE;
@@ -77,7 +79,7 @@ int			main(int ac, char **av)
 ** error handler
 */
 
-long			errors(int id, char *comment)
+long	errors(int id, char *comment)
 {
 	ft_putstr_fd("corewar: ", 2);
 	if (comment)
@@ -85,7 +87,7 @@ long			errors(int id, char *comment)
 	if (id == 0)
 		ft_putendl_fd(strerror(errno), 2);
 	if (id == 2)
-		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "	
+		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "
 		"  -m : Mute\n"
 		"  -v : Vizualizer Ncurses\n"
 		"  -a : Display 0x10 aff redcode (hidden by default)\n"

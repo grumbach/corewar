@@ -6,10 +6,9 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 08:52:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 06:33:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/19 20:00:50 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <corewar.h>
 
@@ -22,9 +21,9 @@
 
 void			rc_zjmp(t_vm *vm, t_scv *scv)
 {
-    if (scv->carry == 1)
-    {
+	if (scv->carry == 1)
+	{
 		scv->pc += ((signed short)vm->arg[0] - 3) % IDX_MOD;
 		scv->pc &= (MEM_SIZE - 1);
-    }
+	}
 }

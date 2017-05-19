@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 16:45:49 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 20:22:31 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,6 @@ static int	flag_index(char *s, int c)
 	return (-1);
 }
 
-/*
-**     int *flags :   0x0000-0xffff  00000000 00000000 00000000 00000101 with ma 
-*/
-
 int			parse_flag(char *s, int *flags, t_bonus *bonus)
 {
 	int		n;
@@ -102,7 +98,7 @@ int			parse_flag(char *s, int *flags, t_bonus *bonus)
 		*flags |= (1 << n);
 		if ((1 << n) == F_DUMP_FREQUENCY)
 		{
-			
+
 			if (*(s + 1) && ft_isdigit(*(s + 1)) && ((n = ft_atoi(++s)) > 0))
 				bonus->dump_frequency = n;
 			else
@@ -110,7 +106,7 @@ int			parse_flag(char *s, int *flags, t_bonus *bonus)
 			while (*s && ft_strchr("0123456789", *s))
 				++s;
 			--s;
-		}	
+		}
 	}
 	return (1);
 }
@@ -133,8 +129,8 @@ int			parse_flag(char *s, int *flags, t_bonus *bonus)
 
 void		init_cores(t_vm *vm, int i)
 {
-	int				fd;
-	uint			magic;
+	int		fd;
+	uint	magic;
 
 	while (i < vm->nb_players)
 	{

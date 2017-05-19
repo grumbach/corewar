@@ -50,8 +50,8 @@ void			rc_ldi(t_vm *vm, t_scv *scv)
 }
 
 /*
-** same as ldi but with no modulo applied (IDX MOD when IND) to addresses. change carry
-** mutate function takes care of the IDX MOD.
+** same as ldi but with no modulo applied (IDX MOD when IND) to addresses.
+** change carry mutate function takes care of the IDX MOD.
 */
 
 void			rc_lldi(t_vm *vm, t_scv *scv)

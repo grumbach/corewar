@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 15:58:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/19 20:03:41 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,15 @@ void	dump_memory(t_vm *vm)
 {
 	size_t	pc;
 
-	if (vm->flags & F_VISUAL)
-		ft_printf("Reached cycle %d, now dumping memory :\n\n ", vm->dump);
+	ft_printf("%sReached cycle %d, now dumping memory :\n\n%s", BLUE, \
+		vm->cycle, GREEN);
 	pc = 0;
 	while (pc < MEM_SIZE)
 	{
 		ft_printf("%02x", vm->memory[pc]);
-		if ((pc & 31) == 31)
-			ft_printf("\n ");
-        else
-            ft_printf(" ");
+		if ((pc & 0x1f) == 0x1f)
+			ft_printf("\n");
+		ft_printf(" ");
 		++pc;
 	}
 	ft_printf("\n");

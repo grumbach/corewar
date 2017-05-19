@@ -25,13 +25,13 @@
 ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
 */
 
-# define IND_SIZE				2
-# define REG_SIZE				4
-# define DIR_SIZE				REG_SIZE
+# define IND_SIZE						2
+# define REG_SIZE						4
+# define DIR_SIZE						REG_SIZE
 
-# define REG_CODE				1 // 0b01
-# define DIR_CODE				2 // 0b10
-# define IND_CODE				3 // 0b11
+# define REG_CODE						0b01
+# define DIR_CODE						0b10
+# define IND_CODE						0b11
 
 /*
 **
@@ -39,42 +39,42 @@
 
 typedef char	t_arg_type;
 
-# define T_REG					1
-# define T_DIR					2
-# define T_IND					4
-# define T_LAB					8// peut etre a virer ?
+# define T_REG							1
+# define T_DIR							2
+# define T_IND							4
+# define T_LAB							8// peut etre a virer ?
 
 # define MAX_ARGS_NUMBER		4
-# define MAX_PLAYERS			4
-# define MEM_SIZE				(4096)
-# define IDX_MOD				(MEM_SIZE / 8)
+# define MAX_PLAYERS				4
+# define MEM_SIZE						(4096)
+# define IDX_MOD						(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
-# define COMMENT_CHAR			'#'
-# define LABEL_CHAR				':'
-# define DIRECT_CHAR			'%'
+# define COMMENT_CHAR				'#'
+# define LABEL_CHAR					':'
+# define DIRECT_CHAR				'%'
 # define SEPARATOR_CHAR			','
 
-# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
+# define LABEL_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789"
 
 # define NAME_CMD_STRING		".name"
-# define COMMENT_CMD_STRING		".comment"
+# define COMMENT_CMD_STRING	".comment"
 
-# define REG_NUMBER				16
-# define SLEEP					vm->speed//
+# define REG_NUMBER					16
+# define SLEEP							vm->speed//
 
-# define CYCLE_TO_DIE			1536
-# define CYCLE_DELTA			50
-# define SUDDEN_DEATH			4
-# define NBR_LIVE				21
-# define MAX_CHECKS				10
+# define CYCLE_TO_DIE				1536
+# define CYCLE_DELTA				50
+# define SUDDEN_DEATH				4
+# define NBR_LIVE						21
+# define MAX_CHECKS					10
 
 /*
 ** booleans define
 */
 
-# define TRUE					1
-# define FALSE					0
+# define TRUE								1
+# define FALSE							0
 
 typedef struct			s_vm t_vm;
 
@@ -90,14 +90,14 @@ typedef struct			s_vm t_vm;
 
 typedef struct			s_scv
 {
-	uint				reg[REG_NUMBER + 1];
-	uint				pc;
-	int					carry;
-	int					live;
-	int					cooldown;
-	int					color;
-	struct s_scv	  	*next;
-}						t_scv;
+	uint					reg[REG_NUMBER + 1];
+	uint					pc;
+	int						carry;
+	int						live;
+	int						cooldown;
+	int						color;
+	struct s_scv	*next;
+}										t_scv;
 
 /*
 ** magic determine if the file has the right extension
@@ -110,7 +110,7 @@ typedef struct			s_scv
 
 # define PROG_NAME_LENGTH			(128)
 # define COMMENT_LENGTH				(2048)
-# define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
+# define COREWAR_EXEC_MAGIC		0xea83f3	/* why not */
 
 typedef struct			s_core
 {
@@ -217,22 +217,22 @@ typedef struct			s_rc
 **		Getting-characters-from-the-keyboard.html
 */
 
-# define	DEFAULT_SPEED	8
+# define	DEFAULT_SPEED		8
 
-# define	KEY_ESCAPE		27
-# define	KEY_PLUS		43
-# define	KEY_MINUS		45
-# define	KEY_SPACE		32
+# define	KEY_ESCAPE			27
+# define	KEY_PLUS				43
+# define	KEY_MINUS				45
+# define	KEY_SPACE				32
 
-# define	COL_RED			9
-# define 	COL_ORANGE		215
-# define	COL_EMERALD		2
+# define	COL_RED					9
+# define 	COL_ORANGE			215
+# define	COL_EMERALD			2
 # define	COL_MARINE_BLUE	69
 
-# define	COLOR_1			COL_ORANGE
-# define	COLOR_2			COL_EMERALD
-# define	COLOR_3			COL_MARINE_BLUE
-# define	COLOR_4			COL_RED
+# define	COLOR_1					COL_ORANGE
+# define	COLOR_2					COL_EMERALD
+# define	COLOR_3					COL_MARINE_BLUE
+# define	COLOR_4					COL_RED
 
 typedef struct			s_curse
 {

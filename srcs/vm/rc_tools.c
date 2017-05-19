@@ -16,7 +16,7 @@
 ** dereferencing IND and REG
 */
 
-uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
+uint	mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 {
 	int			i;
 	int			n;
@@ -26,7 +26,7 @@ uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 	else if (type == IND_CODE)
 	{
 		if (vm->redcode < 13)
-			raw &= (IDX_MOD - 1); 
+			raw &= (IDX_MOD - 1);
 		i = scv->pc + raw;
 		n = DIR_SIZE;
 		while (n--)

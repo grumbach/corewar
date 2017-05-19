@@ -50,7 +50,7 @@ void	rc_st(t_vm *vm, t_scv *scv)
 ** the first parameter will be copied.
 */
 
-void				rc_sti(t_vm *vm, t_scv *scv)
+void	rc_sti(t_vm *vm, t_scv *scv)
 {
 	int		pc;
 	int		i;
