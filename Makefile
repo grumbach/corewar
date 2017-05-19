@@ -31,10 +31,11 @@ VM_SRC = \
 	rc_st.c \
 	rc_aff.c \
 	rc_tools.c \
-	scbw_ncurse.c \
-	play_music.c \
+	bonus_ncurse.c \
+	bonus_ncurse2.c \
+	bonus_music.c \
 
-#BONUS_SRC =	
+#BONUS_SRC =
 
 ASM_SRC = asm.c
 
