@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 08:35:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 10:12:59 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		rc_fork(void *vmp, t_scv *cur)
 	vm->scv = new;
 	++vm->nb_scv;
 	new->pc += (signed short)vm->arg[0] % IDX_MOD;
-	new->pc %= MEM_SIZE;
+	new->pc = clamp(new->pc);
 }
 
 void		rc_lfork(void *vmp, t_scv *cur)
@@ -48,5 +48,5 @@ void		rc_lfork(void *vmp, t_scv *cur)
 	vm->scv = new;
 	++vm->nb_scv;
 	new->pc += (signed short)vm->arg[0];
-	new->pc %= MEM_SIZE;
+	new->pc = clamp(new->pc);
 }

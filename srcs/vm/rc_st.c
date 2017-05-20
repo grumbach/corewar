@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 08:34:59 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 10:28:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		rc_st(void *vmp, t_scv *scv)
 	{
 		i = 4;
 		pc = scv->pc + ((signed short)vm->arg[1]) % IDX_MOD;
+		pc = clamp(pc);
 		while (i--)
 		{
 			vm->memory[(pc + 3 - i) % MEM_SIZE] = \
@@ -64,6 +65,7 @@ void		rc_sti(void *vmp, t_scv *scv)
 	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
 	i = 4;
 	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) % IDX_MOD);
+	pc = clamp(pc);
 	while (i--)
 	{
 		vm->memory[(pc + 3 - i) % MEM_SIZE] = \

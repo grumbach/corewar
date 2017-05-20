@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 08:50:06 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 10:11:17 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ long				errors(int id, char *comment);
 void				gl_hf(t_vm *vm);
 void				get_scv_redcode(t_vm *vm, t_scv **scv);
 uint				mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
+uint				clamp(int raw);
 
 /*
 ** scvs functions
