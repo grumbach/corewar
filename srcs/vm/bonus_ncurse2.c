@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 01:55:59 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 07:55:04 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			curse_color(t_vm *vm, int pc, int color)
 {
 	wattron(vm->curse.wmem, COLOR_PAIR(color));
 	mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
-		(pc % vm->curse.n) * 3, "%02x", vm->memory[pc]);
+		(pc % vm->curse.n) * 3, "%02x", vm->memory[pc % MEM_SIZE]);
 	wattroff(vm->curse.wmem, COLOR_PAIR(color));
 	if (!(vm->cycle % vm->dump))
 		wrefresh(vm->curse.wmem);

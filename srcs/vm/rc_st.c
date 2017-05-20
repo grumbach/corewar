@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 07:24:31 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 07:51:19 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	rc_st(void *vmp, t_scv *scv)
 		pc = scv->pc + ((signed short)vm->arg[1]) % IDX_MOD;
 		while (i--)
 		{
-			vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
+			vm->memory[(pc + 3 - i) % MEM_SIZE] = \
 				(vm->arg[0] >> (i << 3)) & 0xff;
-			vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
+			vm->creep[(pc + 3 - i) % MEM_SIZE] = scv->color;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), \
+				curse_color(vm, (pc + 3 - i) % MEM_SIZE, \
 				scv->color + 1);
 		}
 	}
@@ -63,13 +63,13 @@ void	rc_sti(void *vmp, t_scv *scv)
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
 	i = 4;
-	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) & (IDX_MOD - 1));
+	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) % IDX_MOD);
 	while (i--)
 	{
-		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
+		vm->memory[(pc + 3 - i) % MEM_SIZE] = \
 			(vm->arg[0] >> (i << 3)) & 0xff;
-		vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
+		vm->creep[(pc + 3 - i) % MEM_SIZE] = scv->color;
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), scv->color + 1);
+			curse_color(vm, (pc + 3 - i) % MEM_SIZE, scv->color + 1);
 	}
 }

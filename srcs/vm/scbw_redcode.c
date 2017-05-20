@@ -21,16 +21,16 @@ static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 	arg = 0;
 	if (type == REG_CODE)
 	{
-		arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)];
+		arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE];
 		if (arg < 1 || arg > REG_NUMBER)
 			*pc = -1;
 	}
 	else if (type == DIR_CODE)
 		while (i++ < vm->rc[vm->redcode].dir_size)
-			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
+			arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE] | (arg << 8);
 	else if (type == IND_CODE)
 		while (i++ < IND_SIZE)
-			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
+			arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE] | (arg << 8);
 	return (arg);
 }
 
@@ -63,7 +63,7 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 	unsigned char	ocp;
 	int				arg;
 
-	if ((ocp = vm->memory[scv->pc + ++(*pc) & (MEM_SIZE - 1)]) & 3)
+	if ((ocp = vm->memory[scv->pc + ++(*pc) % MEM_SIZE]) & 3)
 	{
 		*pc = -1;
 		return ;
@@ -104,7 +104,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		else
 			scv->carry ^= scv->carry;
 	}
-	scv->pc = (scv->pc + 1) & (MEM_SIZE - 1);
+	scv->pc = (scv->pc + 1) % MEM_SIZE;
 }
 
 /*
@@ -123,7 +123,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	{
 		if (!(lst->cooldown))
 		{
-			vm->redcode = vm->memory[lst->pc & (MEM_SIZE - 1)];
+			vm->redcode = vm->memory[lst->pc % MEM_SIZE];
 			if (vm->flags & F_VISUAL)
 				curse_color(vm, lst->pc, lst->color + 2);
 			fetch(vm, lst);
