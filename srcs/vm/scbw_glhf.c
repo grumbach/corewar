@@ -32,7 +32,7 @@ static void	reset_cycle(t_vm *vm)
 	vm->cycle_to_die = cycle_to_die;
 	if (!(vm->flags & F_MUTE))
 		play_foam();
-	vm->scv = six_pool(vm, vm->scv);
+	six_pool(vm, &vm->scv);
 	vm->nb_total_live = 0;
 	curse_clear_scvs(&vm->curse);
 }

@@ -54,8 +54,6 @@ void	init_scv(t_vm *vm)
 
 /*
 ** destroy a scv if live == 0
-*/
-
 t_scv	*six_pool(t_vm *vm, t_scv *scv)
 {
 	t_scv	*infested_terran;
@@ -74,6 +72,28 @@ t_scv	*six_pool(t_vm *vm, t_scv *scv)
 	}
 	scv->live = 0;
 	return (scv);
+}
+*/
+
+void six_pool(t_vm *vm, t_scv **scv)
+{
+		t_scv        *free_this;
+
+    while (*scv)
+    {
+        if (!(*scv)->live)
+        {
+            --vm->nb_scv;
+            free_this = *scv;
+            *scv = free_this->next;
+            free(free_this);
+        }
+        else
+        {
+            (*scv)->live = 0;
+            scv = &(*scv)->next;
+        }
+    }
 }
 
 /*
