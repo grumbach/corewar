@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 02:28:53 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 03:21:44 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@
 ** Loads the value of the argument in the registry and changes the carry.
 */
 
-void			rc_ld(void *vm, t_scv *scv)
+void			rc_ld(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	scv->carry ^= 1;
 }
@@ -29,8 +32,11 @@ void			rc_ld(void *vm, t_scv *scv)
 ** Also modifies the carry.
 */
 
-void			rc_lld(void *vm, t_scv *scv)
+void			rc_lld(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	scv->carry ^= 1;
 }
@@ -41,8 +47,11 @@ void			rc_lld(void *vm, t_scv *scv)
 ** the last arg which is a reg
 */
 
-void			rc_ldi(void *vm, t_scv *scv)
+void			rc_ldi(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = \
@@ -54,8 +63,11 @@ void			rc_ldi(void *vm, t_scv *scv)
 ** change carry mutate function takes care of the IDX MOD.
 */
 
-void			rc_lldi(void *vm, t_scv *scv)
+void			rc_lldi(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = \

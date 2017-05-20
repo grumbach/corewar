@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 02:29:23 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 03:19:51 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	rc_st(void *vm, t_scv *scv)
 {
 	int		pc;
 	int		i;
+	t_vm	*vm;
 
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	if (vm->type[1] == IND_CODE)
 	{
@@ -54,7 +56,9 @@ void	rc_sti(void *vm, t_scv *scv)
 {
 	int		pc;
 	int		i;
+	t_vm	*vm;
 
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);

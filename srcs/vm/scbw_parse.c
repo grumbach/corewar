@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:08:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 02:10:05 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 03:22:44 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** 0xf3 83 ea 00 ---->	0x00 ea 83 f3 EXEC MAGIC
 */
 
-unsigned int	endianize(unsigned int n)
+uint		endianize(unsigned int n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
 		((n & 0xff) << 24));
