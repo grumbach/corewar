@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 03:00:23 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 14:40:57 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/20 02:32:27 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** to display on the standard output. The code is modulo 256
 */
 
-void		rc_aff(t_vm *vm, t_scv *scv)
+void		rc_aff(void *vm, t_scv *scv)
 {
 	if (vm->flags & F_RC_AFF)
 	{

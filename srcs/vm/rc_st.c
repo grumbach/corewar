@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 15:59:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 02:29:23 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** 0b 		03 		01		[01 11]
 */
 
-void	rc_st(t_vm *vm, t_scv *scv)
+void	rc_st(void *vm, t_scv *scv)
 {
 	int		pc;
 	int		i;
@@ -50,7 +50,7 @@ void	rc_st(t_vm *vm, t_scv *scv)
 ** the first parameter will be copied.
 */
 
-void	rc_sti(t_vm *vm, t_scv *scv)
+void	rc_sti(void *vm, t_scv *scv)
 {
 	int		pc;
 	int		i;

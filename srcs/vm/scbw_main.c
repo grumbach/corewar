@@ -6,78 +6,13 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 00:16:50 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 01:52:38 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
-/*
-** check verbose mode with : ./corewar -v 31 ../warriors/helltrain.cor > test
-*/
-
-void	init_rc(t_vm *vm)
-{
-	const t_rc	rc[17] = {{NULL, 0, {0}, 0, 0, 0},
-		{&rc_live, 1, {T_DIR}, 10, 0, 4},
-		{&rc_ld, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4},
-		{&rc_st, 2, {T_REG, T_IND | T_REG}, 5, 1, 0},
-		{&rc_add, 3, {T_REG, T_REG, T_REG}, 10, 1, 0},
-		{&rc_sub, 3, {T_REG, T_REG, T_REG}, 10, 1, 0},
-		{&rc_and, 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, \
-			6, 1, 4},
-		{&rc_or, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, \
-			6, 1, 4},
-		{&rc_xor, 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, \
-			6, 1, 4},
-		{&rc_zjmp, 1, {T_DIR}, 20, 0, 2},
-		{&rc_ldi, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, 1, 2},
-		{&rc_sti, 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, 1, 2},
-		{&rc_fork, 1, {T_DIR}, 800, 0, 2},
-		{&rc_lld, 2, {T_DIR | T_IND, T_REG}, 10, 1, 2},
-		{&rc_lldi, 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, 1, 4},
-		{&rc_lfork, 1, {T_DIR}, 1000, 0, 2},
-		{&rc_aff, 1, {T_REG}, 2, 1, 2}
-	};
-	ft_memcpy(vm->rc, rc, sizeof(rc));
-}
-
-/*
-** if not parsed, dump will be initialized at -1 instead of 0.
-** dump is used to display memory at the dump cycle
-*/
-
-int		main(int ac, char **av)
-{
-	t_vm		vm;
-
-	ft_bzero(&vm, sizeof(vm));
-	init_rc(&vm);
-	vm.dump = 1;
-	parsing(ac, av, &vm, 0);
-	if (!(vm.flags & F_VISUAL))
-		vm.flags |= F_MUTE;
-	vm.nb_players ? init_cores(&vm, 0) : \
-		errors(1, "this memory is sad and lonely");
-	if (!(vm.flags & F_MUTE))
-		play_music();
-	gl_hf(&vm);
-	if (vm.flags & F_VISUAL)
-		endwin();
-	if (vm.flags & F_DUMP)
-		dump_memory(&vm);
-	call_zerglings(vm.scv);
-	if (!(vm.flags & F_VISUAL))
-		display_winner(&vm);
-	system("killall afplay 2&>/dev/null >/dev/null");
-	return (0);
-}
-
-/*
-** error handler
-*/
-
-long	errors(int id, char *comment)
+long		errors(int id, char *comment)
 {
 	ft_putstr_fd("corewar: ", 2);
 	if (comment)
@@ -99,4 +34,105 @@ long	errors(int id, char *comment)
 		ft_putstr_fd("\nPS: Any sufficiently advanced technology is"
 		" indistinguishable from magic\n", 2);
 	exit(1);
+}
+
+static void	init_rc(t_vm *vm)
+{
+	vm->rc[0] = (t_rc){NULL, 0, {0}, 0, 0, 0};
+	vm->rc[1] = (t_rc){&rc_live, 1, {T_DIR}, 10, 0, 4};
+	vm->rc[2] = (t_rc){&rc_ld, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4};
+	vm->rc[3] = (t_rc){&rc_st, 2, {T_REG, T_IND | T_REG}, 5, 1, 0};
+	vm->rc[4] = (t_rc){&rc_add, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
+	vm->rc[5] = (t_rc){&rc_sub, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
+	vm->rc[6] = (t_rc){&rc_and, 3, \
+		{T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
+	vm->rc[7] = (t_rc){&rc_or, 3, \
+		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
+	vm->rc[8] = (t_rc){&rc_xor, 3, \
+		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
+	vm->rc[9] = (t_rc){&rc_zjmp, 1, {T_DIR}, 20, 0, 2};
+	vm->rc[10] = (t_rc){&rc_ldi, 3, \
+		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, 1, 2};
+	vm->rc[11] = (t_rc){&rc_sti, 3, \
+		{T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, 1, 2};
+	vm->rc[12] = (t_rc){&rc_fork, 1, {T_DIR}, 800, 0, 2};
+	vm->rc[13] = (t_rc){&rc_lld, 2, {T_DIR | T_IND, T_REG}, 10, 1, 2};
+	vm->rc[14] = (t_rc){&rc_lldi, 3, \
+		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, 1, 4};
+	vm->rc[15] = (t_rc){&rc_lfork, 1, {T_DIR}, 1000, 0, 2};
+	vm->rc[16] = (t_rc){&rc_aff, 1, {T_REG}, 2, 1, 2};
+}
+
+static uint	init_cores(const int fd, t_vm *vm, int i)
+{
+	uint	magic;
+
+	vm->core[i].color = (i * 3) + 2;
+	if (-1 == read(fd, &magic, 4))
+		errors(0, 0);
+	if (endianize(magic) != COREWAR_EXEC_MAGIC)
+	{
+		close(fd);
+		errors(4, "why not 0xea83f3 ?");
+	}
+	if (-1 == read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH))
+		errors(0, 0);
+	if (-1 == lseek(fd, 0x88, SEEK_SET))
+		errors(0, 0);
+	if (-1 == read(fd, &vm->core[i].prog_size, 4))
+		errors(0, 0);
+	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4))
+		errors(0, 0);
+	vm->core[i].prog_size = endianize(vm->core[i].prog_size);
+	return (magic);
+}
+
+static void	init_game(t_vm *vm)
+{
+	int		i;
+	int		fd;
+	uint	magic;
+	int		pos;
+
+	i = 0;
+	while (i < vm->nb_players)
+	{
+		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
+			errors(0, vm->core[i].prog_name);
+		pos = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
+		magic = init_cores(fd, vm, i);
+		if (-1 == read(fd, &(vm->memory[pos]), vm->core[i].prog_size))
+			errors(0, 0);
+		ft_memset(&(vm->creep[pos]), vm->core[i].color, vm->core[i].prog_size);
+		close(fd);
+		if (vm->core[i].prog_size > CHAMP_MAX_SIZE)
+			errors(1, "way.... too... much.. code.");
+		++i;
+	}
+}
+
+int			main(int ac, char **av)
+{
+	t_vm		vm;
+
+	ft_bzero(&vm, sizeof(vm));
+	init_rc(&vm);
+	vm.dump = 1;
+	parsing(ac, av, &vm, 0);
+	if (!(vm.flags & F_VISUAL))
+		vm.flags |= F_MUTE;
+	vm.nb_players ? init_game(&vm) : \
+		errors(1, "this memory is sad and lonely");
+	if (!(vm.flags & F_MUTE))
+		play_music();
+	gl_hf(&vm);
+	if (vm.flags & F_VISUAL)
+		endwin();
+	if (vm.flags & F_DUMP)
+		dump_memory(&vm);
+	call_zerglings(vm.scv);
+	if (!(vm.flags & F_VISUAL))
+		display_winner(&vm);
+	system("killall afplay 2&>/dev/null >/dev/null");
+	return (0);
 }

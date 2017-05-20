@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/19 22:40:38 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 02:28:59 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void		reportalive(t_vm *vm, t_scv *scv, int i)
 		vm->core[i].id, vm->core[i].prog_name);
 }
 
-void			rc_live(t_vm *vm, t_scv *scv)
+void			rc_live(void *vm, t_scv *scv)
 {
 	int			i;
 

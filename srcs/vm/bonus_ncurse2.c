@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 00:15:42 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 01:55:59 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** function to display messages and aff inside the log window
 */
 
-void		curse_puts_log(t_vm *vm, t_scv *scv, char *s)
+void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 {
 	static int	y[MAX_PLAYERS] = {0, 0, 0, 0};
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
@@ -43,7 +43,7 @@ void		curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 	wrefresh(vm->curse.wlog);
 }
 
-void		curse_color(t_vm *vm, int pc, int color)
+void			curse_color(t_vm *vm, int pc, int color)
 {
 	wattron(vm->curse.wmem, COLOR_PAIR(color));
 	mvwprintw(vm->curse.wmem, 3 + pc / vm->curse.n, 1 + \
@@ -53,7 +53,7 @@ void		curse_color(t_vm *vm, int pc, int color)
 		wrefresh(vm->curse.wmem);
 }
 
-static void	curse_init_colors(t_curse *curse)
+static void		curse_init_colors(t_curse *curse)
 {
 	start_color();
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
@@ -104,7 +104,7 @@ static void	curse_init_colors(t_curse *curse)
 ** nodelay is to be able to user key hook without waiting for user input
 */
 
-void		curse_init(t_curse *curse)
+void			curse_init(t_curse *curse)
 {
 	int		i;
 
@@ -132,7 +132,7 @@ void		curse_init(t_curse *curse)
 	nodelay(curse->wmem, TRUE);
 }
 
-void	curse_players(t_vm *vm, int end, int i)
+void			curse_players(t_vm *vm, int end, int i)
 {
 	curse_clear_scvs(&vm->curse);
 	while (++i < vm->nb_players)
@@ -141,7 +141,7 @@ void	curse_players(t_vm *vm, int end, int i)
 		{
 			wattron(vm->curse.wscv, COLOR_PAIR(vm->core[i].color));
 			if (end)
-				mvwprintw(vm->curse.wscv, 1, 4,"Glory and Kittens to:");
+				mvwprintw(vm->curse.wscv, 1, 4, "Glory and Kittens to:");
 			mvwprintw(vm->curse.wscv, 3 + i * 6 * !end, 4, \
 				"Name    %s", vm->core[i].prog_name);
 			mvwprintw(vm->curse.wscv, 4 + i * 6 * !end, 4, \
@@ -154,7 +154,7 @@ void	curse_players(t_vm *vm, int end, int i)
 				"Cycle   %d", vm->cycle);
 			wattroff(vm->curse.wscv, COLOR_PAIR(vm->core[i].color));
 			if (end)
-				break;
+				break ;
 		}
 	if (i == vm->nb_players && end)
 		mvwprintw(vm->curse.wscv, 1, 4, "What a bunch of loosers...");

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 03:29:46 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 02:28:43 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** 0x0f rc_lfork : long-fork. Same as a fork without modulo in the address.
 */
 
-void	rc_fork(t_vm *vm, t_scv *cur)
+void	rc_fork(void *vm, t_scv *cur)
 {
 	t_scv	*new;
 
@@ -33,7 +33,7 @@ void	rc_fork(t_vm *vm, t_scv *cur)
 	new->pc &= (MEM_SIZE - 1);
 }
 
-void	rc_lfork(t_vm *vm, t_scv *cur)
+void	rc_lfork(void *vm, t_scv *cur)
 {
 	t_scv	*new;
 
