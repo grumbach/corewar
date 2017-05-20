@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 00:15:02 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 11:39:39 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 static void	reset_cycle(t_vm *vm)
 {
 	static int	cycle_to_die = CYCLE_TO_DIE;
-	t_scv		*lst;
 
 	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
 	{
@@ -34,7 +33,6 @@ static void	reset_cycle(t_vm *vm)
 	if (!(vm->flags & F_MUTE))
 		play_foam();
 	vm->scv = six_pool(vm, vm->scv);
-	lst = vm->scv;
 	vm->nb_total_live = 0;
 	curse_clear_scvs(&vm->curse);
 }

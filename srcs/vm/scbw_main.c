@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 09:01:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 11:33:51 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ long		errors(int id, char *comment)
 		"  -v : Vizualizer Ncurses\n"
 		"  -a : Display 0x10 aff redcode (hidden by default)\n"
 		"  -s : Stealth mode (no clue about what is read in the memory)\n"
-		"  -Dx : Dump memory every x cycle\n"
+		"  -D(x) : Dump memory every x cycle\n"
 		"[-dump cyclecount] [-n id champ] [champs ...]\n"
 		"example : make && ./corewar -vmsD500 -dump 2500 warriors/zork.cor", 2);
 	if (id == 3)
@@ -81,7 +81,7 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 		errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].prog_size, 4))
 		errors(0, 0);
-	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH + 4))
+	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH))
 		errors(0, 0);
 	vm->core[i].prog_size = endianize(vm->core[i].prog_size);
 	return (magic);
