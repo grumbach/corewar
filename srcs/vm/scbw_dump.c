@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/19 22:09:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 08:34:42 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 ** 32 octets per line.
 */
 
-void	display_winner(t_vm *vm)
+void		display_winner(t_vm *vm)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (i < vm->nb_players)
@@ -45,9 +45,9 @@ void	display_winner(t_vm *vm)
 	ft_printf("\n   %sWhat a bunch of loosers...\n\n%s", RED, NORMAL);
 }
 
-void	dump_memory(t_vm *vm)
+void		dump_memory(t_vm *vm)
 {
-	size_t	pc;
+	uint	pc;
 
 	ft_printf("%sReached cycle %d, now dumping memory :\n\n%s", BLUE, \
 		vm->cycle, NORMAL);

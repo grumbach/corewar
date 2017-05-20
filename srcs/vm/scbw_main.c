@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 01:52:38 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 09:01:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,28 @@ long		errors(int id, char *comment)
 static void	init_rc(t_vm *vm)
 {
 	vm->rc[0] = (t_rc){NULL, 0, {0}, 0, 0, 0};
-	vm->rc[1] = (t_rc){&rc_live, 1, {T_DIR}, 10, 0, 4};
-	vm->rc[2] = (t_rc){&rc_ld, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4};
-	vm->rc[3] = (t_rc){&rc_st, 2, {T_REG, T_IND | T_REG}, 5, 1, 0};
-	vm->rc[4] = (t_rc){&rc_add, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
-	vm->rc[5] = (t_rc){&rc_sub, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
-	vm->rc[6] = (t_rc){&rc_and, 3, \
+	vm->rc[LIVE] = (t_rc){&rc_live, 1, {T_DIR}, 10, 0, 4};
+	vm->rc[LD] = (t_rc){&rc_ld, 2, {T_DIR | T_IND, T_REG}, 5, 1, 4};
+	vm->rc[ST] = (t_rc){&rc_st, 2, {T_REG, T_IND | T_REG}, 5, 1, 0};
+	vm->rc[ADD] = (t_rc){&rc_add, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
+	vm->rc[SUB] = (t_rc){&rc_sub, 3, {T_REG, T_REG, T_REG}, 10, 1, 0};
+	vm->rc[AND] = (t_rc){&rc_and, 3, \
 		{T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
-	vm->rc[7] = (t_rc){&rc_or, 3, \
+	vm->rc[OR] = (t_rc){&rc_or, 3, \
 		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
-	vm->rc[8] = (t_rc){&rc_xor, 3, \
+	vm->rc[XOR] = (t_rc){&rc_xor, 3, \
 		{T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 6, 1, 4};
-	vm->rc[9] = (t_rc){&rc_zjmp, 1, {T_DIR}, 20, 0, 2};
-	vm->rc[10] = (t_rc){&rc_ldi, 3, \
+	vm->rc[ZJMP] = (t_rc){&rc_zjmp, 1, {T_DIR}, 20, 0, 2};
+	vm->rc[LDI] = (t_rc){&rc_ldi, 3, \
 		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 25, 1, 2};
-	vm->rc[11] = (t_rc){&rc_sti, 3, \
+	vm->rc[STI] = (t_rc){&rc_sti, 3, \
 		{T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 25, 1, 2};
-	vm->rc[12] = (t_rc){&rc_fork, 1, {T_DIR}, 800, 0, 2};
-	vm->rc[13] = (t_rc){&rc_lld, 2, {T_DIR | T_IND, T_REG}, 10, 1, 2};
-	vm->rc[14] = (t_rc){&rc_lldi, 3, \
-		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, 1, 4};
-	vm->rc[15] = (t_rc){&rc_lfork, 1, {T_DIR}, 1000, 0, 2};
-	vm->rc[16] = (t_rc){&rc_aff, 1, {T_REG}, 2, 1, 2};
+	vm->rc[FORK] = (t_rc){&rc_fork, 1, {T_DIR}, 800, 0, 2};
+	vm->rc[LLD] = (t_rc){&rc_lld, 2, {T_DIR | T_IND, T_REG}, 10, 1, 4};
+	vm->rc[LLDI] = (t_rc){&rc_lldi, 3, \
+		{T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 50, 1, 2};
+	vm->rc[LFORK] = (t_rc){&rc_lfork, 1, {T_DIR}, 1000, 0, 2};
+	vm->rc[AFF] = (t_rc){&rc_aff, 1, {T_REG}, 2, 1, 0};
 }
 
 static uint	init_cores(const int fd, t_vm *vm, int i)

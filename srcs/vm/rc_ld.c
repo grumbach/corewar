@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 07:50:35 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 09:03:26 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void			rc_ld(void *vmp, t_scv *scv)
 
 /*
 ** 0x0d rc_lld : Means long-load. Similar to ld, but without % IDX_MOD.
-** mutate function takes care of the later.
 ** Also modifies the carry.
 */
 
