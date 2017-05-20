@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 03:22:23 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 03:23:51 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** 01 00 00 00 01
 */
 
-static void		reportalive(void *vmp, t_scv *scv, int i)
+static void		reportalive(t_vm *vm, t_scv *scv, int i)
 {
 	char	number[12];
 
