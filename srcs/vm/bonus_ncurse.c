@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 00:18:06 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 05:39:54 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static void	curse_reg(WINDOW *win, uint reg[REG_NUMBER + 1], int i)
 {
-	uint		x;
+	uint	index;
+	int		y;
+	int		x;
 
-	x = 0;
-	while (++x <= REG_NUMBER)
+	index = 0;
+	while (++index <= REG_NUMBER)
 	{
-		mvwprintw(win, 3 + i % 16 * 5, 20 + x * 3 + ((i >> 4) * 96), \
-		"%02x", (reg[x] >> 6) & 0xff);
-		mvwprintw(win, 4 + i % 16 * 5, 20 + x * 3 + ((i >> 4) * 96), \
-		"%02x", (reg[x] >> 4) & 0x00ff);
-		mvwprintw(win, 5 + i % 16 * 5, 20 + x * 3 + ((i >> 4) * 96), \
-		"%02x", (reg[x] >> 2) & 0x0000ff);
-		mvwprintw(win, 6 + i % 16 * 5, 20 + x * 3 + ((i >> 4) * 96), \
-		"%02x", reg[x] & 0xff);
+		y = 3 + i % 16 * 5;
+		x = 20 + index * 3 + ((i >> 4) * 96);
+		mvwprintw(win, y, x, "%02x", (reg[index] >> 24) & 0xff);
+		mvwprintw(win, 1 + y, x, "%02x", (reg[index] >> 16) & 0xff);
+		mvwprintw(win, 2 + y, x, "%02x", (reg[index] >> 8) & 0xff);
+		mvwprintw(win, 3 + y, x, "%02x", reg[index] & 0xff);
 	}
 }
 

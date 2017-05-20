@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 03:24:41 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 07:24:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	rc_st(void *vmp, t_scv *scv)
 	if (vm->type[1] == IND_CODE)
 	{
 		i = 4;
-		pc = scv->pc + vm->arg[1] & (IDX_MOD - 1);
+		pc = scv->pc + ((signed short)vm->arg[1]) % IDX_MOD;
 		while (i--)
 		{
 			vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \

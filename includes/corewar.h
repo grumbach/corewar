@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 02:28:11 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 05:26:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ typedef struct		s_rc
 **		Getting-characters-from-the-keyboard.html
 */
 
-# define DEFAULT_SPEED		8
+# define DEFAULT_SPEED		1
 
 # define KEY_ESCAPE			27
 # define KEY_PLUS			43

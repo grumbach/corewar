@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 23:29:09 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/19 23:29:26 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 07:37:03 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 		while (i++ < vm->rc[vm->redcode].dir_size)
 			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
 	else if (type == IND_CODE)
-	{
 		while (i++ < IND_SIZE)
 			arg = vm->memory[(scv->pc + ++(*pc)) & (MEM_SIZE - 1)] | (arg << 8);
-		arg &= (MEM_SIZE - 1);
-	}
 	return (arg);
 }
 
