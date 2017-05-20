@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 09:03:26 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/20 09:58:06 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,13 @@ void			rc_ldi(void *vmp, t_scv *scv)
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE);
+		mutate(vm, scv, vm->arg[0] + vm->arg[1], IND_CODE);
+
+curse_puts_log(vm, scv, ft_itoa_base(vm->arg[0], 10));//
+curse_puts_log(vm, scv, (char[6]){'f','f','f', 'f', '!', 0});//
+curse_puts_log(vm, scv, ft_itoa_base(vm->arg[1], 10));//
+	curse_puts_log(vm, scv, (char[6]){'l','d','i', ':', '!', 0});//
+	curse_puts_log(vm, scv, ft_itoa_base(scv->reg[vm->arg[2]], 10));//
 }
 
 /*
