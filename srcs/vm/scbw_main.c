@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 20:21:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 22:55:20 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ int			main(int ac, char **av)
 		endwin();
 	if (vm.flags & F_DUMP)
 		dump_memory(&vm);
-	call_zerglings(vm.scv);
-	if (!(vm.flags & F_VISUAL))
+	else if (!(vm.flags & F_VISUAL))
 		display_winner(&vm);
+	call_zerglings(vm.scv);
 	system("killall afplay 2&>/dev/null >/dev/null");
 	return (0);
 }

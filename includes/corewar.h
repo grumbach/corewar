@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 20:20:38 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 22:54:14 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,8 @@ typedef struct		s_vm
 	unsigned char	creep[MEM_SIZE];
 	t_core			core[MAX_PLAYERS];
 }					t_vm;
+
+# define DUMP_SIZE				64//32
 
 /*
 ** flags list

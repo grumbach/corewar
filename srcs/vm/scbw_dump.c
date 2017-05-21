@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 08:34:42 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 23:14:45 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,24 @@ void		display_winner(t_vm *vm)
 
 void		dump_memory(t_vm *vm)
 {
-	uint	pc;
+	int		i;
 
-	ft_printf("%sReached cycle %d, now dumping memory :\n\n%s", BLUE, \
-		vm->cycle, NORMAL);
-	pc = 0;
-	while (pc < MEM_SIZE)
+	i = 0;
+	ft_printf("Introducing contestants...");
+	while (i < vm->nb_players)
 	{
-		ft_printf("%02x", vm->memory[pc]);
-		if ((pc & 0x1f) == 0x1f)
-			ft_printf("\n");
-		ft_printf(" ");
-		++pc;
+		ft_printf("\n* Player %d, weighing %d bytes, \"%s\" (\"%s\") !", \
+		i + 1, vm->core[i].prog_size, vm->core[i].prog_name, \
+		vm->core[i].comment);
+		++i;
+	}
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		if (!(i % DUMP_SIZE))
+			ft_printf("\n0x%04x :", i);
+		ft_printf(" %02x", vm->memory[i]);
+		++i;
 	}
 	ft_printf("\n");
 }
