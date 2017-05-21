@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 18:46:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:20:38 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,10 +250,10 @@ typedef struct		s_vm
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mvasD"
+# define COREWAR_FLAGS 			"mvlsD"
 # define F_MUTE					1
 # define F_VISUAL				2
-# define F_RC_AFF				4
+# define F_RC_LOG				4
 # define F_STEALTH				8
 # define F_DUMP_FREQUENCY		16
 # define F_DUMP					32

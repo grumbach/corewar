@@ -23,7 +23,7 @@ void		rc_aff(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	if (vm->flags & F_RC_AFF)
+	if (vm->flags & F_RC_LOG)
 	{
 		vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]) & 0xff;
 		if (vm->flags & F_VISUAL)

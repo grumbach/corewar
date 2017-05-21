@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 19:41:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:21:14 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ long		errors(int id, char *comment)
 		"[-dump cyclecount] [-n id champ] [champs ...]\n"
 		"  -m	 Mute all sound\n"
 		"  -v	 Vizualizer\n"
-		"  -a	 Show aff (redcode 0x10) (hidden by default)\n"
+		"  -l	 Display logs (including redcode 0x10) (hidden by default)\n"
 		"  -s	 Stealth mode (hide memory content)\n"
 		"  -D[x]	 Dump memory every x cycle\n", 2);
 	if (id == 3)
