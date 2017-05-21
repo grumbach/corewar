@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 22:55:20 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/22 01:53:57 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 		errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].prog_size, 4))
 		errors(0, 0);
+	if (!vm->core[i].prog_size)
+		errors(1, "just show me the code!");
 	if (-1 == lseek(fd, 0x04, SEEK_CUR))
 		errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH))
