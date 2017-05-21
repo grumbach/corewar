@@ -125,9 +125,9 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 		{
 			lst->pc = lst->pc_dst;
 			vm->redcode = vm->memory[lst->pc % MEM_SIZE];
+			fetch(vm, lst);
 			if (vm->flags & F_VISUAL)
 				curse_color(vm, lst->pc, lst->color + 2);
-			fetch(vm, lst);
 		}
 		else
 		{

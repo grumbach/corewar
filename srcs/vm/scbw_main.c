@@ -132,7 +132,7 @@ int			main(int ac, char **av)
 		endwin();
 	if (vm.flags & F_DUMP)
 		dump_memory(&vm);
-	call_zerglings(vm.scv);
+	call_zerglings(&vm.scv);
 	if (!(vm.flags & F_VISUAL))
 		display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");

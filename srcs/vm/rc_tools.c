@@ -17,7 +17,7 @@
 ** 0xf3 83 ea 00 ---->	0x00 ea 83 f3 EXEC MAGIC
 */
 
-uint		endianize(unsigned int n)
+uint	endianize(unsigned int n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
 		((n & 0xff) << 24));
@@ -38,7 +38,7 @@ uint	mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 	{
 		if (vm->redcode < 13)
 			raw %= IDX_MOD;
-		i = scv->pc + raw;
+		i = scv->pc_dst + raw;
 		n = DIR_SIZE;
 		while (n--)
 			raw = vm->memory[i++ % MEM_SIZE] | (raw << 8);

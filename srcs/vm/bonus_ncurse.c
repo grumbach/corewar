@@ -45,6 +45,10 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 	i = 0;
 	while (scv_lst && i < 16)
 	{
+		while (scv_lst && !scv_lst->reg[2])//
+			scv_lst = scv_lst->next;//
+		if (!scv_lst)//
+			break ;//
 		y = i % 16 * 5;
 		x = 2 + ((i >> 4) * 96);
 		wattron(win, COLOR_PAIR(scv_lst->color));
@@ -104,8 +108,8 @@ void		curse_memory(t_vm *vm)
 void		curse_clear_scvs(t_curse *curse)
 {
 	werase(curse->wscv);
-	wattron(curse->wscv, COLOR_PAIR(11));
+	wattron(curse->wscv, COLOR_PAIR(14));
 	box(curse->wscv, '|', '=');
-	wattroff(curse->wscv, COLOR_PAIR(11));
+	wattroff(curse->wscv, COLOR_PAIR(14));
 	wrefresh(curse->wscv);
 }

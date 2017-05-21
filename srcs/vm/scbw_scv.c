@@ -85,9 +85,14 @@ void six_pool(t_vm *vm, t_scv **scv)
 ** destroy scv if it looks yummy
 */
 
-void	call_zerglings(t_scv *scv)
+void	call_zerglings(t_scv **scv)
 {
-	if (scv && scv->next)
-		call_zerglings(scv->next);
-	free(scv);
+	t_scv        *free_this;
+
+	while (*scv)
+	{
+		free_this = *scv;
+		*scv = free_this->next;
+		free(free_this);
+	}
 }

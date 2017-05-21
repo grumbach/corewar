@@ -282,7 +282,7 @@ uint				clamp(int raw);
 
 t_scv				*new_scv(void);
 void				six_pool(t_vm *vm, t_scv **scv);
-void				call_zerglings(t_scv *scv);
+void				call_zerglings(t_scv **scv);
 
 /*
 ** display functions
