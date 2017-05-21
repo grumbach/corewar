@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 19:47:20 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:57:55 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 
 static void	curse_menu(t_vm *vm)
 {
-	wattron(vm->curse.wmem, COLOR_PAIR(11));
+	wattron(vm->curse.wmem, COLOR_PAIR(14));
 	mvwprintw(vm->curse.wmem, 1, 2, "Current Cycle : % 6d", vm->cycle);
 	mvwprintw(vm->curse.wmem, 1, 30, "Cycles to Die : % 6d", vm->cycle_to_die);
 	mvwprintw(vm->curse.wmem, 1, 60, "SCVs Alive : % 6d", vm->nb_scv);
@@ -69,7 +69,7 @@ static void	curse_menu(t_vm *vm)
 	mvwprintw(vm->curse.wmem, 1, 120, "Last Live : % 4d", vm->last_id_alive);
 	mvwprintw(vm->curse.wmem, 1, 169, "Game Speed : %02d [+] [-]", \
 		vm->curse.speed);
-	wattroff(vm->curse.wmem, COLOR_PAIR(11));
+	wattroff(vm->curse.wmem, COLOR_PAIR(14));
 	wrefresh(vm->curse.wmem);
 }
 
