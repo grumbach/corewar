@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:16:13 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 20:57:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 23:53:15 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 	wattroff(win, COLOR_PAIR(14));
 	scv_lst = scv;
 	i = 0;
-	while (scv_lst && i < 16)
+	while (scv_lst && i < 15)
 	{
 		y = i % 16 * 5;
 		x = 2 + ((i >> 4) * 96);

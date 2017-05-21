@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 10:17:15 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/22 00:10:19 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void			rc_ld(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry ^= 1;
+	scv->carry = !( \
+	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
 /*
@@ -36,8 +36,8 @@ void			rc_lld(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry ^= 1;
+	scv->carry = !( \
+	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
 /*
@@ -53,8 +53,9 @@ void			rc_ldi(void *vmp, t_scv *scv)
 	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->carry = !( \
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE);
+		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE));
 }
 
 /*
@@ -69,7 +70,7 @@ void			rc_lldi(void *vmp, t_scv *scv)
 	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->carry = !( \
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE);
-	scv->carry ^= 1;
+		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE));
 }
