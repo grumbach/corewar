@@ -20,7 +20,7 @@ void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
 {
 	static int	y[MAX_PLAYERS] = {0, 0, 0, 0};
 	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
-	const int	i = (scv->color - 2) / 3;
+	const int	i = (scv->color - 2) / 4;
 
 	if (y[i] > 13)
 	{
@@ -63,25 +63,29 @@ static void		curse_init_colors(t_curse *curse)
 	init_pair(2, COLOR_1, COLOR_BLACK);
 	init_pair(3, COLOR_1l, COLOR_BLACK);
 	init_pair(4, COLOR_WHITE, COLOR_1);
-	init_pair(5, COLOR_2, COLOR_BLACK);
-	init_pair(6, COLOR_2l, COLOR_BLACK);
-	init_pair(7, COLOR_WHITE, COLOR_2);
-	init_pair(8, COLOR_3, COLOR_BLACK);
-	init_pair(9, COLOR_3l, COLOR_BLACK);
-	init_pair(10, COLOR_WHITE, COLOR_3);
-	init_pair(11, COLOR_4, COLOR_BLACK);
-	init_pair(12, COLOR_4l, COLOR_BLACK);
-	init_pair(13, COLOR_WHITE, COLOR_4);
-	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
-	wattron(curse->wmem, COLOR_PAIR(11));
+	init_pair(5, COLOR_BLACK, COLOR_1);
+	init_pair(6, COLOR_2, COLOR_BLACK);
+	init_pair(7, COLOR_2l, COLOR_BLACK);
+	init_pair(8, COLOR_WHITE, COLOR_2);
+	init_pair(9, COLOR_BLACK, COLOR_2);
+	init_pair(10, COLOR_3, COLOR_BLACK);
+	init_pair(11, COLOR_3l, COLOR_BLACK);
+	init_pair(12, COLOR_WHITE, COLOR_3);
+	init_pair(13, COLOR_BLACK, COLOR_3);
+	init_pair(14, COLOR_4, COLOR_BLACK);
+	init_pair(15, COLOR_4l, COLOR_BLACK);
+	init_pair(16, COLOR_WHITE, COLOR_4);
+	init_pair(17, COLOR_BLACK, COLOR_4);
+	init_pair(18, COLOR_YELLOW, COLOR_YELLOW);
+	wattron(curse->wmem, COLOR_PAIR(14));
 	box(curse->wmem, '|', '=');
-	wattroff(curse->wmem, COLOR_PAIR(11));
-	wattron(curse->wscv, COLOR_PAIR(11));
+	wattroff(curse->wmem, COLOR_PAIR(14));
+	wattron(curse->wscv, COLOR_PAIR(14));
 	box(curse->wscv, '|', '=');
-	wattroff(curse->wscv, COLOR_PAIR(11));
-	wattron(curse->wlog, COLOR_PAIR(11));
+	wattroff(curse->wscv, COLOR_PAIR(14));
+	wattron(curse->wlog, COLOR_PAIR(14));
 	box(curse->wlog, '|', '=');
-	wattroff(curse->wlog, COLOR_PAIR(11));
+	wattroff(curse->wlog, COLOR_PAIR(14));
 }
 
 /*

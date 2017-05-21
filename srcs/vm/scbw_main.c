@@ -67,7 +67,7 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 {
 	uint	magic;
 
-	vm->core[i].color = (i * 3) + 2;
+	vm->core[i].color = (i << 2) + 2;
 	if (-1 == read(fd, &magic, 4))
 		errors(0, 0);
 	if (endianize(magic) != COREWAR_EXEC_MAGIC)

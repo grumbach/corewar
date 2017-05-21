@@ -133,7 +133,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 		{
 			--lst->cooldown;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc, lst->color + 2);
+				curse_color(vm, lst->pc, lst->color + 3);
 		}
 		lst = lst->next;
 	}

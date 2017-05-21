@@ -54,7 +54,7 @@ void			rc_ldi(void *vmp, t_scv *scv)
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, vm->arg[0] + vm->arg[1], IND_CODE);
+		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE);
 }
 
 /*

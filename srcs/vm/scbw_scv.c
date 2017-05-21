@@ -38,7 +38,7 @@ void	init_scv(t_vm *vm)
 	vm->nb_scv = vm->nb_players;
 	i = vm->nb_players - 1;
 	scv = new_scv();
-	scv->color = vm->nb_players * 3 - 1;
+	scv->color = (vm->nb_players << 2) - 2;
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
 	scv->pc = i * (MEM_SIZE / vm->nb_players);
@@ -46,7 +46,7 @@ void	init_scv(t_vm *vm)
 	while (i--)
 	{
 		scv->next = new_scv();
-		scv->next->color = i * 3 + 2;
+		scv->next->color = (i << 2) + 2;
 		scv->next->reg[1] = vm->core[i].id;
 		scv->next->pc = i * (MEM_SIZE / vm->nb_players);
 		scv->pc_dst = scv->pc;
@@ -68,6 +68,8 @@ void six_pool(t_vm *vm, t_scv **scv)
         {
             --vm->nb_scv;
             free_this = *scv;
+						if (vm->flags & F_VISUAL)
+							curse_color(vm, free_this->pc, 18);
             *scv = free_this->next;
             free(free_this);
         }

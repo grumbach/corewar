@@ -22,6 +22,7 @@
 void		rc_st(void *vmp, t_scv *scv)
 {
 	uint	pc;
+	uint	pc_tmp;
 	int		i;
 	t_vm	*vm;
 
@@ -34,12 +35,11 @@ void		rc_st(void *vmp, t_scv *scv)
 		pc = clamp(pc);
 		while (i--)
 		{
-			vm->memory[(pc + 3 - i) % MEM_SIZE] = \
-				(vm->arg[0] >> (i << 3)) & 0xff;
-			vm->creep[(pc + 3 - i) % MEM_SIZE] = scv->color;
+			pc_tmp = (pc + 3 - i) % MEM_SIZE;
+			vm->memory[pc_tmp] = (vm->arg[0] >> (i << 3)) & 0xff;
+			vm->creep[pc_tmp] = scv->color;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, (pc + 3 - i) % MEM_SIZE, \
-				scv->color + 1);
+				curse_color(vm, pc_tmp, scv->color + 1);
 		}
 	}
 	else if (vm->type[1] == REG_CODE)
@@ -58,6 +58,8 @@ void		rc_sti(void *vmp, t_scv *scv)
 	uint	pc;
 	int		i;
 	t_vm	*vm;
+	uint	pc_tmp;
+
 
 	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
@@ -68,10 +70,10 @@ void		rc_sti(void *vmp, t_scv *scv)
 	pc = clamp(pc);
 	while (i--)
 	{
-		vm->memory[(pc + 3 - i) % MEM_SIZE] = \
-			(vm->arg[0] >> (i << 3)) & 0xff;
-		vm->creep[(pc + 3 - i) % MEM_SIZE] = scv->color;
+		pc_tmp = (pc + 3 - i) % MEM_SIZE;
+		vm->memory[pc_tmp] = (vm->arg[0] >> (i << 3)) & 0xff;
+		vm->creep[pc_tmp] = scv->color;
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, (pc + 3 - i) % MEM_SIZE, scv->color + 1);
+			curse_color(vm, pc_tmp, scv->color + 1);
 	}
 }

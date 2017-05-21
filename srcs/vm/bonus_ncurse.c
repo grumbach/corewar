@@ -37,10 +37,10 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 	int		x;
 	int		y;
 
-	wattron(win, COLOR_PAIR(11));
+	wattron(win, COLOR_PAIR(14));
 	mvwprintw(win, 1, 2, \
 	"[SCVs]  {registries} 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16");
-	wattroff(win, COLOR_PAIR(11));
+	wattroff(win, COLOR_PAIR(14));
 	scv_lst = scv;
 	i = 0;
 	while (scv_lst && i < 16)
