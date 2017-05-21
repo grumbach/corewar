@@ -12,17 +12,6 @@
 
 #include <corewar.h>
 
-/*
-** reverse the bytes contained inside the unsigned int n
-** 0xf3 83 ea 00 ---->	0x00 ea 83 f3 EXEC MAGIC
-*/
-
-uint		endianize(unsigned int n)
-{
-	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
-		((n & 0xff) << 24));
-}
-
 static int	flag_index(char *s, int c)
 {
 	int		i;

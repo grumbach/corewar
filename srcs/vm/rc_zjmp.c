@@ -28,5 +28,6 @@ void			rc_zjmp(void *vmp, t_scv *scv)
 	{
 		scv->pc += ((signed short)vm->arg[0] - 3) % IDX_MOD;
 		scv->pc = clamp(scv->pc);
+		scv->pc_dst = scv->pc;
 	}
 }

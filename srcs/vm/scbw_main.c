@@ -77,10 +77,12 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 	}
 	if (-1 == read(fd, &vm->core[i].prog_name, PROG_NAME_LENGTH))
 		errors(0, 0);
-	if (-1 == lseek(fd, 0x88, SEEK_SET))
+	if (-1 == lseek(fd, 0x04, SEEK_CUR))
 		errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].prog_size, 4))
 		errors(0, 0);
+	if (-1 == lseek(fd, 0x04, SEEK_CUR))
+			errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH))
 		errors(0, 0);
 	vm->core[i].prog_size = endianize(vm->core[i].prog_size);
@@ -99,7 +101,7 @@ static void	init_game(t_vm *vm)
 	{
 		if ((fd = open(vm->core[i].prog_name, O_RDONLY)) < 0)
 			errors(0, vm->core[i].prog_name);
-		pos = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
+		pos = i * (MEM_SIZE / vm->nb_players);
 		magic = init_cores(fd, vm, i);
 		if (-1 == read(fd, &(vm->memory[pos]), vm->core[i].prog_size))
 			errors(0, 0);

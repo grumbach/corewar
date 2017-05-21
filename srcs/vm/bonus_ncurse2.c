@@ -61,16 +61,16 @@ static void		curse_init_colors(t_curse *curse)
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	init_pair(2, COLOR_1, COLOR_BLACK);
-	init_pair(3, COLOR_BLACK, COLOR_1);
+	init_pair(3, COLOR_1l, COLOR_BLACK);
 	init_pair(4, COLOR_WHITE, COLOR_1);
 	init_pair(5, COLOR_2, COLOR_BLACK);
-	init_pair(6, COLOR_BLACK, COLOR_2);
+	init_pair(6, COLOR_2l, COLOR_BLACK);
 	init_pair(7, COLOR_WHITE, COLOR_2);
 	init_pair(8, COLOR_3, COLOR_BLACK);
-	init_pair(9, COLOR_BLACK, COLOR_3);
+	init_pair(9, COLOR_3l, COLOR_BLACK);
 	init_pair(10, COLOR_WHITE, COLOR_3);
 	init_pair(11, COLOR_4, COLOR_BLACK);
-	init_pair(12, COLOR_BLACK, COLOR_4);
+	init_pair(12, COLOR_4l, COLOR_BLACK);
 	init_pair(13, COLOR_WHITE, COLOR_4);
 	init_pair(14, COLOR_YELLOW, COLOR_YELLOW);
 	wattron(curse->wmem, COLOR_PAIR(11));
@@ -132,6 +132,7 @@ void			curse_init(t_curse *curse)
 	cbreak();
 	noecho();
 	nodelay(curse->wmem, TRUE);
+	curs_set(0);
 }
 
 void			curse_players(t_vm *vm, int end, int i)

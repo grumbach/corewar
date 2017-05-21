@@ -64,7 +64,7 @@ void		rc_sti(void *vmp, t_scv *scv)
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
 	i = 4;
-	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) % IDX_MOD);
+	pc = scv->pc + ((vm->arg[1] + vm->arg[2]));
 	pc = clamp(pc);
 	while (i--)
 	{

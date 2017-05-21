@@ -99,12 +99,12 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		{
 			vm->rc[vm->redcode].func(vm, scv);
 			scv->cooldown = vm->rc[vm->redcode].cooldown;
-			scv->pc += pc;
+			scv->pc_dst += pc;
 		}
 		else
 			scv->carry ^= scv->carry;
 	}
-	scv->pc = (scv->pc + 1) % MEM_SIZE;
+	scv->pc_dst = (scv->pc_dst + 1) % MEM_SIZE;
 }
 
 /*
@@ -123,6 +123,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 	{
 		if (!(lst->cooldown))
 		{
+			lst->pc = lst->pc_dst;
 			vm->redcode = vm->memory[lst->pc % MEM_SIZE];
 			if (vm->flags & F_VISUAL)
 				curse_color(vm, lst->pc, lst->color + 2);
@@ -132,7 +133,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 		{
 			--lst->cooldown;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc, lst->color + 1);
+				curse_color(vm, lst->pc, lst->color + 2);
 		}
 		lst = lst->next;
 	}

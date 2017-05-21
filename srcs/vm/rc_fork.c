@@ -31,8 +31,8 @@ void		rc_fork(void *vmp, t_scv *cur)
 	new->next = vm->scv;
 	vm->scv = new;
 	++vm->nb_scv;
-	new->pc += (signed short)vm->arg[0] % IDX_MOD;
-	new->pc = clamp(new->pc);
+	new->pc_dst += (signed short)vm->arg[0] % IDX_MOD;
+	new->pc_dst = clamp(new->pc_dst);
 }
 
 void		rc_lfork(void *vmp, t_scv *cur)
@@ -47,6 +47,6 @@ void		rc_lfork(void *vmp, t_scv *cur)
 	new->next = vm->scv;
 	vm->scv = new;
 	++vm->nb_scv;
-	new->pc += (signed short)vm->arg[0];
-	new->pc = clamp(new->pc);
+	new->pc_dst += (signed short)vm->arg[0];
+	new->pc_dst = clamp(new->pc_dst);
 }

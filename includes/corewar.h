@@ -63,6 +63,7 @@ typedef struct		s_scv
 {
 	uint			reg[REG_NUMBER + 1];
 	uint			pc;
+	uint			pc_dst;
 	int				carry;
 	int				live;
 	int				cooldown;
@@ -196,13 +197,18 @@ typedef struct		s_rc
 
 # define COL_RED			9
 # define COL_ORANGE			215
-# define COL_EMERALD		2
+# define COL_EMERALD		34
 # define COL_MARINE_BLUE	69
 
-# define COLOR_1			COL_ORANGE
-# define COLOR_2			COL_EMERALD
+# define COLOR_1			COL_EMERALD
+# define COLOR_2			208
 # define COLOR_3			COL_MARINE_BLUE
-# define COLOR_4			COL_RED
+# define COLOR_4			160
+# define COLOR_1l			118
+# define COLOR_2l			COL_ORANGE
+# define COLOR_3l			81
+# define COLOR_4l			COL_RED
+
 
 typedef struct		s_curse
 {

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 11:43:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/17 14:09:12 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,38 +41,21 @@ void	init_scv(t_vm *vm)
 	scv->color = vm->nb_players * 3 - 1;
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
-	scv->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
+	scv->pc = i * (MEM_SIZE / vm->nb_players);
+	scv->pc_dst = scv->pc;
 	while (i--)
 	{
 		scv->next = new_scv();
 		scv->next->color = i * 3 + 2;
 		scv->next->reg[1] = vm->core[i].id;
-		scv->next->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
+		scv->next->pc = i * (MEM_SIZE / vm->nb_players);
+		scv->pc_dst = scv->pc;
 		scv = scv->next;
 	}
 }
 
 /*
 ** destroy a scv if live == 0
-t_scv	*six_pool(t_vm *vm, t_scv *scv)
-{
-	t_scv	*infested_terran;
-
-	if (!scv)
-		return (NULL);
-	scv->next = six_pool(vm, scv->next);
-	if (!scv->live)
-	{
-		infested_terran = scv->next;
-		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv->pc, 14);
-		--vm->nb_scv;
-		free(scv);
-		return (infested_terran);
-	}
-	scv->live = 0;
-	return (scv);
-}
 */
 
 void six_pool(t_vm *vm, t_scv **scv)
