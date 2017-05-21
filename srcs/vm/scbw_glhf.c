@@ -56,7 +56,7 @@ static int	user_input(t_vm *vm)
 	{
 		endwin();
 		system("killall afplay 2&>/dev/null >/dev/null");
-		call_zerglings(vm->scv);
+		call_zerglings(&vm->scv);
 		exit(0);
 	}
 	return (key);
