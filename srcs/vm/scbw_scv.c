@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 14:09:12 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:40:49 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,41 +58,41 @@ void	init_scv(t_vm *vm)
 ** destroy a scv if live == 0
 */
 
-void six_pool(t_vm *vm, t_scv **scv)
+void	six_pool(t_vm *vm, t_scv **scv)
 {
-		t_scv        *free_this;
+	t_scv	*free_this;
 
-    while (*scv)
-    {
-        if (!(*scv)->live)
-        {
-            --vm->nb_scv;
-            free_this = *scv;
-						if (vm->flags & F_VISUAL)
-							curse_color(vm, free_this->pc, 18);
-            *scv = free_this->next;
-            free(free_this);
-        }
-        else
-        {
-            (*scv)->live = 0;
-            scv = &(*scv)->next;
-        }
-    }
+	while (*scv)
+	{
+		if (!(*scv)->live)
+		{
+			--vm->nb_scv;
+			free_this = *scv;
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, free_this->pc, 18);
+			*scv = free_this->next;
+			free(free_this);
+		}
+		else
+		{
+			(*scv)->live = 0;
+			scv = &(*scv)->next;
+		}
+	}
 }
 
 /*
 ** destroy scv if it looks yummy
 */
 
-void	call_zerglings(t_scv **scv)
+void	call_zerglings(t_scv *scv)
 {
-	t_scv        *free_this;
+	t_scv	*free_this;
 
-	while (*scv)
+	while (scv)
 	{
-		free_this = *scv;
-		*scv = free_this->next;
+		free_this = scv;
+		scv = free_this->next;
 		free(free_this);
 	}
 }

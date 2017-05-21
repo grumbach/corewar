@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 10:11:17 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 18:46:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ uint				clamp(int raw);
 
 t_scv				*new_scv(void);
 void				six_pool(t_vm *vm, t_scv **scv);
-void				call_zerglings(t_scv **scv);
+void				call_zerglings(t_scv *scv);
 
 /*
 ** display functions

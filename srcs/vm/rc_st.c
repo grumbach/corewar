@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 10:28:32 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:41:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void		rc_sti(void *vmp, t_scv *scv)
 	int		i;
 	t_vm	*vm;
 	uint	pc_tmp;
-
 
 	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);

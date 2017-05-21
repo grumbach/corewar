@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 10:57:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:45:41 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,6 @@ static void		curse_init_colors(t_curse *curse)
 	init_pair(16, COLOR_WHITE, COLOR_4);
 	init_pair(17, COLOR_BLACK, COLOR_4);
 	init_pair(18, COLOR_YELLOW, COLOR_YELLOW);
-	wattron(curse->wmem, COLOR_PAIR(14));
-	box(curse->wmem, '|', '=');
-	wattroff(curse->wmem, COLOR_PAIR(14));
-	wattron(curse->wscv, COLOR_PAIR(14));
-	box(curse->wscv, '|', '=');
-	wattroff(curse->wscv, COLOR_PAIR(14));
-	wattron(curse->wlog, COLOR_PAIR(14));
-	box(curse->wlog, '|', '=');
-	wattroff(curse->wlog, COLOR_PAIR(14));
 }
 
 /*
@@ -110,6 +101,22 @@ static void		curse_init_colors(t_curse *curse)
 ** nodelay is to be able to user key hook without waiting for user input
 */
 
+static void		curse_boxes(t_curse *curse)
+{
+	wattron(curse->wmem, COLOR_PAIR(14));
+	box(curse->wmem, '|', '=');
+	wattroff(curse->wmem, COLOR_PAIR(14));
+	wattron(curse->wscv, COLOR_PAIR(14));
+	box(curse->wscv, '|', '=');
+	wattroff(curse->wscv, COLOR_PAIR(14));
+	wattron(curse->wlog, COLOR_PAIR(14));
+	box(curse->wlog, '|', '=');
+	wattroff(curse->wlog, COLOR_PAIR(14));
+	wrefresh(curse->wmem);
+	wrefresh(curse->wscv);
+	wrefresh(curse->wlog);
+}
+
 void			curse_init(t_curse *curse)
 {
 	int		i;
@@ -130,9 +137,7 @@ void			curse_init(t_curse *curse)
 	curse->wlog = newwin(curse->y - MEM_SIZE / curse->n - 4, \
 		curse->n * 3 + 1, MEM_SIZE / curse->n + 4, 0);
 	curse_init_colors(curse);
-	wrefresh(curse->wmem);
-	wrefresh(curse->wscv);
-	wrefresh(curse->wlog);
+	curse_boxes(curse);
 	cbreak();
 	noecho();
 	nodelay(curse->wmem, TRUE);

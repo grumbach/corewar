@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 11:33:51 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:41:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ long		errors(int id, char *comment)
 		ft_putendl_fd(strerror(errno), 2);
 	if (id == 2)
 		ft_putstr_fd("usage: ./corewar [-"COREWAR_FLAGS"] "
-		"  -m : Mute\n"
-		"  -v : Vizualizer Ncurses\n"
-		"  -a : Display 0x10 aff redcode (hidden by default)\n"
-		"  -s : Stealth mode (no clue about what is read in the memory)\n"
-		"  -D(x) : Dump memory every x cycle\n"
 		"[-dump cyclecount] [-n id champ] [champs ...]\n"
-		"example : make && ./corewar -vmsD500 -dump 2500 warriors/zork.cor", 2);
+		"  -m	 Mute all sound\n"
+		"  -v	 Vizualizer\n"
+		"  -a	 Show aff (redcode 0x10) (hidden by default)\n"
+		"  -s	 Stealth mode (hide memory content)\n"
+		"  -D[x]	 Dump memory every x cycle\n", 2);
 	if (id == 3)
 		ft_putstr_fd("Name is too big give it up\n", 2);
 	if (id == 4)
@@ -82,7 +81,7 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 	if (-1 == read(fd, &vm->core[i].prog_size, 4))
 		errors(0, 0);
 	if (-1 == lseek(fd, 0x04, SEEK_CUR))
-			errors(0, 0);
+		errors(0, 0);
 	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH))
 		errors(0, 0);
 	vm->core[i].prog_size = endianize(vm->core[i].prog_size);
@@ -132,7 +131,7 @@ int			main(int ac, char **av)
 		endwin();
 	if (vm.flags & F_DUMP)
 		dump_memory(&vm);
-	call_zerglings(&vm.scv);
+	call_zerglings(vm.scv);
 	if (!(vm.flags & F_VISUAL))
 		display_winner(&vm);
 	system("killall afplay 2&>/dev/null >/dev/null");

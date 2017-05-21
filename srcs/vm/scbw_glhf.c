@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/20 11:39:39 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 18:46:25 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	user_input(t_vm *vm)
 	{
 		endwin();
 		system("killall afplay 2&>/dev/null >/dev/null");
-		call_zerglings(&vm->scv);
+		call_zerglings(vm->scv);
 		exit(0);
 	}
 	return (key);
