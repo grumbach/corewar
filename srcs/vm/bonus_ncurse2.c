@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 19:45:41 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:23:56 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			curse_color(t_vm *vm, int pc, int color)
 		wrefresh(vm->curse.wmem);
 }
 
-static void		curse_init_colors(t_curse *curse)
+static void		curse_init_colors(void)
 {
 	start_color();
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
@@ -136,7 +136,7 @@ void			curse_init(t_curse *curse)
 		curse->n * 3 + 1);
 	curse->wlog = newwin(curse->y - MEM_SIZE / curse->n - 4, \
 		curse->n * 3 + 1, MEM_SIZE / curse->n + 4, 0);
-	curse_init_colors(curse);
+	curse_init_colors();
 	curse_boxes(curse);
 	cbreak();
 	noecho();

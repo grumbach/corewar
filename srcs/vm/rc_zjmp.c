@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 08:52:17 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/20 10:26:07 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:48:42 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void			rc_zjmp(void *vmp, t_scv *scv)
 	vm = vmp;
 	if (scv->carry == 1)
 	{
-		scv->pc += ((signed short)vm->arg[0] - 3) % IDX_MOD;
-		scv->pc = clamp(scv->pc);
-		scv->pc_dst = scv->pc;
+		scv->pc_dst += ((signed short)vm->arg[0] - 3) % IDX_MOD;
+		scv->pc_dst = clamp(scv->pc_dst);
 	}
 }
