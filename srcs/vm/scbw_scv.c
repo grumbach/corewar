@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 01:27:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/17 02:23:41 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:40:49 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,66 +30,69 @@ t_scv	*new_scv(void)
 ** the last warriors given as arg start first
 */
 
-void				init_scv(t_vm *vm)
+void	init_scv(t_vm *vm)
 {
-    int             i;
-    t_scv          *scv;
+	int		i;
+	t_scv	*scv;
 
-    vm->nb_scv = vm->nb_players;
-    i = vm->nb_players - 1;
+	vm->nb_scv = vm->nb_players;
+	i = vm->nb_players - 1;
 	scv = new_scv();
-	scv->color = vm->nb_players * 3 - 1;
+	scv->color = (vm->nb_players << 2) - 2;
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
-	scv->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
-    while (i--)
-    {
-        scv->next = new_scv();
-		scv->next->color = i * 3 + 2;
+	scv->pc = i * (MEM_SIZE / vm->nb_players);
+	scv->pc_dst = scv->pc;
+	while (i--)
+	{
+		scv->next = new_scv();
+		scv->next->color = (i << 2) + 2;
 		scv->next->reg[1] = vm->core[i].id;
-		scv->next->pc = (vm->nb_players - i - 1) * (MEM_SIZE / vm->nb_players);
-        scv = scv->next;
-    }
+		scv->next->pc = i * (MEM_SIZE / vm->nb_players);
+		scv->pc_dst = scv->pc;
+		scv = scv->next;
+	}
 }
 
 /*
 ** destroy a scv if live == 0
 */
 
-void	kill_dead_scvs(t_vm *vm)
+void	six_pool(t_vm *vm, t_scv **scv)
 {
-	t_scv		*lst;
-	t_scv		*tmp;
+	t_scv	*free_this;
 
-	lst = vm->scv;
-	while (lst)
+	while (*scv)
 	{
-		if (lst->next && !lst->next->live)
+		if (!(*scv)->live)
 		{
-			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->next->pc, 14);
-			curse_puts_log(vm, lst->next, "hello!");
-			tmp = lst->next;
-			lst->next = lst->next->next;
-			free(tmp);
 			--vm->nb_scv;
+			free_this = *scv;
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, free_this->pc, 18);
+			*scv = free_this->next;
+			free(free_this);
 		}
-		--vm->nb_total_live;
-		lst = lst->next;
+		else
+		{
+			(*scv)->live = 0;
+			scv = &(*scv)->next;
+		}
 	}
-	if (!vm->scv->live)
-	{
-		tmp = vm->scv;
-		vm->scv = vm->scv->next;
-		free(tmp);
-	}
-	werase(vm->curse.win2);
-	wrefresh(vm->curse.win2);
 }
 
-void		call_zerglings(t_scv *scv)
+/*
+** destroy scv if it looks yummy
+*/
+
+void	call_zerglings(t_scv *scv)
 {
-	if (scv && scv->next)
-		call_zerglings(scv->next);
-	free(scv);
+	t_scv	*free_this;
+
+	while (scv)
+	{
+		free_this = scv;
+		scv = free_this->next;
+		free(free_this);
+	}
 }

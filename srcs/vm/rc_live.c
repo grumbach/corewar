@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 22:43:36 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 23:04:23 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:19:03 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static void		reportalive(t_vm *vm, t_scv *scv, int i)
 {
-	char		number[12];
+	char	number[12];
 
 	if (vm->flags & F_VISUAL)
 	{
@@ -35,14 +35,16 @@ static void		reportalive(t_vm *vm, t_scv *scv, int i)
 		curse_puts_log(vm, scv, " is alive! Somebody kill him!");
 	}
 	else
-		ft_printf("OMG player %d (%s) is alive! Somebody kill him!", \
+		ft_printf("OMG player %d (%s) is alive! Somebody kill him!\n", \
 		vm->core[i].id, vm->core[i].prog_name);
 }
 
-void			rc_live(t_vm *vm, t_scv *scv)
+void			rc_live(void *vmp, t_scv *scv)
 {
-	int			i;
+	int		i;
+	t_vm	*vm;
 
+	vm = vmp;
 	i = 0;
 	while (i < vm->nb_players)
 	{
@@ -51,9 +53,9 @@ void			rc_live(t_vm *vm, t_scv *scv)
 			vm->last_id_alive = vm->arg[0];
 			++scv->live;
 			++vm->nb_total_live;
-			reportalive(vm, scv, i);
+			if (vm->flags & F_RC_LOG)//
+				reportalive(vm, scv, i);
 		}
 		++i;
 	}
-	scv->carry = !vm->arg[0];
 }

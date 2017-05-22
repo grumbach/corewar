@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 01:03:55 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/21 22:54:14 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,62 +21,33 @@
 # include <ncurses.h>
 
 /*
-** Toutes les tailles sont en octets.
-** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
+** All sizes are in bytes
 */
 
 # define IND_SIZE				2
 # define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
 
-# define REG_CODE				1 // 0b01
-# define DIR_CODE				2 // 0b10
-# define IND_CODE				3 // 0b11
-
-/*
-**
-*/
-
-typedef char	t_arg_type;
+# define REG_CODE				0b01
+# define DIR_CODE				0b10
+# define IND_CODE				0b11
 
 # define T_REG					1
 # define T_DIR					2
 # define T_IND					4
-# define T_LAB					8// peut etre a virer ?
 
 # define MAX_ARGS_NUMBER		4
 # define MAX_PLAYERS			4
-# define MEM_SIZE				(4096)
+# define MEM_SIZE				4096
 # define IDX_MOD				(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
-# define COMMENT_CHAR			'#'
-# define LABEL_CHAR				':'
-# define DIRECT_CHAR			'%'
-# define SEPARATOR_CHAR			','
-
-# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
-
-# define NAME_CMD_STRING		".name"
-# define COMMENT_CMD_STRING		".comment"
-
 # define REG_NUMBER				16
-# define SLEEP					vm->speed//
-
 # define CYCLE_TO_DIE			1536
 # define CYCLE_DELTA			50
 # define SUDDEN_DEATH			4
 # define NBR_LIVE				21
 # define MAX_CHECKS				10
-
-/*
-** booleans define
-*/
-
-# define TRUE					1
-# define FALSE					0
-
-typedef struct			s_vm t_vm;
 
 /*
 ** 1) REG_NUMBER registries, each of which are the size REG_SIZE octets.
@@ -88,16 +59,17 @@ typedef struct			s_vm t_vm;
 ** 6) how long before executing the next instruction
 */
 
-typedef struct			s_scv
+typedef struct		s_scv
 {
-	uint				reg[REG_NUMBER + 1];
-	uint				pc;
-	int					carry;
-	int					live;
-	int					cooldown;
-	int					color;
-	struct s_scv	  	*next;
-}						t_scv;
+	uint			reg[REG_NUMBER + 1];
+	uint			pc;
+	uint			pc_dst;
+	int				carry;
+	int				live;
+	int				cooldown;
+	int				color;
+	struct s_scv	*next;
+}					t_scv;
 
 /*
 ** magic determine if the file has the right extension
@@ -108,19 +80,18 @@ typedef struct			s_scv
 ** color is player color
 */
 
-# define PROG_NAME_LENGTH			(128)
-# define COMMENT_LENGTH				(2048)
-# define COREWAR_EXEC_MAGIC			0xea83f3	/* why not */
+# define PROG_NAME_LENGTH		128
+# define COMMENT_LENGTH			2048
+# define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct			s_core
+typedef struct		s_core
 {
-	uint		prog_size;
-	uint		id;
-	uint		color;
-	char		prog_name[PROG_NAME_LENGTH + 1];
-	char		comment[COMMENT_LENGTH + 1];
-	char		code[COMMENT_LENGTH + 1];// check about this it seems wrong
-}						t_core;
+	uint			prog_size;
+	uint			id;
+	uint			color;
+	char			prog_name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+}					t_core;
 
 /*
 ** 0x01 rc_live : The instruction that allows a scv to stay alive.
@@ -193,15 +164,15 @@ typedef struct			s_core
 # define LFORK	0x0f
 # define AFF	0x10
 
-typedef struct			s_rc
+typedef struct		s_rc
 {
-	void				(*func)(t_vm*, t_scv*);
-	int					arg_max;
-	int					arg[3];
-	int					cooldown;
-	int					octal;
-	int					dir_size;
-}						t_rc;
+	void			(*func)(void*, t_scv*);
+	int				arg_max;
+	int				arg[3];
+	int				cooldown;
+	int				ocp;
+	int				dir_size;
+}					t_rc;
 
 /*
 ** progs compete inside the Memory Array Redcode Simulator (Mars)
@@ -217,138 +188,143 @@ typedef struct			s_rc
 **		Getting-characters-from-the-keyboard.html
 */
 
-# define	KEY_ESCAPE		27
-# define	KEY_PLUS		43
-# define	KEY_MINUS		45
-# define	KEY_SPACE		32
+# define DEFAULT_SPEED		1
 
-# define	COL_RED			9
-# define 	COL_ORANGE		215
-# define	COL_EMERALD		2
-# define	COL_MARINE_BLUE	69
+# define KEY_ESCAPE			27
+# define KEY_PLUS			43
+# define KEY_MINUS			45
+# define KEY_SPACE			32
 
-# define	COLOR_1			COL_ORANGE
-# define	COLOR_2			COL_EMERALD
-# define	COLOR_3			COL_MARINE_BLUE
-# define	COLOR_4			COL_RED
+# define COL_RED			9
+# define COL_ORANGE			215
+# define COL_EMERALD		34
+# define COL_MARINE_BLUE	69
 
-typedef struct			s_curse
+# define COLOR_1			COL_EMERALD
+# define COLOR_2			208
+# define COLOR_3			COL_MARINE_BLUE
+# define COLOR_4			160
+# define COLOR_1l			118
+# define COLOR_2l			COL_ORANGE
+# define COLOR_3l			81
+# define COLOR_4l			COL_RED
+
+
+typedef struct		s_curse
 {
-	WINDOW 				*win1;
-	WINDOW 				*win2;
-	WINDOW 				*win3;
-	int					y;
-	int					x;
-	int					n;
-	int					speed;
-	int					key;
-	char				pause;
-}						t_curse;
+	WINDOW			*wmem;
+	WINDOW			*wscv;
+	WINDOW			*wlog;
+	int				y;
+	int				x;
+	int				n;
+	int				speed;
+	int				key;
+	char			pause;
+}					t_curse;
 
-typedef struct			s_vm
+typedef struct		s_vm
 {
-	t_scv				*scv;
-	int					nb_scv;
-	int					flags;
-	int					nb_players;
-	int					cycle;
-	int					cycle_to_die;
-	int					checks;
-	uint				last_id_alive;
-	int					last_check_live;
-	int					nb_total_live;
-	int					dump;
-	int					redcode;
-	t_rc				rc[17];
-	uint				arg[3];
-	unsigned char		type[3];
-	t_curse				curse;
-	unsigned char		memory[MEM_SIZE];
-	unsigned char		creep[MEM_SIZE];
-	t_core				core[MAX_PLAYERS];
-}						t_vm;
+	t_scv			*scv;
+	int				nb_scv;
+	int				flags;
+	int				nb_players;
+	int				cycle;
+	int				cycle_to_die;
+	int				checks;
+	uint			last_id_alive;
+	int				last_check_live;
+	int				nb_total_live;
+	int				dump;
+	int				redcode;
+	t_rc			rc[17];
+	uint			arg[3];
+	unsigned char	type[3];
+	t_curse			curse;
+	unsigned char	memory[MEM_SIZE];
+	unsigned char	creep[MEM_SIZE];
+	t_core			core[MAX_PLAYERS];
+}					t_vm;
+
+# define DUMP_SIZE				64//32
 
 /*
 ** flags list
 */
 
-# define COREWAR_FLAGS 			"mv"
+# define COREWAR_FLAGS 			"mvlsD"
 # define F_MUTE					1
 # define F_VISUAL				2
+# define F_RC_LOG				4
+# define F_STEALTH				8
+# define F_DUMP_FREQUENCY		16
+# define F_DUMP					32
 
 /*
-** parsing options
+** parsing
 */
 
-void			parsing(int ac, char **av, t_vm *vm, int i);
-void			get_core(char **av, int n, int i, t_vm *vm);
-int				parse_flag(char *s, int *flags);
-int				flag_index(char *s, int c);
-void			init_cores(t_vm *vm, int i);
-void			init_scv(t_vm *vm);
+void				parsing(int ac, char **av, t_vm *vm, int i);
+void				init_scv(t_vm *vm);
+unsigned int		endianize(unsigned int n);
 
 /*
 ** virtual machine
 */
 
-void			gl_hf(t_vm *vm);
-void			reset_cycle(t_vm *vm);
+long				errors(int id, char *comment);
+void				gl_hf(t_vm *vm);
+void				get_scv_redcode(t_vm *vm, t_scv **scv);
+uint				mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
+uint				clamp(int raw);
 
 /*
 ** scvs functions
 */
 
-t_scv			*new_scv(void);
-void			kill_dead_scvs(t_vm *vm);
-void			call_zerglings(t_scv *scv);
+t_scv				*new_scv(void);
+void				six_pool(t_vm *vm, t_scv **scv);
+void				call_zerglings(t_scv *scv);
 
 /*
 ** display functions
 */
 
-void			display_winner(t_vm *vm);
-void			dump_memory(t_vm *vm);
-void			curse_init(t_vm *vm);
-void			curse_color(t_vm *vm, int pc, int color);
-void    		curse_memory(t_vm *vm);
-void			curse_puts_log(t_vm *vm, t_scv *scv, char *s);
+void				display_winner(t_vm *vm);
+void				dump_memory(t_vm *vm);
+void				curse_init(t_curse *curse);
+void				curse_color(t_vm *vm, int pc, int color);
+void				curse_memory(t_vm *vm);
+void				curse_puts_log(t_vm *vm, t_scv *scv, char *s);
+void				curse_clear_scvs(t_curse *curse);
+void				curse_players(t_vm *vm, int end, int i);
 
 /*
 ** sound functions
 */
 
-void			play_music();
-void			play_foam(void);
+void				play_music(void);
+void				play_foam(void);
 
 /*
 ** redcode functions
 */
 
-void			rc_live(t_vm *vm, t_scv *scv);
-void			rc_ld(t_vm *vm, t_scv *scv);
-void			rc_st(t_vm *vm, t_scv *scv);
-void			rc_add(t_vm *vm, t_scv *scv);
-void			rc_sub(t_vm *vm, t_scv *scv);
-void			rc_and(t_vm *vm, t_scv *scv);
-void			rc_or(t_vm *vm, t_scv *scv);
-void			rc_xor(t_vm *vm, t_scv *scv);
-void			rc_zjmp(t_vm *vm, t_scv *scv);
-void			rc_ldi(t_vm *vm, t_scv *scv);
-void			rc_sti(t_vm *vm, t_scv *scv);
-void			rc_fork(t_vm *vm, t_scv *scv);
-void			rc_lld(t_vm *vm, t_scv *scv);
-void			rc_lldi(t_vm *vm, t_scv *scv);
-void			rc_lfork(t_vm *vm, t_scv *scv);
-void			rc_aff(t_vm *vm, t_scv *scv);
-void			rc_calc(t_vm *vm, t_scv *scv);
-uint			change_carry(int *carry, uint result);
-
-/*
-** utils
-*/
-
-long			errors(int id, char *comment);
-unsigned int	endianize(unsigned int n);
-uint            mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
+void				rc_live(void *vm, t_scv *scv);
+void				rc_ld(void *vm, t_scv *scv);
+void				rc_st(void *vm, t_scv *scv);
+void				rc_add(void *vm, t_scv *scv);
+void				rc_sub(void *vm, t_scv *scv);
+void				rc_and(void *vm, t_scv *scv);
+void				rc_or(void *vm, t_scv *scv);
+void				rc_xor(void *vm, t_scv *scv);
+void				rc_zjmp(void *vm, t_scv *scv);
+void				rc_ldi(void *vm, t_scv *scv);
+void				rc_sti(void *vm, t_scv *scv);
+void				rc_fork(void *vm, t_scv *scv);
+void				rc_lld(void *vm, t_scv *scv);
+void				rc_lldi(void *vm, t_scv *scv);
+void				rc_lfork(void *vm, t_scv *scv);
+void				rc_aff(void *vm, t_scv *scv);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 15:59:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 19:41:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,27 @@
 ** 0b 		03 		01		[01 11]
 */
 
-void	rc_st(t_vm *vm, t_scv *scv)
+void		rc_st(void *vmp, t_scv *scv)
 {
-	int		pc;
+	uint	pc;
+	uint	pc_tmp;
 	int		i;
+	t_vm	*vm;
 
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	if (vm->type[1] == IND_CODE)
 	{
 		i = 4;
-		pc = scv->pc + vm->arg[1] & (IDX_MOD - 1);
+		pc = scv->pc + ((signed short)vm->arg[1]) % IDX_MOD;
+		pc = clamp(pc);
 		while (i--)
 		{
-			vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
-				(vm->arg[0] >> (i << 3)) & 0xff;
-			vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
+			pc_tmp = (pc + 3 - i) % MEM_SIZE;
+			vm->memory[pc_tmp] = (vm->arg[0] >> (i << 3)) & 0xff;
+			vm->creep[pc_tmp] = scv->color;
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), \
-				scv->color + 1);
+				curse_color(vm, pc_tmp, scv->color + 1);
 		}
 	}
 	else if (vm->type[1] == REG_CODE)
@@ -50,22 +53,26 @@ void	rc_st(t_vm *vm, t_scv *scv)
 ** the first parameter will be copied.
 */
 
-void				rc_sti(t_vm *vm, t_scv *scv)
+void		rc_sti(void *vmp, t_scv *scv)
 {
-	int		pc;
+	uint	pc;
 	int		i;
+	t_vm	*vm;
+	uint	pc_tmp;
 
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
 	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
 	i = 4;
-	pc = scv->pc + ((vm->arg[1] + vm->arg[2]) & (IDX_MOD - 1));
+	pc = scv->pc + ((vm->arg[1] + vm->arg[2]));
+	pc = clamp(pc);
 	while (i--)
 	{
-		vm->memory[(pc + 3 - i) & (MEM_SIZE - 1)] = \
-			(vm->arg[0] >> (i << 3)) & 0xff;
-		vm->creep[(pc + 3 - i) & (MEM_SIZE - 1)] = scv->color;
+		pc_tmp = (pc + 3 - i) % MEM_SIZE;
+		vm->memory[pc_tmp] = (vm->arg[0] >> (i << 3)) & 0xff;
+		vm->creep[pc_tmp] = scv->color;
 		if (vm->flags & F_VISUAL)
-			curse_color(vm, (pc + 3 - i) & (MEM_SIZE - 1), scv->color + 1);
+			curse_color(vm, pc_tmp, scv->color + 1);
 	}
 }

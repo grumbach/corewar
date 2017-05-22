@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/16 18:16:02 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/22 00:10:19 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,27 @@
 ** Loads the value of the argument in the registry and changes the carry.
 */
 
-void			rc_ld(t_vm *vm, t_scv *scv)
+void			rc_ld(void *vmp, t_scv *scv)
 {
-	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry = !scv->reg[vm->arg[1]];
+	t_vm	*vm;
+
+	vm = vmp;
+	scv->carry = !( \
+	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
 /*
 ** 0x0d rc_lld : Means long-load. Similar to ld, but without % IDX_MOD.
-** mutate function takes care of the later.
 ** Also modifies the carry.
 */
 
-void			rc_lld(t_vm *vm, t_scv *scv)
+void			rc_lld(void *vmp, t_scv *scv)
 {
-	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	scv->carry = !scv->reg[vm->arg[1]];
+	t_vm	*vm;
+
+	vm = vmp;
+	scv->carry = !( \
+	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
 /*
@@ -41,24 +46,31 @@ void			rc_lld(t_vm *vm, t_scv *scv)
 ** the last arg which is a reg
 */
 
-void			rc_ldi(t_vm *vm, t_scv *scv)
+void			rc_ldi(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->carry = !( \
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) & (MEM_SIZE - 1), IND_CODE);
+		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE));
 }
 
 /*
-** same as ldi but with no modulo applied (IDX MOD when IND) to addresses. change carry
-** mutate function takes care of the IDX MOD.
+** same as ldi but with no modulo applied (IDX MOD when IND) to addresses.
+** change carry mutate function takes care of the IDX MOD.
 */
 
-void			rc_lldi(t_vm *vm, t_scv *scv)
+void			rc_lldi(void *vmp, t_scv *scv)
 {
+	t_vm	*vm;
+
+	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
+	scv->carry = !( \
 	scv->reg[vm->arg[2]] = \
-		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) & (MEM_SIZE - 1), IND_CODE);
-	scv->carry = !scv->reg[vm->arg[2]];
+		mutate(vm, scv, (vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE));
 }

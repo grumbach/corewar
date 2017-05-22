@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/15 03:29:46 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/21 20:43:29 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,36 @@
 ** 0x0f rc_lfork : long-fork. Same as a fork without modulo in the address.
 */
 
-void	rc_fork(t_vm *vm, t_scv *cur)
+void		rc_fork(void *vmp, t_scv *cur)
 {
 	t_scv	*new;
+	t_vm	*vm;
 
+	vm = vmp;
 	new = new_scv();
 	ft_memcpy(new, cur, sizeof(t_scv));
-	new->cooldown = 0;
+	new->cooldown = vm->rc[FORK].cooldown;
 	new->next = vm->scv;
 	vm->scv = new;
 	++vm->nb_scv;
-	new->pc += (vm->arg[0] & (IDX_MOD - 1));
-	new->pc &= (MEM_SIZE - 1);
+	new->pc += (signed short)vm->arg[0] % IDX_MOD;
+	new->pc = clamp(new->pc);
+	new->pc_dst = new->pc;
 }
 
-void	rc_lfork(t_vm *vm, t_scv *cur)
+void		rc_lfork(void *vmp, t_scv *cur)
 {
 	t_scv	*new;
+	t_vm	*vm;
 
+	vm = vmp;
 	new = new_scv();
 	ft_memcpy(new, cur, sizeof(t_scv));
-	new->cooldown = 0;
+	new->cooldown = vm->rc[LFORK].cooldown;
 	new->next = vm->scv;
 	vm->scv = new;
 	++vm->nb_scv;
-	new->pc += vm->arg[0];
-	new->pc &= (MEM_SIZE - 1);
+	new->pc += (signed short)vm->arg[0];
+	new->pc = clamp(new->pc);
+	new->pc_dst = new->pc;
 }
