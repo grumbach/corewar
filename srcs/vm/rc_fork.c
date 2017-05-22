@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 15:58:51 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 20:43:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 00:51:06 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void		rc_fork(void *vmp, t_scv *cur)
 	vm->scv = new;
 	++vm->nb_scv;
 	new->pc = clamp(new->pc + (signed short)vm->arg[0] % IDX_MOD);
-
 }
 
 void		rc_lfork(void *vmp, t_scv *cur)

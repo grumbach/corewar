@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 23:29:09 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/22 08:49:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 00:50:48 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 	else
 	{
 		(!vm->rc[scv->redcode].ocp) ?
-			fill_args(vm, scv, &pc)	: check_ocp(vm, scv, &pc);
+			fill_args(vm, scv, &pc) : check_ocp(vm, scv, &pc);
 		if (pc < 0x10)
 			vm->rc[scv->redcode].func(vm, scv);
 	}

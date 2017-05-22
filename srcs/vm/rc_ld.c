@@ -6,14 +6,14 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 09:21:18 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/22 07:51:46 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 00:50:25 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
 
 /*
-** 0x02 rc_ld : Take a random argument and a registry (T_DIR | T_IND, T_REG).
+** 0x02 rc_ld : Take a random argument and a registry (T_DIR | T_IND, T_REG)
 ** Loads the value of the argument in the registry and changes the carry.
 */
 
@@ -22,7 +22,7 @@ void			rc_ld(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
@@ -36,7 +36,7 @@ void			rc_lld(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[1]] = mutate(vm, scv, vm->arg[0], vm->type[0]));
 }
 
@@ -69,7 +69,7 @@ void			rc_lldi(void *vmp, t_scv *scv)
 	vm = vmp;
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = \
 		mutate(vm, scv, clamp(vm->arg[0] + vm->arg[1]) % MEM_SIZE, IND_CODE));
 }
