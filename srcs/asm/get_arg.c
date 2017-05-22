@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/13 07:40:46 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:41:32 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/22 02:20:00 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void				add_arg(t_inst *inst, char *arg, t_op *op, t_env *env)
 	}
 	else
 	{
-		while (tmp->next)
+		while (tmp && tmp->next)
 			tmp = tmp->next;
 		tmp->next = (t_arg *)ft_memalloc(sizeof(t_arg));
 		tmp = tmp->next;
@@ -98,10 +98,6 @@ static void				add_arg(t_inst *inst, char *arg, t_op *op, t_env *env)
 	tmp->label = tmp->is_label ? grep_label(tmp->name, env) : NULL;
 	tmp->line = env->nb_l;
 }
-
-/*
-**  FREE CHAR **RET PLZ
-*/
 
 void					get_arg(char *l, t_inst *inst, t_env *env)
 {

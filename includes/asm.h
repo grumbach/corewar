@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:40:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/17 03:05:49 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/19 00:47:20 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,10 @@ void				free_env(t_env *env);
 ** tools
 */
 
-char	*ft_strjoin_f(char const *s1, char const *s2);
-char	*ft_strjoin_f1(char const *s1, char const *s2);
+char				*ft_strjoin_f(char const *s1, char const *s2);
+char				*ft_strjoin_f1(char const *s1, char const *s2);
 char				*ft_strdup_f(const char *s);
-char	*ft_strtrim_f(char const *s);
-char	*ft_strsub_f(char const *s, unsigned int start, size_t len);
+char				*ft_strtrim_f(char const *s);
+char				*ft_strsub_f(char const *s, unsigned int start, size_t len);
 
 #endif

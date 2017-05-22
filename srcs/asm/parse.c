@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 18:43:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/17 02:57:01 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/19 01:29:55 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static int		check_line(char *l, t_env *env, int type)
 	if ((type == 5 || type >= 10) && (env->have_name == 0 ||
 				env->have_comment == 0))
 		return (0);
-	while (l[i + 1])
+	while (l[i])
 		i++;
-	if (l[i] == ',')
+	if (type != 1 && type != 2 && i > 0 && l[i - 1] == ',')
 		return (0);
 	return (1);
 }
@@ -77,7 +77,6 @@ t_env			*parse_s_file(char *file)
 	t_env	*env;
 	char	*line;
 	int		line_type;
-	int		gnl;
 
 	env = (t_env *)ft_memalloc(sizeof(t_env));
 	!(env) ? malloc_error(0, NULL) : 0;
@@ -85,7 +84,7 @@ t_env			*parse_s_file(char *file)
 	put_file_name(file, env);
 	env->fd = open(file, O_RDONLY);
 	check_fd_file(env);
-	while ((gnl = ft_get_next_line(env->fd, &line)) > 0)
+	while (ft_get_next_line(env->fd, &line) > 0)
 	{
 		env->nb_l++;
 		line_type = get_type_line(line);
