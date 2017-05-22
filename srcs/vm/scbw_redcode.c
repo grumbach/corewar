@@ -23,7 +23,7 @@ static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 	{
 		arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE];
 		if (arg < 1 || arg > REG_NUMBER)
-			*pc = -1;
+			*pc += 0x10;
 	}
 	else if (type == DIR_CODE)
 		while (i++ < vm->rc[scv->redcode].dir_size)
@@ -45,7 +45,7 @@ static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 		i = vm->rc[scv->redcode].arg_max - arg;
 		vm->arg[i] = get_args(vm, scv, pc, \
 			vm->rc[scv->redcode].arg[i] - (vm->rc[scv->redcode].arg[i] >> 2));
-		if (*pc < 0)
+		if (*pc > 0x10)
 			return ;
 		--arg;
 	}
@@ -65,7 +65,7 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 
 	if ((ocp = vm->memory[scv->pc + ++(*pc) % MEM_SIZE]) & 3)
 	{
-		*pc = -1;
+		*pc += 0x10;
 		return ;
 	}
 	arg = 0;
@@ -74,11 +74,11 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 		vm->type[arg] = (ocp >> ((3 - arg) << 1)) & 3;
 		if (!((vm->rc[scv->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
 		{
-			*pc = -1;
+			*pc += 0x10;
 			return ;
 		}
 		vm->arg[arg] = get_args(vm, scv, pc, vm->type[arg]);
-		if (*pc < 0)
+		if (*pc > 0x10)
 			return ;
 		++arg;
 	}
@@ -88,6 +88,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 {
 	int		pc;
 
+	pc = 0;
 	if (!scv->redcode)
 	{
 		scv->redcode = vm->memory[scv->pc % MEM_SIZE];
@@ -99,16 +100,12 @@ static void	fetch(t_vm *vm, t_scv *scv)
 	}
 	else
 	{
-		pc = 0;
 		(!vm->rc[scv->redcode].ocp) ?
 			fill_args(vm, scv, &pc)	: check_ocp(vm, scv, &pc);
-		if (pc > 0)
-		{
+		if (pc < 0x10)
 			vm->rc[scv->redcode].func(vm, scv);
-			scv->pc += pc;
-		}
 	}
-	scv->pc = (scv->pc + 1) % MEM_SIZE;
+	scv->pc = (scv->pc + (pc & 0xf) + 1) % MEM_SIZE;
 	scv->redcode = 0;
 }
 
