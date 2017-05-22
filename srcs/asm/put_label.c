@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:22:58 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:04:52 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/18 20:35:26 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static void		add_label_to_label(char *l, t_env *env)
 
 	tmp = env->inst;
 	l_tmp = NULL;
-	while (tmp->next)
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	l_tmp = tmp->label;
-	while (l_tmp->next)
+	while (l_tmp && l_tmp->next)
 		l_tmp = l_tmp->next;
 	l_tmp->next = (t_label *)ft_memalloc(sizeof(t_label));
 	if (!l_tmp->next)

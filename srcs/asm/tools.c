@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 03:00:16 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/17 03:07:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/19 00:46:06 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char		*ft_strdup_f(const char *s)
 	return (str);
 }
 
-char	*ft_strjoin_f(char const *s1, char const *s2)
+char		*ft_strjoin_f(char const *s1, char const *s2)
 {
 	char	*s3;
 	int		len;
@@ -66,7 +66,7 @@ char	*ft_strjoin_f(char const *s1, char const *s2)
 		return (NULL);
 }
 
-char	*ft_strjoin_f1(char const *s1, char const *s2)
+char		*ft_strjoin_f1(char const *s1, char const *s2)
 {
 	char	*s3;
 	int		len;
@@ -94,7 +94,7 @@ char	*ft_strjoin_f1(char const *s1, char const *s2)
 		return (NULL);
 }
 
-char	*ft_strtrim_f(char const *s)
+char		*ft_strtrim_f(char const *s)
 {
 	size_t b;
 	size_t i;
@@ -115,7 +115,7 @@ char	*ft_strtrim_f(char const *s)
 	return (ft_strsub_f(s, i, (b - (i + (b - z)))));
 }
 
-char	*ft_strsub_f(char const *s, unsigned int start, size_t len)
+char		*ft_strsub_f(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*s2;

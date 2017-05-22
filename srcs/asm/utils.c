@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 14:04:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/16 23:39:20 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/22 06:00:15 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,6 @@ unsigned int	ft_endian_4_bytes(unsigned int n)
 {
 	return ((n >> 24) | ((n & 0xff0000) >> 8) | ((n & 0xff00) << 8) |
 					((n & 0xff) << 24));
-}
-
-/*
-** first convert n to 2 bytes length
-** reverse 2 bytes 11000011 00110011
-*/
-
-unsigned int	ft_endian_2_bytes(unsigned int n)
-{
-	n &= 0xffff;
-	return ((n >> 8) | ((n & 0xff) << 8));
 }
 
 int				get_ocp(char *inst, t_arg *arg)
@@ -88,7 +77,7 @@ void			cut_comment(char **line)
 	while (line[0][i])
 	{
 		line[0][i] == '"' ? quote *= -1 : 0;
-		if (quote < 0 && (line[0][i] == '#' || line[0][i] == ';'))
+		if (quote < 0 && (line[0][i] == COMMENT_CHAR || line[0][i] == ';'))
 		{
 			todo++;
 			break ;
