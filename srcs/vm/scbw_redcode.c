@@ -26,7 +26,7 @@ static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 			*pc = -1;
 	}
 	else if (type == DIR_CODE)
-		while (i++ < vm->rc[vm->redcode].dir_size)
+		while (i++ < vm->rc[scv->redcode].dir_size)
 			arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE] | (arg << 8);
 	else if (type == IND_CODE)
 		while (i++ < IND_SIZE)
@@ -39,12 +39,12 @@ static void	fill_args(t_vm *vm, t_scv *scv, int *pc)
 	int		i;
 	int		arg;
 
-	arg = vm->rc[vm->redcode].arg_max;
+	arg = vm->rc[scv->redcode].arg_max;
 	while (arg)
 	{
-		i = vm->rc[vm->redcode].arg_max - arg;
+		i = vm->rc[scv->redcode].arg_max - arg;
 		vm->arg[i] = get_args(vm, scv, pc, \
-			vm->rc[vm->redcode].arg[i] - (vm->rc[vm->redcode].arg[i] >> 2));
+			vm->rc[scv->redcode].arg[i] - (vm->rc[scv->redcode].arg[i] >> 2));
 		if (*pc < 0)
 			return ;
 		--arg;
@@ -69,10 +69,10 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 		return ;
 	}
 	arg = 0;
-	while (arg < vm->rc[vm->redcode].arg_max)
+	while (arg < vm->rc[scv->redcode].arg_max)
 	{
 		vm->type[arg] = (ocp >> ((3 - arg) << 1)) & 3;
-		if (!((vm->rc[vm->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
+		if (!((vm->rc[scv->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
 		{
 			*pc = -1;
 			return ;
@@ -88,23 +88,32 @@ static void	fetch(t_vm *vm, t_scv *scv)
 {
 	int		pc;
 
-	pc = 0;
-	scv->pc = scv->pc_dst;
-	vm->redcode = vm->memory[scv->pc % MEM_SIZE];
-	if (0 < vm->redcode && vm->redcode < 17)
+	if (!scv->redcode)
 	{
-		if (!vm->rc[vm->redcode].ocp)
+		scv->redcode = vm->memory[scv->pc % MEM_SIZE];
+		if (0 < scv->redcode && scv->redcode < 17)
+			scv->cooldown = vm->rc[scv->redcode].cooldown;
+		else
+		{
+			scv->pc = (scv->pc + 1) % MEM_SIZE;
+			scv->redcode = 0;
+		}
+	}
+	else
+	{
+		pc = 0;
+		if (!vm->rc[scv->redcode].ocp)
 			fill_args(vm, scv, &pc);
 		else
 			check_ocp(vm, scv, &pc);
 		if (pc > 0)
 		{
-			vm->rc[vm->redcode].func(vm, scv);
-			scv->cooldown = vm->rc[vm->redcode].cooldown;
-			scv->pc_dst += pc;
+			vm->rc[scv->redcode].func(vm, scv);
+			scv->pc += pc;
 		}
+		scv->redcode = 0;
+		scv->pc = (scv->pc + 1) % MEM_SIZE;
 	}
-	scv->pc_dst = (scv->pc_dst + 1) % MEM_SIZE;
 }
 
 /*
@@ -124,7 +133,7 @@ void		get_scv_redcode(t_vm *vm, t_scv **scv)
 		if (!(lst->cooldown))
 		{
 			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc_dst, lst->color + 2);
+				curse_color(vm, lst->pc, lst->color + 2);
 			fetch(vm, lst);
 		}
 		else

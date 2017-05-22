@@ -42,14 +42,14 @@ void	init_scv(t_vm *vm)
 	vm->scv = scv;
 	scv->reg[1] = vm->core[i].id;
 	scv->pc = i * (MEM_SIZE / vm->nb_players);
-	scv->pc_dst = scv->pc;
+	scv->pc = scv->pc;
 	while (i--)
 	{
 		scv->next = new_scv();
 		scv->next->color = (i << 2) + 2;
 		scv->next->reg[1] = vm->core[i].id;
 		scv->next->pc = i * (MEM_SIZE / vm->nb_players);
-		scv->pc_dst = scv->pc;
+		scv->pc = scv->pc;
 		scv = scv->next;
 	}
 }

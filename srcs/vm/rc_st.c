@@ -31,8 +31,7 @@ void		rc_st(void *vmp, t_scv *scv)
 	if (vm->type[1] == IND_CODE)
 	{
 		i = 4;
-		pc = scv->pc + ((signed short)vm->arg[1]) % IDX_MOD;
-		pc = clamp(pc);
+		pc = clamp(scv->pc + ((signed short)vm->arg[1]) % IDX_MOD);
 		while (i--)
 		{
 			pc_tmp = (pc + 3 - i) % MEM_SIZE;
@@ -42,7 +41,7 @@ void		rc_st(void *vmp, t_scv *scv)
 				curse_color(vm, pc_tmp, scv->color + 1);
 		}
 	}
-	else if (vm->type[1] == REG_CODE)
+	else// if (vm->type[1] == REG_CODE)
 		scv->reg[vm->arg[1]] = vm->arg[0];
 }
 
@@ -61,12 +60,10 @@ void		rc_sti(void *vmp, t_scv *scv)
 	uint	pc_tmp;
 
 	vm = vmp;
+	pc = clamp(scv->pc + mutate(vm, scv, vm->arg[1], vm->type[1]) \
+		+ mutate(vm, scv, vm->arg[2], vm->type[2]));
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
-	vm->arg[1] = mutate(vm, scv, vm->arg[1], vm->type[1]);
-	vm->arg[2] = mutate(vm, scv, vm->arg[2], vm->type[2]);
 	i = 4;
-	pc = scv->pc + ((vm->arg[1] + vm->arg[2]));
-	pc = clamp(pc);
 	while (i--)
 	{
 		pc_tmp = (pc + 3 - i) % MEM_SIZE;

@@ -45,6 +45,10 @@ static void	curse_scv(WINDOW *win, t_scv *scv)
 	i = 0;
 	while (scv_lst && i < 15)
 	{
+		while (scv_lst && !scv_lst->reg[2])//
+ 			scv_lst = scv_lst->next;//
+ 		if (!scv_lst)//
+ 			break ;//
 		y = i % 16 * 5;
 		x = 2 + ((i >> 4) * 96);
 		wattron(win, COLOR_PAIR(scv_lst->color));

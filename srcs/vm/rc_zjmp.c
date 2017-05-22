@@ -26,7 +26,7 @@ void			rc_zjmp(void *vmp, t_scv *scv)
 	vm = vmp;
 	if (scv->carry == 1)
 	{
-		scv->pc_dst += ((signed short)vm->arg[0] % IDX_MOD) - 3;
-		scv->pc_dst = clamp(scv->pc_dst);
+		scv->pc += ((signed short)vm->arg[0] % IDX_MOD) - 3;
+		scv->pc = clamp(scv->pc);
 	}
 }

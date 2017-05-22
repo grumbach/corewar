@@ -36,19 +36,19 @@ uint	mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 		return (scv->reg[raw]);
 	else if (type == IND_CODE)
 	{
-		if (vm->redcode < 13)
+		if (scv->redcode < 13)
 			raw %= IDX_MOD;
 		i = scv->pc + raw;
 		n = DIR_SIZE;
 		while (n--)
 			raw = vm->memory[i++ % MEM_SIZE] | (raw << 8);
 	}
-	else if (vm->rc[vm->redcode].dir_size == 2)
+	else if (vm->rc[scv->redcode].dir_size == 2)
 		raw = (signed short)raw;
 	return (raw);
 }
 
 uint	clamp(int raw)
 {
-	return (((raw % MEM_SIZE) + MEM_SIZE) & (MEM_SIZE - 1));
+	return ((raw + MEM_SIZE) & (MEM_SIZE - 1));
 }

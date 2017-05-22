@@ -63,7 +63,7 @@ typedef struct		s_scv
 {
 	uint			reg[REG_NUMBER + 1];
 	uint			pc;
-	uint			pc_dst;
+	uint			redcode;
 	int				carry;
 	int				live;
 	int				cooldown;
@@ -236,7 +236,6 @@ typedef struct		s_vm
 	int				last_check_live;
 	int				nb_total_live;
 	int				dump;
-	int				redcode;
 	t_rc			rc[17];
 	uint			arg[3];
 	unsigned char	type[3];
