@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:40:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/19 00:47:20 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/22 06:00:48 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void				put_label(char *l, t_env *env);
 ** Utils.c
 */
 
-unsigned int		ft_endian_2_bytes(unsigned int n);
 unsigned int		ft_endian_4_bytes(unsigned int n);
 void				cut_comment(char **line);
 int					get_ocp(char *inst, t_arg *arg);
