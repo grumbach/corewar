@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/22 07:10:57 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/22 08:19:48 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ static void	init_game(t_vm *vm)
 			errors(0, vm->core[i].prog_name);
 		pos = i * (MEM_SIZE / vm->nb_players);
 		magic = init_cores(fd, vm, i);
+		if (-1 == lseek(fd, 0x04, SEEK_CUR))
+			errors(0, 0);
 		if (-1 == read(fd, &(vm->memory[pos]), vm->core[i].prog_size))
 			errors(0, 0);
 		ft_memset(&(vm->creep[pos]), vm->core[i].color, vm->core[i].prog_size);

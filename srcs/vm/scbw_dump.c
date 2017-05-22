@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 00:40:40 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 23:14:45 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/22 08:16:35 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void		dump_memory(t_vm *vm)
 	while (i < MEM_SIZE)
 	{
 		if (!(i % DUMP_SIZE))
-			ft_printf("\n0x%04x :", i);
-		ft_printf(" %02x", vm->memory[i]);
+			ft_printf("\n0x%04x : ", i);
+		ft_printf("%02x ", vm->memory[i]);
 		++i;
 	}
 	ft_printf("\n");
