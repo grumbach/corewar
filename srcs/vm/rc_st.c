@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/22 07:50:25 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 00:30:44 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void		rc_sti(void *vmp, t_scv *scv)
 	uint	pc_tmp;
 
 	vm = vmp;
-	pc = clamp(scv->pc + mutate(vm, scv, vm->arg[1], vm->type[1]) \
-		+ mutate(vm, scv, vm->arg[2], vm->type[2]));
+	pc = scv->pc + clamp((mutate(vm, scv, vm->arg[1], vm->type[1]) \
+		+ mutate(vm, scv, vm->arg[2], vm->type[2])) % IDX_MOD);// A REVOIR
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	i = 4;
 	while (i--)
