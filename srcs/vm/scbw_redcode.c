@@ -92,28 +92,24 @@ static void	fetch(t_vm *vm, t_scv *scv)
 	{
 		scv->redcode = vm->memory[scv->pc % MEM_SIZE];
 		if (0 < scv->redcode && scv->redcode < 17)
-			scv->cooldown = vm->rc[scv->redcode].cooldown;
-		else
 		{
-			scv->pc = (scv->pc + 1) % MEM_SIZE;
-			scv->redcode = 0;
+			scv->cooldown = vm->rc[scv->redcode].cooldown;
+			return ;
 		}
 	}
 	else
 	{
 		pc = 0;
-		if (!vm->rc[scv->redcode].ocp)
-			fill_args(vm, scv, &pc);
-		else
-			check_ocp(vm, scv, &pc);
+		(!vm->rc[scv->redcode].ocp) ?
+			fill_args(vm, scv, &pc)	: check_ocp(vm, scv, &pc);
 		if (pc > 0)
 		{
 			vm->rc[scv->redcode].func(vm, scv);
 			scv->pc += pc;
 		}
-		scv->redcode = 0;
-		scv->pc = (scv->pc + 1) % MEM_SIZE;
 	}
+	scv->pc = (scv->pc + 1) % MEM_SIZE;
+	scv->redcode = 0;
 }
 
 /*
