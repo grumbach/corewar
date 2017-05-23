@@ -97,7 +97,7 @@ void		gl_hf(t_vm *vm)
 			else if (vm->flags & F_DUMP_FREQUENCY)
 				dump_memory(vm);
 		}
-		get_scv_redcode(vm, &vm->scv);
+		get_scv_redcode(vm);
 		if (!vm->cycle_to_die--)
 			reset_cycle(vm);
 		if (vm->flags & F_DUMP && vm->cycle == vm->dump)

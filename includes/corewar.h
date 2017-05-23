@@ -273,7 +273,7 @@ unsigned int		endianize(unsigned int n);
 
 long				errors(int id, char *comment);
 void				gl_hf(t_vm *vm);
-void				get_scv_redcode(t_vm *vm, t_scv **scv);
+void				get_scv_redcode(t_vm *vm);
 uint				mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
 uint				clamp(int raw);
 

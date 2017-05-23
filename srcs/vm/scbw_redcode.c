@@ -23,7 +23,7 @@ static uint	get_args(t_vm *vm, t_scv *scv, int *pc, unsigned char type)
 	{
 		arg = vm->memory[(scv->pc + ++(*pc)) % MEM_SIZE];
 		if (arg < 1 || arg > REG_NUMBER)
-			*pc += 0x10;
+			*pc |= 0x10;
 	}
 	else if (type == DIR_CODE)
 		while (i++ < vm->rc[scv->redcode].dir_size)
@@ -65,7 +65,7 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 
 	if ((ocp = vm->memory[scv->pc + ++(*pc) % MEM_SIZE]) & 3)
 	{
-		*pc += 0x10;
+		*pc |= 0x10;
 		return ;
 	}
 	arg = 0;
@@ -74,7 +74,7 @@ static void	check_ocp(t_vm *vm, t_scv *scv, int *pc)
 		vm->type[arg] = (ocp >> ((3 - arg) << 1)) & 3;
 		if (!((vm->rc[scv->redcode].arg[arg] >> (vm->type[arg] - 1)) & 1))
 		{
-			*pc += 0x10;
+			*pc |= 0x10;
 			return ;
 		}
 		vm->arg[arg] = get_args(vm, scv, pc, vm->type[arg]);
@@ -88,23 +88,24 @@ static void	fetch(t_vm *vm, t_scv *scv)
 {
 	int		pc;
 
-	pc = 0;
-	if (!scv->redcode)
+	if (!(scv->cooldown))
 	{
-		scv->redcode = vm->memory[scv->pc % MEM_SIZE];
-		if (0 < scv->redcode && scv->redcode < 17)
-		{
-			scv->cooldown = vm->rc[scv->redcode].cooldown - 1;
-			return ;
-		}
+		if (vm->flags & F_VISUAL)
+			curse_color(vm, scv->pc, scv->color + 2);
 	}
 	else
 	{
-		(!vm->rc[scv->redcode].ocp) ?
-			fill_args(vm, scv, &pc) : check_ocp(vm, scv, &pc);
-		if (pc < 0x10)
-			vm->rc[scv->redcode].func(vm, scv);
+		--scv->cooldown;
+		if (vm->flags & F_VISUAL)
+			curse_color(vm, scv->pc, scv->color + 3 \
+				- (vm->memory[scv->pc % MEM_SIZE] == 1 ? 1 : 0));
+		return ;
 	}
+	pc = 0;
+	(!vm->rc[scv->redcode].ocp) ?
+		fill_args(vm, scv, &pc) : check_ocp(vm, scv, &pc);
+	if (pc < 0x10)
+		vm->rc[scv->redcode].func(vm, scv);
 	scv->pc = (scv->pc + (pc & 0xf) + 1) % MEM_SIZE;
 	scv->redcode = 0;
 }
@@ -116,26 +117,26 @@ static void	fetch(t_vm *vm, t_scv *scv)
 ** 3) check how long it will have to wait rc_cost(&lst->cooldown, redcode);
 */
 
-void		get_scv_redcode(t_vm *vm, t_scv **scv)
+void		get_scv_redcode(t_vm *vm)
 {
-	t_scv		*lst;
+	t_scv		*scv;
 
-	lst = *scv;
-	while (lst)
+	scv = vm->scv;
+	while (scv)
 	{
-		if (!(lst->cooldown))
+		if (scv->redcode)
+			fetch(vm, scv);
+		if (!scv->redcode)
 		{
-			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc, lst->color + 2);
-			fetch(vm, lst);
+			scv->redcode = vm->memory[scv->pc % MEM_SIZE];
+			if (0 < scv->redcode && scv->redcode < 17)
+				scv->cooldown = vm->rc[scv->redcode].cooldown - 1;
+			else
+			{
+				scv->redcode = 0;
+				++scv->pc;
+			}
 		}
-		else
-		{
-			--lst->cooldown;
-			if (vm->flags & F_VISUAL)
-				curse_color(vm, lst->pc, lst->color + 3 \
-					- (vm->memory[lst->pc % MEM_SIZE] == 1 ? 1 : 0));
-		}
-		lst = lst->next;
+		scv = scv->next;
 	}
 }
