@@ -243,7 +243,7 @@ typedef struct		s_vm
 	t_core			core[MAX_PLAYERS];
 }					t_vm;
 
-# define DUMP_SIZE				32
+# define DUMP_SIZE				64//32
 
 /*
 ** flags list
