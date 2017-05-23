@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 23:29:09 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/23 00:50:48 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/23 19:58:02 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void	fetch(t_vm *vm, t_scv *scv)
 		scv->redcode = vm->memory[scv->pc % MEM_SIZE];
 		if (0 < scv->redcode && scv->redcode < 17)
 		{
-			scv->cooldown = vm->rc[scv->redcode].cooldown;
+			scv->cooldown = vm->rc[scv->redcode].cooldown - 1;
 			return ;
 		}
 	}

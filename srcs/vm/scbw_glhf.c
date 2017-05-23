@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 01:11:25 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 22:09:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 20:16:23 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void		gl_hf(t_vm *vm)
 	while (vm->scv)
 	{
 		maelstrom(vm);
-		if (vm->flags & F_DUMP && vm->cycle == vm->dump)
-			break ;
 		if (!(vm->cycle % vm->dump))
 		{
 			if (vm->flags & F_VISUAL)
@@ -102,6 +100,8 @@ void		gl_hf(t_vm *vm)
 		get_scv_redcode(vm, &vm->scv);
 		if (!vm->cycle_to_die--)
 			reset_cycle(vm);
+		if (vm->flags & F_DUMP && vm->cycle == vm->dump)
+			break ;
 		++vm->cycle;
 	}
 	curse_players(vm, 1, -1);

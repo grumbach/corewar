@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/22 08:19:48 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/23 20:20:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ int			main(int ac, char **av)
 	init_rc(&vm);
 	vm.dump = 1;
 	parsing(ac, av, &vm, 0);
+	if (!vm.dump)
+		errors(1, "go take another dump");
 	if (!(vm.flags & F_VISUAL))
 		vm.flags |= F_MUTE;
 	vm.nb_players ? init_game(&vm) : \
