@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/23 20:20:18 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 01:35:41 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,15 @@ static void	init_game(t_vm *vm)
 		magic = init_cores(fd, vm, i);
 		if (-1 == lseek(fd, 0x04, SEEK_CUR))
 			errors(0, 0);
+		if (vm->core[i].prog_size > CHAMP_MAX_SIZE)
+		{
+			close(fd);
+			errors(1, "way.... too... much.. code.");
+		}
 		if (-1 == read(fd, &(vm->memory[pos]), vm->core[i].prog_size))
 			errors(0, 0);
 		ft_memset(&(vm->creep[pos]), vm->core[i].color, vm->core[i].prog_size);
 		close(fd);
-		if (vm->core[i].prog_size > CHAMP_MAX_SIZE)
-			errors(1, "way.... too... much.. code.");
 		++i;
 	}
 }
