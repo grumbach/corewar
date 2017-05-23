@@ -219,7 +219,6 @@ typedef struct		s_curse
 	int				x;
 	int				n;
 	int				speed;
-	int				key;
 	char			pause;
 }					t_curse;
 
@@ -233,7 +232,6 @@ typedef struct		s_vm
 	int				cycle_to_die;
 	int				checks;
 	uint			last_id_alive;
-	int				last_check_live;
 	int				nb_total_live;
 	int				dump;
 	t_rc			rc[17];
@@ -245,7 +243,7 @@ typedef struct		s_vm
 	t_core			core[MAX_PLAYERS];
 }					t_vm;
 
-# define DUMP_SIZE				64//32
+# define DUMP_SIZE				32
 
 /*
 ** flags list

@@ -33,14 +33,6 @@ void		rc_fork(void *vmp, t_scv *cur)
 	vm->scv = new;
 	++vm->nb_scv;
 	new->pc = clamp(new->pc + (signed short)vm->arg[0] % IDX_MOD);
-	new->redcode = vm->memory[new->pc % MEM_SIZE];
-	if (0 < new->redcode && new->redcode < 17)
-		new->cooldown = vm->rc[new->redcode].cooldown - 1;
-	else
-	{
-		new->redcode = 0;
-		++new->pc;
-	}
 }
 
 void		rc_lfork(void *vmp, t_scv *cur)
@@ -57,12 +49,4 @@ void		rc_lfork(void *vmp, t_scv *cur)
 	vm->scv = new;
 	++vm->nb_scv;
 	new->pc = clamp(new->pc + (signed short)vm->arg[0]);
-	new->redcode = vm->memory[new->pc % MEM_SIZE];
-	if (0 < new->redcode && new->redcode < 17)
-		new->cooldown = vm->rc[new->redcode].cooldown - 1;
-	else
-	{
-		new->redcode = 0;
-		++new->pc;
-	}
 }

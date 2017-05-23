@@ -88,22 +88,13 @@ static void	fetch(t_vm *vm, t_scv *scv)
 {
 	int		pc;
 
-	if (!(scv->cooldown))
-	{
-		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv->pc, scv->color + 2);
-	}
-	else
-	{
-		--scv->cooldown;
-		if (vm->flags & F_VISUAL)
-			curse_color(vm, scv->pc, scv->color + 3 \
-				- (vm->memory[scv->pc % MEM_SIZE] == 1 ? 1 : 0));
-		return ;
-	}
+	if (vm->flags & F_VISUAL)
+		curse_color(vm, scv->pc, scv->color + 2);
 	pc = 0;
-	(!vm->rc[scv->redcode].ocp) ?
-		fill_args(vm, scv, &pc) : check_ocp(vm, scv, &pc);
+	if (vm->rc[scv->redcode].ocp)
+		check_ocp(vm, scv, &pc);
+	else
+		fill_args(vm, scv, &pc);
 	if (pc < 0x10)
 		vm->rc[scv->redcode].func(vm, scv);
 	scv->pc = (scv->pc + (pc & 0xf) + 1) % MEM_SIZE;
@@ -124,18 +115,22 @@ void		get_scv_redcode(t_vm *vm)
 	scv = vm->scv;
 	while (scv)
 	{
-		if (scv->redcode)
-			fetch(vm, scv);
 		if (!scv->redcode)
 		{
 			scv->redcode = vm->memory[scv->pc % MEM_SIZE];
 			if (0 < scv->redcode && scv->redcode < 17)
 				scv->cooldown = vm->rc[scv->redcode].cooldown - 1;
-			else
-			{
-				scv->redcode = 0;
+			else if (!(scv->redcode = 0))
 				++scv->pc;
-			}
+		}
+		if (!(scv->cooldown) && scv->redcode)
+			fetch(vm, scv);
+		else
+		{
+			--scv->cooldown;
+			if (vm->flags & F_VISUAL)
+				curse_color(vm, scv->pc, scv->color + 3 \
+					- (vm->memory[scv->pc % MEM_SIZE] == 1 ? 1 : 0));
 		}
 		scv = scv->next;
 	}
