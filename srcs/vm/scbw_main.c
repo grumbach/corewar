@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/22 00:53:06 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/24 01:35:41 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 08:48:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static uint	init_cores(const int fd, t_vm *vm, int i)
 		errors(1, "just show me the code!");
 	if (-1 == read(fd, &vm->core[i].comment, COMMENT_LENGTH))
 		errors(0, 0);
+	if (!vm->core[i].comment[0] || !vm->core[i].prog_name[0])
+		errors(1, "name or comment is empty :,(");
 	vm->core[i].prog_size = endianize(vm->core[i].prog_size);
 	return (magic);
 }
