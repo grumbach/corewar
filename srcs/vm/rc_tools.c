@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 02:00:21 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/23 00:48:35 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:46:20 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ uint	endianize(unsigned int n)
 ** dereferencing IND and REG
 */
 
-uint	mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
+int		mutate(t_vm *vm, t_scv *scv, int raw, unsigned char type)
 {
 	int			i;
 	int			n;
@@ -48,7 +48,7 @@ uint	mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type)
 	return (raw);
 }
 
-uint	clamp(int raw)
+int		clamp(int raw)
 {
 	return ((raw % MEM_SIZE + MEM_SIZE) & (MEM_SIZE - 1));
 }

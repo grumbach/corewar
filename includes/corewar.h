@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/24 06:56:21 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:43:40 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct		s_scv
 typedef struct		s_core
 {
 	uint			prog_size;
-	uint			id;
+	int				id;
 	uint			color;
 	char			prog_name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
@@ -230,11 +230,11 @@ typedef struct		s_vm
 	int				cycle;
 	int				cycle_to_die;
 	int				checks;
-	uint			last_id_alive;
+	int				last_id_alive;
 	int				nb_total_live;
 	int				dump;
 	t_rc			rc[17];
-	uint			arg[3];
+	int				arg[3];
 	unsigned char	type[3];
 	t_curse			curse;
 	unsigned char	memory[MEM_SIZE];
@@ -271,8 +271,8 @@ unsigned int		endianize(unsigned int n);
 long				errors(int id, char *comment);
 void				gl_hf(t_vm *vm);
 void				get_scv_redcode(t_vm *vm);
-uint				mutate(t_vm *vm, t_scv *scv, uint raw, unsigned char type);
-uint				clamp(int raw);
+int					mutate(t_vm *vm, t_scv *scv, int raw, unsigned char type);
+int					clamp(int raw);
 
 /*
 ** scvs functions
