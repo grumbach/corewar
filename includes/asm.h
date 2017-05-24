@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:40:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/24 07:34:05 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:00:19 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct		s_env
 
 void				asm_error(int e, t_env *env, int l);
 void				malloc_error(int e, t_env *env);
+void				check_if_error(char *tmp, t_env *env);
 
 /*
 ** Parse.c
@@ -92,7 +93,7 @@ void				put_inst(char *l, t_env *env);
 ** Put_label.c
 */
 
-void				put_label(char *l, t_env *env);
+void				put_label(char *l, t_env *env, int i);
 
 /*
 ** Utils.c

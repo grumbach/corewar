@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 14:20:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/24 07:34:34 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:08:26 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			put_comment(char *l, t_env *env)
 	trim = ft_strsub(l, i, ft_strlen(l) - i);
 	if (!(ft_strncmp(trim, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING))))
 		get_comment(trim, env);
-	if (ft_strlen(env->comment) > COMMENT_LENGTH)
+	if (ft_strlen(env->comment) > COMMENT_LENGTH || !ft_strlen(env->comment))
 	{
 		ft_memdel((void **)&trim);
 		asm_error(7, env, 0);

@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 18:43:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/22 05:57:20 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:00:55 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_env			*parse_s_file(char *file)
 		line_type = check_line(line, env, line_type) ? line_type : -1;
 		line_type == 3 ? put_name(line, env) : 0;
 		line_type == 4 ? put_comment(line, env) : 0;
-		line_type == 5 ? put_label(line, env) : 0;
+		line_type == 5 ? put_label(line, env, 0) : 0;
 		line_type >= -1 && line_type <= 5 ? 0 : put_inst(line, env);
 		free(line);
 		line_type == -1 ? asm_error(10, env, 0) : 0;
