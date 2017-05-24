@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:40:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/22 06:00:48 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 07:34:05 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ unsigned int		ft_endian_4_bytes(unsigned int n);
 void				cut_comment(char **line);
 int					get_ocp(char *inst, t_arg *arg);
 int					contain_quote(char *s);
+void				check_after_quote(char *tmp, t_env *env, int e, int j);
 
 /*
 ** Generate_file.c

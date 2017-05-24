@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 14:04:52 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/22 06:00:15 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 07:44:12 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,17 @@ void			cut_comment(char **line)
 		line[0] = ft_strsub_f(line[0], 0, i);
 		line[0] = ft_strtrim_f(line[0]);
 	}
+}
+
+void			check_after_quote(char *tmp, t_env *env, int e, int j)
+{
+	while (tmp[j])
+	{
+		if (tmp[j] && tmp[j] == COMMENT_CHAR)
+			break ;
+		else if (tmp[j] && tmp[j] != ' ' && tmp[j] != '\t')
+			asm_error(e, env, 0);
+		j++;
+	}
+	ft_memdel((void **)&tmp);
 }

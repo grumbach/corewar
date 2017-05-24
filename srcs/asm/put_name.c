@@ -6,7 +6,7 @@
 /*   By: plefebvr <plefebvr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/18 14:20:36 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:10:54 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 07:34:18 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void		get_name(char *name, t_env *env)
 	if (!tmp[j])
 		name_process(env, tmp);
 	else
-		ft_memdel((void **)&tmp);
+		check_after_quote(tmp, env, 14, j + 1);
 }
 
 void			put_name(char *l, t_env *env)
