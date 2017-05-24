@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/23 23:57:10 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 02:16:34 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		rc_st(void *vmp, t_scv *scv)
 				curse_color(vm, pc_tmp, scv->color + 1);
 		}
 	}
-	else// if (vm->type[1] == REG_CODE)
+	else
 		scv->reg[vm->arg[1]] = vm->arg[0];
 }
 
@@ -61,7 +61,7 @@ void		rc_sti(void *vmp, t_scv *scv)
 
 	vm = vmp;
 	pc = scv->pc + clamp((mutate(vm, scv, vm->arg[1], vm->type[1]) \
-		+ mutate(vm, scv, vm->arg[2], vm->type[2])) % IDX_MOD);// A REVOIR
+		+ mutate(vm, scv, vm->arg[2], vm->type[2])) % IDX_MOD);
 	vm->arg[0] = mutate(vm, scv, vm->arg[0], vm->type[0]);
 	i = 4;
 	while (i--)

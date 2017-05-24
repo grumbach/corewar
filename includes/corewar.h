@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/21 22:54:14 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 02:19:07 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,11 +204,10 @@ typedef struct		s_rc
 # define COLOR_2			208
 # define COLOR_3			COL_MARINE_BLUE
 # define COLOR_4			160
-# define COLOR_1l			118
-# define COLOR_2l			COL_ORANGE
-# define COLOR_3l			81
-# define COLOR_4l			COL_RED
-
+# define COLOR_1L			118
+# define COLOR_2L			COL_ORANGE
+# define COLOR_3L			81
+# define COLOR_4L			COL_RED
 
 typedef struct		s_curse
 {

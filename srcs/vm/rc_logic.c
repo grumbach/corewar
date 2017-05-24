@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/21 21:49:04 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/22 00:10:08 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 02:15:57 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			rc_add(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		+ mutate(vm, scv, vm->arg[1], vm->type[1]));
 }
@@ -36,7 +36,7 @@ void			rc_sub(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		- mutate(vm, scv, vm->arg[1], vm->type[1]));
 }
@@ -51,7 +51,7 @@ void			rc_and(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		& mutate(vm, scv, vm->arg[1], vm->type[1]));
 }
@@ -65,7 +65,7 @@ void			rc_or(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		| mutate(vm, scv, vm->arg[1], vm->type[1]));
 }
@@ -79,7 +79,7 @@ void			rc_xor(void *vmp, t_scv *scv)
 	t_vm	*vm;
 
 	vm = vmp;
-	scv->carry = !( \
+	scv->carry = !(\
 	scv->reg[vm->arg[2]] = mutate(vm, scv, vm->arg[0], vm->type[0]) \
 		^ mutate(vm, scv, vm->arg[1], vm->type[1]));
 }

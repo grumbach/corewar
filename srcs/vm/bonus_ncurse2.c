@@ -6,44 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 20:33:10 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/21 22:10:01 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 02:18:50 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <corewar.h>
-
-/*
-** function to display messages and aff inside the log window
-*/
-
-void			curse_puts_log(t_vm *vm, t_scv *scv, char *s)
-{
-	static int	y[MAX_PLAYERS] = {0, 0, 0, 0};
-	static int	x[MAX_PLAYERS] = {0, 0, 0, 0};
-	const int	i = (scv->color - 2) / 4;
-
-	if (y[i] > 13)
-	{
-		y[i] = 0;
-		while (y[i] < 14)
-			curse_puts_log(vm, scv, " ");
-		y[i] = 0;
-		x[i] = 0;
-	}
-	if (x[i] + (int)ft_strlen(s) > (vm->curse.n * 3 - 3) / \
-		vm->nb_players && ++y[i])
-		x[i] = 0;
-	wmove(vm->curse.wlog, 1 + y[i], 1 + \
-	x[i] + (i) * (vm->curse.n * 3 - 3) / vm->nb_players);
-	wattron(vm->curse.wlog, COLOR_PAIR(scv->color));
-	if (y[i] < 14)
-		wprintw(vm->curse.wlog, s);
-	wattroff(vm->curse.wlog, COLOR_PAIR(scv->color));
-	x[i] += ft_strlen(s);
-	if (ft_strchr(s, '!') && ++y[i])
-		x[i] = 0;
-	wrefresh(vm->curse.wlog);
-}
 
 void			curse_color(t_vm *vm, int pc, int color)
 {
@@ -61,19 +28,19 @@ static void		curse_init_colors(void)
 	init_pair(0, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_BLACK, COLOR_WHITE);
 	init_pair(2, COLOR_1, COLOR_BLACK);
-	init_pair(3, COLOR_1l, COLOR_BLACK);
+	init_pair(3, COLOR_1L, COLOR_BLACK);
 	init_pair(4, COLOR_1, COLOR_WHITE);
 	init_pair(5, COLOR_BLACK, COLOR_1);
 	init_pair(6, COLOR_2, COLOR_BLACK);
-	init_pair(7, COLOR_2l, COLOR_BLACK);
+	init_pair(7, COLOR_2L, COLOR_BLACK);
 	init_pair(8, COLOR_2, COLOR_WHITE);
 	init_pair(9, COLOR_BLACK, COLOR_2);
 	init_pair(10, COLOR_3, COLOR_BLACK);
-	init_pair(11, COLOR_3l, COLOR_BLACK);
+	init_pair(11, COLOR_3L, COLOR_BLACK);
 	init_pair(12, COLOR_3, COLOR_WHITE);
 	init_pair(13, COLOR_BLACK, COLOR_3);
 	init_pair(14, COLOR_4, COLOR_BLACK);
-	init_pair(15, COLOR_4l, COLOR_BLACK);
+	init_pair(15, COLOR_4L, COLOR_BLACK);
 	init_pair(16, COLOR_4, COLOR_WHITE);
 	init_pair(17, COLOR_BLACK, COLOR_4);
 	init_pair(18, COLOR_YELLOW, COLOR_YELLOW);
