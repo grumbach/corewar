@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 18:22:58 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:35:26 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:00:11 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,11 @@ static int		check_if_inst(char *l)
 	return (ret);
 }
 
-void			put_label(char *l, t_env *env)
+void			put_label(char *l, t_env *env, int i)
 {
-	int		i;
 	char	*t;
 	char	*tmp;
 
-	i = 0;
 	tmp = NULL;
 	t = ft_strtrim(l);
 	while (t[i] && t[i] != LABEL_CHAR)
@@ -92,6 +90,8 @@ void			put_label(char *l, t_env *env)
 		put_inst(tmp, env);
 		env->have_label = 0;
 	}
+	else
+		check_if_error(tmp, env);
 	ft_memdel((void **)&t);
 	ft_memdel((void **)&tmp);
 }

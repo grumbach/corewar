@@ -6,7 +6,7 @@
 /*   By: plefebvr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/15 17:51:42 by plefebvr          #+#    #+#             */
-/*   Updated: 2017/05/18 20:09:47 by plefebvr         ###   ########.fr       */
+/*   Updated: 2017/05/24 09:07:53 by plefebvr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void		err_print(int e)
 	e == 3 ? ft_printf("Bad .comment format") : 0;
 	e == 4 ? ft_printf("Missing end quote for .name") : 0;
 	e == 5 ? ft_printf("Missing end quote for .comment") : 0;
-	e == 6 ? ft_printf("Name can't have more than %d characters",
+	e == 6 ? ft_printf("Name can't be empty or have more than %d characters",
 			PROG_NAME_LENGTH) : 0;
-	e == 7 ? ft_printf("Comment can't have more than %d characters",
+	e == 7 ? ft_printf("Comment can't be empty or have more than %d characters",
 			COMMENT_LENGTH) : 0;
 	e == 8 ? ft_printf("Bad number of argument") : 0;
 	e == 9 ? ft_printf("An argument is invalid") : 0;
@@ -44,6 +44,7 @@ static void		err_print(int e)
 void			asm_error(int e, t_env *env, int l)
 {
 	err_print(e);
+	e == 23 ? ft_printf("Label must contain an valid instruction") : 0;
 	if (!l)
 		ft_printf(" at line %d | code error (%d)\n", env ? env->nb_l : -1, e);
 	else
@@ -59,4 +60,19 @@ void			malloc_error(int e, t_env *env)
 	if (env)
 		free_env(env);
 	exit(e + 100);
+}
+
+void			check_if_error(char *tmp, t_env *env)
+{
+	int		j;
+
+	j = 0;
+	while (tmp[j])
+	{
+		if (tmp[j] && tmp[j] == COMMENT_CHAR)
+			break ;
+		else if (tmp[j] && tmp[j] != ' ' && tmp[j] != '\t')
+			asm_error(23, env, 0);
+		j++;
+	}
 }
