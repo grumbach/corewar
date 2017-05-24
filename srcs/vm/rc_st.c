@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/28 00:41:52 by angavrel          #+#    #+#             */
-/*   Updated: 2017/05/23 23:57:10 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 06:55:33 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		rc_st(void *vmp, t_scv *scv)
 				curse_color(vm, pc_tmp, scv->color + 1);
 		}
 	}
-	else// if (vm->type[1] == REG_CODE)
+	else
 		scv->reg[vm->arg[1]] = vm->arg[0];
 }
 

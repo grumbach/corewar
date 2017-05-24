@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 01:02:31 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/24 02:22:11 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/24 06:56:21 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ typedef struct		s_vm
 	t_core			core[MAX_PLAYERS];
 }					t_vm;
 
-# define DUMP_SIZE				64//32
+# define DUMP_SIZE				32
 
 /*
 ** flags list
