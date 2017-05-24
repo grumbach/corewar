@@ -18,23 +18,24 @@
 ** we kill all scvs who didn't use live
 */
 
-static void	reset_cycle(t_vm *vm)
+static int	reset_cycle(t_vm *vm)
 {
 	static int	cycle_to_die = CYCLE_TO_DIE;
 
 	if (++vm->checks == MAX_CHECKS || vm->nb_total_live >= NBR_LIVE)
 	{
 		vm->checks = 0;
-		cycle_to_die -= CYCLE_DELTA;
-		if (cycle_to_die < 0)
-			cycle_to_die = SUDDEN_DEATH;
+		if ((cycle_to_die -= CYCLE_DELTA) < 0)
+			return (0);
 	}
 	vm->cycle_to_die = cycle_to_die;
 	if (!(vm->flags & F_MUTE))
 		play_foam();
 	six_pool(vm, &vm->scv);
 	vm->nb_total_live = 0;
-	curse_clear_scvs(&vm->curse);
+	if (vm->flags & F_VISUAL)
+		curse_clear_scvs(&vm->curse);
+	return (1);
 }
 
 static int	user_input(t_vm *vm)
@@ -99,7 +100,8 @@ void		gl_hf(t_vm *vm)
 		}
 		get_scv_redcode(vm);
 		if (!vm->cycle_to_die--)
-			reset_cycle(vm);
+			if (!reset_cycle(vm))
+				break ;
 		if (vm->flags & F_DUMP && vm->cycle == vm->dump)
 			break ;
 		++vm->cycle;

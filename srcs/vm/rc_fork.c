@@ -37,10 +37,7 @@ void		rc_fork(void *vmp, t_scv *cur)
 	if (0 < new->redcode && new->redcode < 17)
 		new->cooldown = vm->rc[new->redcode].cooldown - 1;
 	else
-	{
 		new->redcode = 0;
-		++new->pc;
-	}
 }
 
 void		rc_lfork(void *vmp, t_scv *cur)
@@ -61,8 +58,5 @@ void		rc_lfork(void *vmp, t_scv *cur)
 	if (0 < new->redcode && new->redcode < 17)
 		new->cooldown = vm->rc[new->redcode].cooldown - 1;
 	else
-	{
 		new->redcode = 0;
-		++new->pc;
-	}
 }
